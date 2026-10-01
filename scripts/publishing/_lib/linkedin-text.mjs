@@ -50,7 +50,8 @@ export function readCaption(filePath, { stripAfterSeparator = false } = {}) {
 // (clients/{slug}/brand-profile.md); nesse caso quem publica passa --allow-hashtags.
 // Sem a liberacao, hashtag no texto derruba a publicacao antes de ir pra API.
 export function assertHashtagPolicy(text, { allow = false } = {}) {
-  const found = extractHashtags(text)
+  // link com ancora (site.com/p#secao) nao e hashtag
+  const found = extractHashtags(String(text).replace(/https?:\/\/\S+/g, ""))
   if (found.length > 0 && !allow) {
     throw new Error(
       `ABORT hashtag-fora-do-padrao: o texto tem ${found.length} hashtag(s) (${found.join(" ")}). ` +

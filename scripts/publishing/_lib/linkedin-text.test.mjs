@@ -6,6 +6,7 @@ import { assertHashtagPolicy, assertHashtagsPreserved, escapeLittleText, extract
 test("padrao do kit: hashtag no LinkedIn derruba a publicacao", () => {
   assert.throws(() => assertHashtagPolicy("Post com #ia no fim"), /hashtag-fora-do-padrao/)
   assert.deepEqual(assertHashtagPolicy("Post limpo, Rank #4 e C# nao contam"), [])
+  assert.deepEqual(assertHashtagPolicy("Link https://site.com/p#secao no texto"), [])
 })
 
 test("marca que libera hashtag passa com allow e a hashtag tem que sobreviver no payload", () => {

@@ -63,7 +63,7 @@ export const POST = withAuth(async (req: NextRequest, _db, _userId) => {
       )
 
       await pool.query(
-        `UPDATE ct_ad_campaigns SET status = 'PAUSED', updated_at = NOW() WHERE campaign_id = $1`,
+        `UPDATE ct_ad_campaigns SET status = 'PAUSED', updated_at = NOW() WHERE meta_campaign_id = $1`,
         [campaignId]
       )
 
@@ -83,7 +83,7 @@ export const POST = withAuth(async (req: NextRequest, _db, _userId) => {
       )
 
       await pool.query(
-        `UPDATE ct_ad_campaigns SET status = 'ACTIVE', updated_at = NOW() WHERE campaign_id = $1`,
+        `UPDATE ct_ad_campaigns SET status = 'ACTIVE', updated_at = NOW() WHERE meta_campaign_id = $1`,
         [campaignId]
       )
 
