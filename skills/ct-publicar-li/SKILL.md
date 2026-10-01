@@ -21,10 +21,12 @@ hashtag) e registram a peca com o link real. As receitas `curl` mais abaixo sao 
 
 | Formato | Comando |
 |---|---|
-| Texto puro | `node scripts/publishing/post-linkedin.mjs --caption-file <post.txt>` |
-| Texto + 1 imagem | `node scripts/publishing/publish-linkedin-image.mjs --text-file <post.txt> --image <img.png\|url>` |
-| Texto + video | `node scripts/publishing/publish-linkedin-video.mjs --text-file <post.txt> --video <v.mp4>` |
-| Texto + cartao de link (ex: YouTube) | `node scripts/publishing/publish-linkedin-link.mjs --text-file <post.txt> --url <https://...> --title "<titulo>"` |
+| Texto puro | `node scripts/publishing/post-linkedin.mjs --caption-file <post.txt> --pode` |
+| Texto + 1 imagem | `node scripts/publishing/publish-linkedin-image.mjs --text-file <post.txt> --image <img.png\|url> --pode` |
+| Texto + video | `node scripts/publishing/publish-linkedin-video.mjs --text-file <post.txt> --video <v.mp4> --pode` |
+| Texto + cartao de link (ex: YouTube) | `node scripts/publishing/publish-linkedin-link.mjs --text-file <post.txt> --url <https://...> --title "<titulo>" --pode` |
+
+TRAVA NO CODIGO: sem `--pode` o comando so mostra o que publicaria (pre-visualizacao) e nao publica. O assistente so acrescenta `--pode` DEPOIS do "pode" explicito do usuario.
 
 Flags comuns: `--dry-run` (mostra o que faria, nada vai pro ar), `--client <slug>` e `--slug <nome>`
 (marca e nome da peca no registro; `--client` padrao = marca ativa), `--allow-hashtags` (veja abaixo).
@@ -295,7 +297,7 @@ o caminho ja existe pronto e testado, nao precisa reinventar nem tentar via imag
 (LinkedIn nao aceita mistura):
 
 ```
-node scripts/publishing/publish-linkedin-video.mjs --text-file <post.txt> --video <v.mp4> [--title "..."] [--dry-run]
+node scripts/publishing/publish-linkedin-video.mjs --text-file <post.txt> --video <v.mp4> [--title "..."] --pode [--dry-run]
 ```
 
 Fluxo (perfil PESSOAL, `LINKEDIN_PERSON_ID`, escopo `w_member_social`, testado e funcionando):

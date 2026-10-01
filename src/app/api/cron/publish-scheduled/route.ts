@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import pool from "@/lib/db"
+import { safeEqual } from "@/lib/security/request-guard"
 
 /**
  * GET/POST /api/cron/publish-scheduled
@@ -19,7 +20,7 @@ function isAuthorized(req: NextRequest): boolean {
   if (!secret) return false
   const auth = req.headers.get("authorization")?.replace(/^Bearer\s+/i, "")
   const header = req.headers.get("x-cron-secret")
-  return auth === secret || header === secret
+  return safeEqual(auth, secret) || safeEqual(header, secret)
 }
 
 function getBaseUrl(req: NextRequest): string {

@@ -1,4 +1,5 @@
 import OpenAI from "openai"
+import { fetchPublic } from "@/lib/security/public-url"
 
 export interface TranscriptionResult {
   video_url: string
@@ -19,7 +20,7 @@ function getOpenAIClient(): OpenAI {
 async function downloadAudio(url: string): Promise<{ buffer: Buffer; filename: string }> {
   // For YouTube URLs, we need to extract audio
   // For direct audio/video URLs, download directly
-  const response = await fetch(url, {
+  const response = await fetchPublic(url, {
     signal: AbortSignal.timeout(120000), // 2 min timeout
   })
 

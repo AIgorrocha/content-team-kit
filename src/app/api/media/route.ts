@@ -5,6 +5,14 @@ import { createClient } from "@supabase/supabase-js"
 import { randomUUID } from "crypto"
 import { DEFAULT_CLIENT_SLUG } from "@/lib/clients"
 
+const MAX_BYTES = (Number(process.env.MEDIA_MAX_MB) || 200) * 1024 * 1024
+const SLUG_OK = /^[a-z0-9][a-z0-9-]*$/
+const EXT_POR_MIME: Record<string, string> = {
+  "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif", "image/avif": "avif",
+  "video/mp4": "mp4", "video/quicktime": "mov", "video/webm": "webm",
+  "audio/mpeg": "mp3", "audio/wav": "wav", "audio/x-wav": "wav", "audio/mp4": "m4a", "audio/aac": "aac", "audio/ogg": "ogg",
+}
+
 function getSupabaseAdmin() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -76,6 +84,9 @@ export const GET = withAuth(async (req: NextRequest) => {
 
 export const POST = withAuth(async (req: NextRequest) => {
   try {
+    if (Number(req.headers.get("content-length") ?? 0) > MAX_BYTES + 1024 * 1024) {
+      return NextResponse.json({ error: "Arquivo grande demais." }, { status: 413 })
+    }
     const formData = await req.formData()
     const file = formData.get("file") as File | null
     const clientSlug = formData.get("client_slug") as string | null
@@ -89,18 +100,25 @@ export const POST = withAuth(async (req: NextRequest) => {
       )
     }
 
-    const allowedPrefixes = ["image/", "video/", "audio/"]
-    const isAllowed = allowedPrefixes.some((prefix) => file.type.startsWith(prefix))
-    if (!isAllowed) {
+    const ext = EXT_POR_MIME[file.type]
+    if (!ext) {
       return NextResponse.json(
-        { error: "Tipo de arquivo não permitido. Aceitos: imagem, vídeo, áudio." },
+        { error: "Tipo de arquivo não permitido. Aceitos: JPG, PNG, WebP, GIF, AVIF, MP4, MOV, WebM, MP3, WAV, M4A, AAC, OGG." },
         { status: 400 }
       )
+    }
+    if (file.size > MAX_BYTES) {
+      return NextResponse.json(
+        { error: `Arquivo maior que o limite de ${Math.round(MAX_BYTES / 1024 / 1024)} MB.` },
+        { status: 413 }
+      )
+    }
+    if (clientSlug && !SLUG_OK.test(clientSlug)) {
+      return NextResponse.json({ error: "client_slug inválido" }, { status: 400 })
     }
 
     const supabase = getSupabaseAdmin()
 
-    const ext = file.name.split(".").pop() ?? "bin"
     const uniqueName = `${randomUUID()}.${ext}`
     const storagePath = clientSlug
       ? `${clientSlug}/${uniqueName}`

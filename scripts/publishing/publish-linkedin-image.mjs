@@ -4,7 +4,7 @@
  * Usa v2/ugcPosts (NAO /rest/posts, que trunca texto com imagem).
  *
  * Uso:
- *   node scripts/publishing/publish-linkedin-image.mjs --text-file <post.txt> --image <img.png|url> [--client slug] [--slug nome] [--allow-hashtags] [--dry-run]
+ *   node scripts/publishing/publish-linkedin-image.mjs --text-file <post.txt> --image <img.png|url> [--client slug] [--slug nome] [--allow-hashtags] [--pode] [--dry-run]
  *
  * Padrao do kit: LinkedIn sem hashtag. --allow-hashtags so quando o brand-profile da marca libera.
  *
@@ -19,12 +19,14 @@ import { fileURLToPath, pathToFileURL } from "node:url"
 import path from "node:path"
 import { basename, dirname, resolve } from "node:path"
 import { assertHashtagsPreserved, assertHashtagPolicy, extractHashtags } from "./_lib/linkedin-text.mjs"
+import { exigirSlug, somentePrevia } from "./_lib/guarda.mjs"
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(path.dirname(fileURLToPath(import.meta.url)), "_lib/register.mjs")).href)
 
 const args = process.argv.slice(2)
 const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null }
 const has = (n) => args.includes(n)
-const DRY_RUN = has("--dry-run")
+const DRY_RUN = somentePrevia()
+exigirSlug("--client", flag("--client")); exigirSlug("--slug", flag("--slug"))
 const TOKEN = process.env.LINKEDIN_ACCESS_TOKEN
 const PERSON = process.env.LINKEDIN_PERSON_ID
 

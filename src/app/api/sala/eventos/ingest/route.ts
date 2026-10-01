@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { query } from "@/lib/db"
+import { safeEqual } from "@/lib/security/request-guard"
 import { validarClienteDisponivel } from "@/lib/sala/cliente"
 import type { FamiliaAgente } from "@/lib/sala/types"
 
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
       { status: 503 }
     )
   }
-  if (req.headers.get("x-sala-token") !== token) {
+  if (!safeEqual(req.headers.get("x-sala-token"), token)) {
     return NextResponse.json({ erro: "Não autorizado" }, { status: 401 })
   }
 

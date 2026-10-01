@@ -10,6 +10,8 @@
  *   node scripts/publishing/upload-tiktok.mjs <video.mp4> "<legenda>"
  *   node scripts/publishing/upload-tiktok.mjs <video.mp4> --caption-file <arquivo.txt>
  *
+ * Sem --pode so mostra o que seria enviado. O assistente acrescenta --pode apos o "pode" do dono.
+ *
  * Ex:
  *   node scripts/publishing/upload-tiktok.mjs content/{slug}/reels/{peca}/{peca}.mp4 \
  *     --caption-file content/{slug}/reels/{peca}/legenda-tiktok.txt --cover content/{slug}/reels/{peca}/capa.png
@@ -27,6 +29,7 @@ import { existsSync, readFileSync, statSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import { resolveClient, playwrightDir } from "../_lib/workspace-client.mjs"
+import { somentePrevia } from "./_lib/guarda.mjs"
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(path.dirname(fileURLToPath(import.meta.url)), "_lib/register.mjs")).href)
 
 const args = process.argv.slice(2)
@@ -52,8 +55,13 @@ if (COVER_PATH && !existsSync(COVER_PATH)) { console.error("Capa nao encontrada:
 if (!COVER_PATH) console.warn("AVISO: sem --cover. REGRA: reel/short nao deve ir sem capa. Passe --cover <capa.png> ou troque manual no app depois.")
 
 if (!VIDEO_PATH || !existsSync(VIDEO_PATH)) {
-  console.error('Uso: node upload-tiktok.mjs <video.mp4> "<legenda>"  (ou --caption-file <arquivo.txt>)')
+  console.error('Uso: node upload-tiktok.mjs <video.mp4> "<legenda>"  (ou --caption-file <arquivo.txt>) [--cover capa.png] [--pode]')
   process.exit(1)
+}
+
+if (somentePrevia()) {
+  console.log(`[tiktok] video: ${VIDEO_PATH}\n[tiktok] capa: ${COVER_PATH || "(sem capa)"}\n[tiktok] legenda (${caption.length} chars):\n${caption}`)
+  process.exit(0)
 }
 
 // Sessao e registro sao da marca ativa (.workspace ou CT_CLIENT). Falha clara se nao houver.

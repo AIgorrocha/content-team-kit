@@ -21,10 +21,12 @@ As receitas `curl` mais abaixo sao so referencia da Graph API.
 
 | Formato | Comando |
 |---|---|
-| Imagem unica | `node scripts/publishing/publish-ig-image.mjs <img.png> --caption-file <legenda.txt>` |
-| Carrossel (2 a 20) | `node scripts/publishing/post-carousel.mjs img1.png img2.png ... --caption-file=<legenda.txt>` |
-| Reel (com capa) | `node scripts/publishing/publish-ig-reel.mjs --video-url <url.mp4> --cover <capa.png> --caption-file <legenda.txt>` |
-| Stories | `node scripts/publishing/publish-ig-stories.mjs --image-url <url> --image-url <url> --slug <nome> [--arc <nome>]` |
+| Imagem unica | `node scripts/publishing/publish-ig-image.mjs <img.png> --caption-file <legenda.txt> --pode` |
+| Carrossel (2 a 20) | `node scripts/publishing/post-carousel.mjs img1.png img2.png ... --caption-file=<legenda.txt> --pode` |
+| Reel (com capa) | `node scripts/publishing/publish-ig-reel.mjs --video-url <url.mp4> --cover <capa.png> --caption-file <legenda.txt> --pode` |
+| Stories | `node scripts/publishing/publish-ig-stories.mjs --image-url <url> --image-url <url> --slug <nome> [--arc <nome>] --pode` |
+
+TRAVA NO CODIGO: sem `--pode` o comando so mostra o que publicaria (pre-visualizacao) e nao publica. O assistente so acrescenta `--pode` DEPOIS do "pode" explicito do usuario.
 
 Flags que valem para os quatro:
 
@@ -75,7 +77,7 @@ O HQ 10-12 Mbps (~86 MB / ~66s) **nao sobe** por rupload nem por POST no bucket
    recusar o arquivo com a cor original, parar e avisar, nao converter.
 2. Subir essa copia no Supabase (`x-upsert`). 48.6 MB passou; 56 MB deu 413.
 3. Capa **JPEG** publica (`cover_url`). PNG no rupload/container quebrava.
-4. Publicar com `publish-ig-reel.mjs --video-url --cover-url --caption-file`.
+4. Publicar com `publish-ig-reel.mjs --video-url --cover-url --caption-file --pode`.
    Graph `video_url` + caption + cover_url funciona.
 5. **Nao usar rupload com caption ou cover no container.** Container resumable so
    com `media_type=REELS` + `upload_type=resumable` sobe o binario; com `caption`
@@ -243,7 +245,7 @@ pos-publicacao da capa, e mesma porta bloqueante de acentuacao/UTF-8 da legenda.
 ### Via script (recomendado)
 
 ```bash
-# dry-run: mostra o payload sem chamar a API
+# sem --pode (ou com --dry-run): mostra o payload sem chamar a API
 node scripts/publishing/publish-ig-reel.mjs \
   --video-url <url_publica_mp4> \
   --cover content/{slug}/reels/<slug>/capa.png \
@@ -251,8 +253,8 @@ node scripts/publishing/publish-ig-reel.mjs \
   --client {slug} --slug <slug> \
   --trial --dry-run
 
-# publicar de verdade (trocar --dry-run por nada; --graduation-strategy opcional, default MANUAL)
-node scripts/publishing/publish-ig-reel.mjs ... --trial
+# publicar de verdade, so depois do "pode" (--graduation-strategy opcional, default MANUAL)
+node scripts/publishing/publish-ig-reel.mjs ... --trial --pode
 ```
 
 ## Stories

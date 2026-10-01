@@ -10,7 +10,7 @@ const VIDEOS = (process.argv[2] || process.env.YT_VIDEO_IDS || "").split(",").ma
 const RULES_FILE = process.env.RULES_FILE || "./data/ig-webhook/rules.json"
 let RULES
 try {
-  RULES = JSON.parse(fs.readFileSync(RULES_FILE, "utf8")).filter(r => r.keyword).map(r => ({ ...r, re: new RegExp(r.keyword, "i") }))
+  RULES = JSON.parse(fs.readFileSync(RULES_FILE, "utf8")).map(r => ({ ...r, re: r.keyword ? new RegExp(r.keyword, "i") : /$^/ }))
 } catch (e) {
   console.error(e.code === "ENOENT"
     ? "Nao achei " + RULES_FILE + ". Copie scripts/ig-webhook/rules.example.json para esse caminho e edite (veja skills/ct-dm-auto/SKILL.md)."

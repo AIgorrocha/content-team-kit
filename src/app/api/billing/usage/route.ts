@@ -1,19 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
+import { withAuth } from "@/lib/route-helper"
 import { getUsage, checkLimit } from "@/lib/queries/billing"
 
 const TENANT_ID = "af100000-0000-0000-0000-000000000001"
 
-function isAuthenticated(request: NextRequest): boolean {
-  const cookie = request.cookies.get("ct-auth-token")?.value
-  return cookie === "authenticated" || cookie === "admin:authenticated" || cookie === "admin%3Aauthenticated"
-}
 
-export async function GET(request: NextRequest) {
+export const GET = withAuth(async (request: NextRequest) => {
   try {
-    if (!isAuthenticated(request)) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
     const usage = await getUsage(TENANT_ID)
     const [agents, tasks, content, emails, storage] = await Promise.all([
       checkLimit(TENANT_ID, "agents"),
@@ -35,4 +28,4 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})

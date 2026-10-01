@@ -107,8 +107,9 @@ se o usuario mandou por WhatsApp, pedir o original da pasta de entrega (~15 Mbps
 ## Etapa 2: Upload + Publicar
 
 ```bash
-node scripts/publishing/upload-tiktok.mjs <video.mp4> --caption-file <legenda-tiktok.txt> --cover <capa.png>
+node scripts/publishing/upload-tiktok.mjs <video.mp4> --caption-file <legenda-tiktok.txt> --cover <capa.png> --pode
 ```
+TRAVA NO CODIGO: sem `--pode` o comando so mostra o que publicaria (pre-visualizacao) e nao publica. O assistente so acrescenta `--pode` DEPOIS do "pode" explicito do usuario.
 Passar SEMPRE `--cover` (regra de capa acima). `<video.mp4>` = o arquivo HQ original
 byte-a-byte (ver "REGRA: video HQ" abaixo), nunca a versao comprimida do WhatsApp.
 Ex (marca ativa):
@@ -116,7 +117,7 @@ Ex (marca ativa):
 node scripts/publishing/upload-tiktok.mjs \
   content/{slug}/reels/{peca}/{peca}.mp4 \
   --caption-file content/{slug}/reels/{peca}/legenda-tiktok.txt \
-  --cover content/{slug}/reels/{peca}/capa.png
+  --cover content/{slug}/reels/{peca}/capa.png --pode
 ```
 
 O que o script faz:
@@ -193,7 +194,7 @@ Como fazer, com a sessao logada da marca (mostre o texto novo e espere o "pode" 
 
 ```bash
 node scripts/publishing/tiktok-edit-caption.mjs probe "<trecho da legenda atual>"          # so olha
-node scripts/publishing/tiktok-edit-caption.mjs write "<trecho>" <arquivo-legenda.txt>     # grava
+node scripts/publishing/tiktok-edit-caption.mjs write "<trecho>" <arquivo-legenda.txt> --pode  # grava (so com --pode; sem ele mostra o texto)
 ```
 
 Exemplo de uso: um CTA prometia algo que a ferramenta nao faz. A edicao no lugar preserva views,

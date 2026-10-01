@@ -16,6 +16,7 @@
  * }
  */
 import { NextRequest, NextResponse } from "next/server"
+import { withAuth } from "@/lib/route-helper"
 import pool from "@/lib/db"
 import { generateReelFromPrompt } from "@/lib/higgsfield"
 
@@ -32,7 +33,7 @@ interface Body {
   approve_credits?: boolean
 }
 
-export async function POST(request: NextRequest) {
+export const POST = withAuth(async (request: NextRequest) => {
   let body: Body
   try {
     body = (await request.json()) as Body
@@ -106,4 +107,4 @@ export async function POST(request: NextRequest) {
     const message = err instanceof Error ? err.message : String(err)
     return NextResponse.json({ error: message }, { status: 500 })
   }
-}
+})

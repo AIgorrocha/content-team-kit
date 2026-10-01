@@ -5,6 +5,7 @@ import { readFileSync, existsSync } from 'fs'
 import { basename } from 'path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import path from 'node:path'
+import { exigirSlug, somentePrevia } from "./_lib/guarda.mjs"
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(here, '_lib/register.mjs')).href)
@@ -17,8 +18,8 @@ const has = (n) => args.includes(n)
 // item = caminho/url; o valor de "--flag valor" (sem "=") nao conta como item
 const VALUE_FLAGS = ['--account', '--client', '--slug', '--caption', '--caption-file', '--bucket', '--prefix', '--ig-user-id']
 const items = args.filter((a, i) => !a.startsWith('--') && !VALUE_FLAGS.includes(args[i - 1]))
-const DRY_RUN = has('--dry-run')
-const SLUG = flag('--slug') || 'carrossel'
+const DRY_RUN = somentePrevia()
+const SLUG = exigirSlug('--slug', flag('--slug')) || 'carrossel'
 const captionFlag = flag('--caption')
 const captionFileFlag = flag('--caption-file')
 // PORTA BLOQUEANTE: preferir sempre --caption-file (arquivo UTF-8), nunca inline no shell
@@ -34,7 +35,7 @@ if (/Ã.|Â./.test(caption)) {
 try { assertMaxHashtags(caption) } catch (e) { console.error('❌', e.message); process.exit(1) }
 
 if (items.length < 2) {
-  console.log('Uso: node scripts/publishing/post-carousel.mjs img1.png video2.mp4 ... --caption-file=legenda.txt [--account principal|business] [--client slug] [--slug nome] [--dry-run]')
+  console.log('Uso: node scripts/publishing/post-carousel.mjs img1.png video2.mp4 ... --caption-file=legenda.txt [--account principal|business] [--client slug] [--slug nome] [--pode] [--dry-run]')
   console.log('Item pode ser caminho local (sobe pro Supabase) OU url publica ja pronta (reusa direto). Min 2, max 10 se tiver video.')
   process.exit(1)
 }
@@ -42,7 +43,7 @@ if (items.length < 2) {
 // --- Conta escolhida pela chave (--account principal|business, padrao principal) ---
 let acct
 try { acct = resolveIgAccount({ account: flag('--account') || 'principal' }) } catch (e) { console.error('Erro:', e.message); process.exit(1) }
-const CLIENT = flag('--client') || acct.clientSlug
+const CLIENT = exigirSlug('--client', flag('--client')) || acct.clientSlug
 const IG_TOKEN = acct.token
 const GRAPH = acct.graph
 
@@ -50,6 +51,7 @@ const SUPABASE_URL = process.env.SUPABASE_URL
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
 const BUCKET = flag('--bucket') || 'content-media'
 const PREFIX = flag('--prefix') || `${CLIENT}/carousels/${SLUG}/`
+if (!/^[a-z0-9][a-z0-9\/-]*$/.test(PREFIX.replace(/\/$/, '')) || PREFIX.includes('//')) { console.error('--prefix invalido: so minusculas, numeros, hifen e barra.'); process.exit(1) }
 const supabase = (SUPABASE_URL && SUPABASE_SERVICE_KEY) ? createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY) : null
 
 function isVideo(pathOrUrl) { return /\.mp4(\?|$)/i.test(pathOrUrl) }

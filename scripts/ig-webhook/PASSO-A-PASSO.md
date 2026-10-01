@@ -100,7 +100,19 @@ nas regras (o "só entrego se seguir" exige `instagram_business_manage_messages`
 
 ## Dia a dia
 
-- Regra nova: edite `data/ig-webhook/rules.json` e abra `PUBLIC_BASE/ig-webhook/reload` (sem reiniciar).
+- Regra nova: edite `data/ig-webhook/rules.json` e recarregue sem reiniciar. Na máquina do servidor:
+  `curl http://127.0.0.1:3010/ig-webhook/reload`. De fora só funciona se você definir `RELOAD_TOKEN` no
+  `.env.local` e abrir `PUBLIC_BASE/ig-webhook/reload?token=SEU_TOKEN` (sem o token, a resposta é 403 de propósito).
 - Saúde do serviço: `PUBLIC_BASE/ig-webhook/health`. Histórico: `data/ig-webhook/events.log`.
 - O token do Instagram vence. Se a DM parar de sair, veja o log e gere outro token.
 - Só escreva "comenta PALAVRA" numa legenda depois que a palavra estiver cadastrada e recarregada.
+
+## Variáveis de segurança (todas opcionais, no `.env.local`)
+
+| Variável | Padrão | Para que serve |
+|---|---|---|
+| `HOST` | `127.0.0.1` | Endereço onde o servidor escuta. Padrão: só a própria máquina (o proxy HTTPS, como o nginx, fica na frente). Mude só se souber o que faz. |
+| `MAX_BODY_BYTES` | `1048576` (1 MB) | Tamanho máximo de um pedido. Maior que isso: erro 413, sem nem checar assinatura. |
+| `MAX_PER_USER_HOUR` | `3` | Máximo de respostas por pessoa por hora. Acima disso só registra no log, não envia. |
+| `MAX_PER_MINUTE` | `30` | Teto global de envios por minuto, mesma regra. |
+| `RELOAD_TOKEN` | vazio | Senha para recarregar as regras de fora da máquina (`?token=`). Vazio: só pedido local. |

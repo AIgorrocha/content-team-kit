@@ -17,12 +17,12 @@ function getJwtSecret(): string {
 const JWT_EXPIRES_IN = "30d"
 
 export function signToken(payload: SessionPayload): string {
-  return jwt.sign(payload, getJwtSecret(), { expiresIn: JWT_EXPIRES_IN })
+  return jwt.sign(payload, getJwtSecret(), { expiresIn: JWT_EXPIRES_IN, algorithm: "HS256" })
 }
 
 export function verifyToken(token: string): SessionPayload | null {
   try {
-    return jwt.verify(token, getJwtSecret()) as SessionPayload
+    return jwt.verify(token, getJwtSecret(), { algorithms: ["HS256"] }) as SessionPayload
   } catch {
     return null
   }

@@ -20,6 +20,7 @@ import { readFileSync, existsSync } from "node:fs"
 import { basename, extname } from "node:path"
 import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
+import { exigirSlug, somentePrevia } from "./_lib/guarda.mjs"
 const here = path.dirname(fileURLToPath(import.meta.url))
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(here, "_lib/register.mjs")).href)
 const { resolveIgAccount, resolveIgUserId, fetchPermalink, assertMaxHashtags } = await import(pathToFileURL(path.join(here, "_lib/ig-account.mjs")).href)
@@ -30,7 +31,7 @@ const has = (n) => args.includes(n)
 
 const IMAGE = args.find((a) => !a.startsWith("--") && /\.(png|jpe?g)$/i.test(a))
 const CAPTION_FILE = flag("--caption-file")
-const DRY = has("--dry-run")
+const DRY = somentePrevia()
 
 const USO = "Uso: node scripts/publishing/publish-ig-image.mjs <imagem.png|jpg> --caption-file <legenda.txt> [--account principal|business] [--dry-run]"
 if (!IMAGE || !existsSync(IMAGE)) { console.error(`Faltou a imagem (.png ou .jpg), ou o arquivo nao existe${IMAGE ? ": " + IMAGE : ""}.
@@ -42,7 +43,8 @@ let acct
 try { acct = resolveIgAccount({ account: flag("--account") || "principal" }) } catch (e) { console.error(e.message); process.exit(1) }
 const IG_API = acct.graph
 const IG_TOKEN = acct.token
-const CLIENT = flag("--client") || acct.clientSlug
+const CLIENT = exigirSlug("--client", flag("--client")) || acct.clientSlug
+exigirSlug("--slug", flag("--slug"))
 
 // PORTA BLOQUEANTE: legenda sempre de arquivo UTF-8, nunca inline no shell.
 const caption = readFileSync(CAPTION_FILE, "utf8").trim()

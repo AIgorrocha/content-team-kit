@@ -27,6 +27,7 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execSeguro } from "../_lib/exec-seguro.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -38,7 +39,7 @@ const IMG_MODEL = process.env.HIGGSFIELD_IMG_MODEL || "nano_banana";
 const VID_MODEL = process.env.HIGGSFIELD_VID_MODEL || "kling2_6";
 const WAIT_TIMEOUT = process.env.HIGGSFIELD_WAIT_TIMEOUT || "12m";
 
-// Chama a CLI (auto .cmd no Windows via shell:true) e devolve o job JSON.
+// Chama a CLI sem shell (o .cmd do Windows e resolvido em _lib/exec-seguro.mjs) e devolve o job JSON.
 function hfCreate(model, params) {
   const args = ["generate", "create", model];
   for (const [k, v] of Object.entries(params)) {
@@ -46,9 +47,8 @@ function hfCreate(model, params) {
     args.push(`--${k}`, String(v));
   }
   args.push("--wait", "--wait-timeout", WAIT_TIMEOUT, "--json");
-  const out = execFileSync(HF_BIN, args, {
+  const out = execSeguro(HF_BIN, args, {
     stdio: ["ignore", "pipe", "inherit"],
-    shell: true,
     maxBuffer: 1 << 26,
   }).toString();
   // A CLI pode emitir logs antes do JSON; pega o ultimo bloco [ ... ].

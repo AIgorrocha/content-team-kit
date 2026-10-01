@@ -19,6 +19,7 @@
  *   --account <chave>   principal (padrao, INSTAGRAM_*) ou business (INSTAGRAM_BUSINESS_*, token EAAN ok).
  *   --client / --slug   log e registro no banco (--client padrao = marca ativa).
  *   --arc <nome>        arco narrativo gravado no metadata (padrao = o valor de --slug).
+ *   --pode              publica de verdade (so depois do "pode" do dono); sem ele, so lista as telas
  *   --dry-run           cria o container do 1o story e NAO publica (prova token/permissao).
  *   --delay-ms <n>      intervalo entre stories (default 4000).
  *   --ig-user-id <id>   opcional (senao usa o id do .env.local ou resolve do token via /me).
@@ -28,6 +29,7 @@
 import { config } from "dotenv"
 import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
+import { exigirSlug, somentePrevia } from "./_lib/guarda.mjs"
 config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 const here = path.dirname(fileURLToPath(import.meta.url))
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(here, "_lib/register.mjs")).href)
@@ -44,10 +46,11 @@ const GRAPH = acct.graph
 const IG_TOKEN = acct.token
 
 const IMAGES = flagAll("--image-url")
-const CLIENT = flag("--client") || acct.clientSlug
-const SLUG = flag("--slug") || "stories"
+const CLIENT = exigirSlug("--client", flag("--client")) || acct.clientSlug
+const SLUG = exigirSlug("--slug", flag("--slug")) || "stories"
 const ARC = flag("--arc") || SLUG
 const DRY = has("--dry-run")
+const PREVIA = somentePrevia()
 const DELAY = parseInt(flag("--delay-ms") || "4000", 10)
 if (IMAGES.length === 0) { console.error("passe pelo menos um --image-url"); process.exit(1) }
 
@@ -104,6 +107,11 @@ async function main() {
   const IG_USER_ID = await resolveIgUserId(acct, flag("--ig-user-id"))
   console.log(`[stories] client=${CLIENT} slug=${SLUG} telas=${IMAGES.length} ig_user=${IG_USER_ID}`)
 
+  if (PREVIA && !DRY) {
+    console.log("[pre-visualizacao] stories que seriam publicados, em ordem:")
+    IMAGES.forEach((u, i) => console.log(`  [${i + 1}/${IMAGES.length}] ${u}`))
+    return
+  }
   if (DRY) {
     console.log("[dry-run] criando container do 1o story (NAO publica)...")
     const cid = await createContainer(IG_USER_ID, IMAGES[0])

@@ -7,6 +7,7 @@ export interface RequestTenant {
 }
 
 import { verifyToken } from "@/lib/jwt"
+import { safeEqual } from "@/lib/security/request-guard"
 
 const AUTH_COOKIE = "ct-auth-token"
 
@@ -31,7 +32,7 @@ export async function getRequestTenant(
 
   // X-API-Key header (server-to-server)
   const apiKey = request.headers.get("x-api-key")
-  if (apiKey && process.env.ADMIN_API_KEY && apiKey === process.env.ADMIN_API_KEY) {
+  if (safeEqual(apiKey, process.env.ADMIN_API_KEY)) {
     return {
       tenantId: "admin",
       databaseUrl,

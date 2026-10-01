@@ -21,8 +21,11 @@ import { obterTema } from "@/lib/sala/tema"
 // fica válido (sem entidade sobrando dentro da declaração de fonte).
 export async function SalaTema() {
   const tema = await obterTema()
+  // Valor de tema vira CSS dentro de <style>: só caracteres de cor, tamanho e nome de fonte
+  // (sem "<", ">", "{", "}", ";" nem barra invertida), pra não dar pra fechar a tag ou abrir outra regra.
+  const seguro = (v: string) => v.replace(/[^\w\s#.,%'"()\/+:-]/g, "")
   const variaveis = Object.entries(tema)
-    .map(([chave, valor]) => `${chave}: ${valor};`)
+    .map(([chave, valor]) => `${seguro(chave)}: ${seguro(String(valor))};`)
     .join(" ")
   const css = `:root { ${variaveis} }`
 

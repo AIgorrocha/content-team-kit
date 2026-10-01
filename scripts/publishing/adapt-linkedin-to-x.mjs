@@ -7,12 +7,13 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { resolveClient } from "../_lib/workspace-client.mjs"
+import { exigirSlug } from "./_lib/guarda.mjs"
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const args = process.argv.slice(2)
 const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null }
-const slug = flag("--slug")
-const kind = flag("--kind") || "reels"
+const slug = exigirSlug("--slug", flag("--slug"))
+const kind = exigirSlug("--kind", flag("--kind")) || "reels"
 if (!slug) {
   console.error("Uso: node scripts/publishing/adapt-linkedin-to-x.mjs --slug <slug> [--kind reels]")
   process.exit(1)

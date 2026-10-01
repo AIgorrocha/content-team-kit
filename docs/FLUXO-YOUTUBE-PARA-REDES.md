@@ -11,7 +11,7 @@ Quem lê: `ct-diretor` (antes de delegar), `ct-reciclador`, `ct-redator`, `ct-vi
 
 ```
 1. YouTube longo (horizontal)          <- peça-mãe. Título/descrição/tags via claude-seo
-        Upload: scripts/publishing/upload-youtube-api.mjs <video> <titulo.txt> <descricao.txt> [tags.txt] --long
+        Upload: scripts/publishing/upload-youtube-api.mjs <video> <titulo.txt> <descricao.txt> [tags.txt] --long --pode
         |
 2. Cortes 9:16 (ct-video-editor ou ct-openshorts) -> Reel no Instagram (normal + trial)
         |

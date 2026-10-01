@@ -46,3 +46,29 @@ test("CLI --texto e --url saneiam e --url respeita o limite", () => {
   assert.ok(u.startsWith("https://github.com/AIgorrocha/content-team-kit/issues/new?title=Erro&body="))
   assert.ok(u.length <= 6100, `url longa: ${u.length}`)
 })
+
+test("sanear cobre chaves Google/Supabase/Telegram/OAuth, URL com senha, cabeçalhos e caminhos com espaço", () => {
+  const casos = [
+    ["AIza" + "x".repeat(35), "AIza"],
+    ["sb_secret_" + "a".repeat(30), "sb_secret_"],
+    ["sbp_" + "b".repeat(40), "sbp_"],
+    ["123456789:" + "Cc".repeat(18), "123456789:"],
+    ["ya29." + "d".repeat(40), "ya29."],
+    ["1//" + "e".repeat(40), "1//"],
+    ["https://x.com/a?token=segredo123&b=1", "segredo123"],
+    ["https://x.com/a?apikey=segredo124", "segredo124"],
+    ["usei key=segredo125 aqui", "segredo125"],
+    ["secret=segredo126", "segredo126"],
+    ["x-sala-token: segredo127", "segredo127"],
+    ["Authorization: Basic dXNlcjpzZW5oYQ==", "dXNlcjpz"],
+    ["postgres://admin:senhaforte128@localhost:5432/db", "senhaforte128"],
+    ["postgres://admin:senhaforte129@db.exemplo.co/db", "senhaforte129"],
+    ["C:\\Users\\Maria Souza Lima\\Documentos\\a.png", "Maria"],
+    ["/mnt/c/Users/joao/Desktop/a.png", "joao"],
+  ]
+  for (const [entrada, vazou] of casos) {
+    const saida = sanear(`antes ${entrada} depois`)
+    assert.ok(!saida.includes(vazou), `vazou ${vazou}: ${saida}`)
+  }
+  assert.match(sanear("C:\\Users\\Maria Souza\\Docs\\a.png ok"), /~\\Docs\\a\.png ok/)
+})

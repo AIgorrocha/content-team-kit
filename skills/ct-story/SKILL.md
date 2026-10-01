@@ -312,8 +312,10 @@ Publicar so com o "pode" explicito do usuario, pela skill `ct-publicar-ig` (`ski
 
 ```bash
 node scripts/publishing/publish-ig-stories.mjs --client {slug} --slug {nome} \
-  --image-url <url-story-01.png> --image-url <url-story-02.png> ...
+  --image-url <url-story-01.png> --image-url <url-story-02.png> ... --pode
 ```
+
+Sem `--pode` o script so lista as telas (pre-visualizacao). Acrescente `--pode` somente depois do "pode" do usuario.
 
 - As URLs sao as do Step 5, repetidas na ordem de publicacao (o script publica 1 por vez, com intervalo).
 - `--dry-run` confere token e permissao sem publicar.

@@ -85,8 +85,10 @@ Arquivos em `content/{slug}/youtube/{episodio}/`:
 ```bash
 node scripts/publishing/upload-youtube-api.mjs content/{slug}/youtube/{episodio}/video.mp4 \
   content/{slug}/youtube/{episodio}/titulo.txt content/{slug}/youtube/{episodio}/descricao.txt \
-  content/{slug}/youtube/{episodio}/tags.txt --long
+  content/{slug}/youtube/{episodio}/tags.txt --long --pode
 ```
+
+TRAVA NO CODIGO: sem `--pode` o comando so mostra o que publicaria (pre-visualizacao) e nao publica. O assistente so acrescenta `--pode` DEPOIS do "pode" explicito do usuario.
 
 `--long` = video longo (link `watch?v=`); sem ele a URL sai como Short (`/shorts/`). `--client <slug>`
 troca a marca do registro (padrao: marca ativa). Categoria padrao 28, idioma pt-BR, publico. O
@@ -118,7 +120,7 @@ node scripts/publishing/register-publication.mjs --platform youtube --type short
 
 Para corrigir a descricao de um video ja publicado (mostre o texto novo e espere o "pode"):
 `node scripts/publishing/yt-update-description.mjs read {videoId}` e
-`node scripts/publishing/yt-update-description.mjs write {videoId} <descricao.txt>`.
+`node scripts/publishing/yt-update-description.mjs write {videoId} <descricao.txt> --pode` (sem `--pode`, so mostra o texto).
 
 ## Etapa 5: Entregar PACOTE LINKEDIN
 

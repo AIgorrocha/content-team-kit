@@ -51,7 +51,8 @@ O último comando instala o navegador que o time usa para gerar imagens de carro
    privado com as chaves). Se `.env.local` já existir, ele é preservado.
 3. `npm run sala:migrate -- --all` e depois `npm run sala:check-db`: cria as tabelas e confere.
 4. Abra o endereço do Studio mostrado no passo 2. Em Authentication, Users, Add user, crie
-   seu acesso com e-mail e senha. Esse usuário só existe no seu banco local.
+   seu acesso com e-mail e senha. Esse usuário só existe no seu banco local. O cadastro
+   aberto fica desligado (`enable_signup = false` em `supabase/config.toml`): só o dono cria usuário.
 
 Para parar: `npm run supabase:stop`. Para voltar: abra o Docker e rode
 `npm run supabase:start`. Parar o banco não apaga os dados.

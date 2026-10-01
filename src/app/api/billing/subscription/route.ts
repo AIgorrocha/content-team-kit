@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { withAuth } from "@/lib/route-helper"
 import {
   getSubscriptionWithPlan,
   createSubscription,
@@ -8,17 +9,9 @@ import {
 
 const TENANT_ID = "af100000-0000-0000-0000-000000000001"
 
-function isAuthenticated(request: NextRequest): boolean {
-  const cookie = request.cookies.get("ct-auth-token")?.value
-  return cookie === "authenticated" || cookie === "admin:authenticated" || cookie === "admin%3Aauthenticated"
-}
 
-export async function GET(request: NextRequest) {
+export const GET = withAuth(async (request: NextRequest) => {
   try {
-    if (!isAuthenticated(request)) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
     const subscription = await getSubscriptionWithPlan(TENANT_ID)
     const usage = await getUsage(TENANT_ID)
 
@@ -35,14 +28,10 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})
 
-export async function POST(request: NextRequest) {
+export const POST = withAuth(async (request: NextRequest) => {
   try {
-    if (!isAuthenticated(request)) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
     const body = await request.json()
     const { planId, billingCycle = "monthly" } = body
 
@@ -64,14 +53,10 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})
 
-export async function DELETE(request: NextRequest) {
+export const DELETE = withAuth(async (request: NextRequest) => {
   try {
-    if (!isAuthenticated(request)) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
     const result = await cancelSubscription(TENANT_ID)
     if (!result) {
       return NextResponse.json({ error: "Nenhuma assinatura encontrada" }, { status: 404 })
@@ -84,4 +69,4 @@ export async function DELETE(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})

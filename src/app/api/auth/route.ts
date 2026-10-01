@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { signToken } from "@/lib/jwt"
+import { safeEqual } from "@/lib/security/request-guard"
 
 const COOKIE_NAME = "ct-auth-token"
 
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (username !== validUsername || password !== validPassword) {
+    if (!safeEqual(String(username), validUsername) || !safeEqual(String(password), validPassword)) {
       return NextResponse.json(
         { error: "Usuário ou senha inválidos" },
         { status: 401 }

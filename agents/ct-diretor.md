@@ -394,8 +394,8 @@ Fonte canônica: `docs/FLUXO-YOUTUBE-PARA-REDES.md`. Ler antes de delegar. Resum
    (skill `seo-content-brief`, rodar via `claude -p` em processo separado; ver
    `references/skill-agent-map.md`). Sem número de volume inventado. **Descrição SEM
    timestamps/capítulos** (padrão do fluxo, ver `docs/FLUXO-YOUTUBE-PARA-REDES.md`). Link do repositório/material na descrição. Publicar com
-   `scripts/publishing/upload-youtube-api.mjs <video> <titulo.txt> <descricao.txt> [tags.txt] --long`
-   (mesmo script serve pro Short do passo 5, sem `--long`). O script já isola tag inválida
+   `scripts/publishing/upload-youtube-api.mjs <video> <titulo.txt> <descricao.txt> [tags.txt] --long --pode`
+   (so depois do "pode" do usuario; sem `--pode` o script so mostra a previa; mesmo script serve pro Short do passo 5, sem `--long`). O script já isola tag inválida
    sozinho (erro `invalidTags` do lote inteiro), não precisa investigar caso a caso.
 2. **Cortes 9:16** (ct-video-editor ou ct-openshorts) -> aprovação do usuário (assistir e ouvir o corte inteiro antes).
 3. **Reel IG** (normal + trial MANUAL) com capa 9:16 de foto NÃO repetida e
@@ -408,7 +408,7 @@ Fonte canônica: `docs/FLUXO-YOUTUBE-PARA-REDES.md`. Ler antes de delegar. Resum
    reel com CTA trocado), pergunta específica só se vier natural, sem hashtag por padrão. Link do
    material (GitHub/repo) no primeiro comentário (regra de link externo acima); o YouTube NÃO vai no corpo, vai como cartão de prévia com a miniatura do vídeo.
    Publicar com `node scripts/publishing/publish-linkedin-link.mjs --text-file <post-linkedin.txt>
-   --url <youtube> --title "<título do vídeo>"` (baixa a miniatura do YouTube sozinho e sobe
+   --url <youtube> --title "<título do vídeo>" --pode` (so depois do "pode"; baixa a miniatura do YouTube sozinho e sobe
    junto do cartão; `--dry-run` pra conferir antes). Token de 60 dias: se der 401/expirado,
    renovar conforme `skills/ct-publicar-li/SKILL.md` (seção de erros), rodando DESACOPLADO
    do terminal do Claude (`powershell Start-Process ...`), senão o servidor morre antes do usuário

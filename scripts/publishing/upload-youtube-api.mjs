@@ -4,6 +4,7 @@
  * Serve pra QUALQUER vídeo (longo ou Short), não só um projeto específico.
  *
  * Uso: node scripts/publishing/upload-youtube-api.mjs <video> <titulo.txt> <descricao.txt> [tags.txt] [--long] [--client slug]
+ * --pode: publica de verdade (so depois do "pode" do dono); sem ele, so mostra o que seria enviado
  * --long: imprime a URL como vídeo longo (watch?v=) em vez de /shorts/
  * --client: marca da peca no registro (padrao: marca ativa)
  * Depois de publicar, registra a peca em ct_content_items (sem banco configurado, so avisa).
@@ -15,17 +16,18 @@ import { google } from 'googleapis'
 import { readFileSync, createReadStream, statSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { exigirSlug, somentePrevia } from "./_lib/guarda.mjs"
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(path.dirname(fileURLToPath(import.meta.url)), '_lib/register.mjs')).href)
 
 const rawArgs = process.argv.slice(2)
 const clientIdx = rawArgs.indexOf('--client')
-const CLIENT = clientIdx >= 0 ? rawArgs[clientIdx + 1] : null
-const argv = rawArgs.filter((a, i) => a !== '--long' && a !== '--client' && !(clientIdx >= 0 && i === clientIdx + 1))
+const CLIENT = exigirSlug('--client', clientIdx >= 0 ? rawArgs[clientIdx + 1] : null)
+const argv = rawArgs.filter((a, i) => a !== '--long' && a !== '--pode' && a !== '--client' && !(clientIdx >= 0 && i === clientIdx + 1))
 const IS_LONG = rawArgs.includes('--long')
 const [VIDEO, TITULO_FILE, DESC_FILE, TAGS_FILE] = argv
 
 if (!VIDEO || !TITULO_FILE || !DESC_FILE) {
-  console.error('Uso: node upload-youtube-api.mjs <video.mp4> <titulo.txt> <descricao.txt> [tags.txt] [--long]')
+  console.error('Uso: node upload-youtube-api.mjs <video.mp4> <titulo.txt> <descricao.txt> [tags.txt] [--long] [--pode]')
   process.exit(1)
 }
 
@@ -50,6 +52,7 @@ const sizeMB = (statSync(VIDEO).size / 1024 / 1024).toFixed(1)
 console.log(`Arquivo: ${VIDEO} (${sizeMB} MB)`)
 console.log(`Titulo: ${titulo}`)
 console.log(`Tags: ${tags.length}`)
+if (somentePrevia()) process.exit(0)
 console.log(`Iniciando upload...`)
 
 async function insert(withTags) {

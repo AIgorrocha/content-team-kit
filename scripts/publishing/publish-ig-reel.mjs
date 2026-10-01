@@ -24,6 +24,7 @@
  *   --ig-user-id <id>     opcional (senao usa o id do .env.local ou resolve do token via /me)
  *   --trial               publica como TRIAL REEL (alcanca nao-seguidores, nao aparece no feed/grid)
  *   --graduation-strategy MANUAL (padrao) | SS_PERFORMANCE. So faz efeito com --trial
+ *   --pode                publica de verdade (so depois do "pode" do dono); sem ele, so mostra o payload
  *   --dry-run             imprime o payload do container e sai, sem chamar a API
  *
  * Env: credenciais da conta escolhida, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
@@ -31,6 +32,7 @@
 import { readFileSync, existsSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
+import { exigirSlug, somentePrevia } from "./_lib/guarda.mjs"
 
 for (const envFile of [".env.local", ".env"]) {
   if (!existsSync(envFile)) continue
@@ -51,12 +53,12 @@ const has = (n) => args.includes(n)
 const VIDEO_URL = flag("--video-url")
 let acct
 try { acct = resolveIgAccount({ account: flag("--account") || "principal" }) } catch (e) { console.error(e.message); process.exit(1) }
-const CLIENT = flag("--client") || acct.clientSlug
+const CLIENT = exigirSlug("--client", flag("--client")) || acct.clientSlug
 const IG_TOKEN = acct.token
 const GRAPH = acct.graph
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
-const SLUG = flag("--slug") || "reel"
+const SLUG = exigirSlug("--slug", flag("--slug")) || "reel"
 let CAPTION = flag("--caption") || ""
 const capFile = flag("--caption-file")
 if (capFile) { if (!existsSync(capFile)) { console.error("legenda nao encontrada:", capFile); process.exit(1) } CAPTION = readFileSync(capFile, "utf8").split(/\n-{3,}\n/)[0].trim() }
@@ -65,7 +67,7 @@ let COVER_URL = flag("--cover-url")
 const NO_COVER = has("--no-cover")
 const TRIAL = has("--trial")
 const GRADUATION = flag("--graduation-strategy") || "MANUAL"
-const DRY_RUN = has("--dry-run")
+const DRY_RUN = somentePrevia()
 if (TRIAL && !["MANUAL", "SS_PERFORMANCE"].includes(GRADUATION)) {
   console.error("--graduation-strategy invalido:", GRADUATION, "(use MANUAL ou SS_PERFORMANCE)")
   process.exit(1)
@@ -114,7 +116,9 @@ async function waitFinished(containerId) {
 }
 
 async function main() {
-  if (COVER && !COVER_URL) {
+  if (COVER && !COVER_URL && DRY_RUN) {
+    COVER_URL = `<capa ${COVER} sobe pro Storage ao publicar>`
+  } else if (COVER && !COVER_URL) {
     console.log("[capa] subindo pro Supabase Storage...")
     COVER_URL = await uploadCoverToStorage(COVER)
     console.log("  cover_url:", COVER_URL)

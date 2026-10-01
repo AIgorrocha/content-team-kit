@@ -4,6 +4,7 @@ import pool from '@/lib/db'
 import type { Pool } from 'pg'
 import type { TenantDB } from '@/lib/tenant-db'
 import type { RequestTenant } from '@/lib/api-auth'
+import { checarPedido } from '@/lib/security/request-guard'
 
 type AuthenticatedHandler = (
   req: NextRequest,
@@ -13,6 +14,8 @@ type AuthenticatedHandler = (
 
 export function withAuth(handler: AuthenticatedHandler) {
   return async (req: NextRequest) => {
+    const recusa = checarPedido(req)
+    if (recusa) return NextResponse.json({ error: recusa.error }, { status: recusa.status })
     try {
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
       const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY

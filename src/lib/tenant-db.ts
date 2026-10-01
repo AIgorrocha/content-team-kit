@@ -49,24 +49,3 @@ export function getTenantDB(databaseUrl: string): TenantDB {
     },
   }
 }
-
-export async function initTenantSchema(databaseUrl: string): Promise<void> {
-  const db = getTenantDB(databaseUrl)
-  const exists = await db.queryOne<{ exists: boolean }>(
-    `SELECT EXISTS (
-      SELECT FROM information_schema.tables WHERE table_name = 'ct_agents'
-    ) as exists`
-  )
-
-  if (exists?.exists) return
-
-  const { readFileSync } = await import("fs")
-  const { join } = await import("path")
-  const sql = readFileSync(
-    join(process.cwd(), "supabase", "migrations", "001_content_team.sql"),
-    "utf-8"
-  )
-
-  const pool = getPool(databaseUrl)
-  await pool.query(sql)
-}

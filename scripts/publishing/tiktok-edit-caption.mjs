@@ -3,16 +3,21 @@
  * tiktok-edit-caption.mjs - edita a LEGENDA de um video JA publicado, sem apagar nada.
  * TikTok Studio > Publicacoes > icone "Editar" da linha do post (janela de 7 dias).
  *   node scripts/publishing/tiktok-edit-caption.mjs probe "<trecho da legenda atual>"
- *   node scripts/publishing/tiktok-edit-caption.mjs write "<trecho>" <arquivo-legenda.txt>
+ *   node scripts/publishing/tiktok-edit-caption.mjs write "<trecho>" <arquivo-legenda.txt> [--pode]
  * Usa a sessao logada desta marca (~/.playwright-tiktok-{slug}). Antes de gravar, mostre o texto
  * novo para a pessoa e espere o "pode".
  */
 import { chromium } from "playwright"
 import { readFileSync, mkdirSync } from "node:fs"
 import { playwrightDir } from "../_lib/workspace-client.mjs"
+import { somentePrevia } from "./_lib/guarda.mjs"
 mkdirSync("output", { recursive: true })
 
 const [, , MODE, NEEDLE, CAPTION_FILE] = process.argv
+if (MODE === "write" && somentePrevia()) {
+  console.log(`[tiktok] legenda nova para "${NEEDLE}":\n${readFileSync(CAPTION_FILE, "utf8")}`)
+  process.exit(0)
+}
 const sleep = (ms) => new Promise(r => setTimeout(r, ms))
 
 const ctx = await chromium.launchPersistentContext(playwrightDir("tiktok"), {

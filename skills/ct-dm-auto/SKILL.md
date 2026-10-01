@@ -31,7 +31,7 @@ de exclusao de dados nao funcionam (o servico avisa no log ao iniciar).
 
 Primeira vez: `mkdir -p data/ig-webhook` e `cp scripts/ig-webhook/rules.example.json data/ig-webhook/rules.json`,
 depois edite. (Outro caminho: variavel `RULES_FILE`.) Regra nova vale sem reiniciar: abra
-`PUBLIC_BASE/ig-webhook/reload`. Saude: `PUBLIC_BASE/ig-webhook/health`. Historico: `data/ig-webhook/events.log`.
+`curl http://127.0.0.1:3010/ig-webhook/reload` (na maquina do servidor; de fora so com `RELOAD_TOKEN`: `PUBLIC_BASE/ig-webhook/reload?token=SEU_TOKEN`). Saude: `PUBLIC_BASE/ig-webhook/health`. Historico: `data/ig-webhook/events.log`.
 
 Campos de cada regra:
 

@@ -33,8 +33,25 @@ export function sanear(texto, raiz = RAIZ, nomes = nomesDeVariaveis()) {
       "$1=[removido]",
     )
   }
+  // URL de banco ou serviço com senha (://usuario:senha@host, host com ou sem ponto)
+  t = t.replace(/\b([a-z][a-z0-9+.-]*:\/\/)[^\s:@/]+:[^\s/]*@/gi, "$1[removido]@")
+  // cabeçalhos e pares chave=valor (URL ou texto)
+  t = t
+    .replace(/\bx-sala-token[ \t]*:[ \t]*\S+/gi, "x-sala-token: [removido]")
+    .replace(/\bAuthorization[ \t]*:[ \t]*Basic[ \t]+\S+/gi, "Authorization: Basic [removido]")
+    .replace(/\bBasic[ \t]+[A-Za-z0-9+/]{16,}={0,2}/g, "Basic [removido]")
+    .replace(
+      /\b((?:access_|refresh_|auth_|api_?|client_)?(?:token|key|secret|password|senha))[ \t]*=[ \t]*[^\s&"'<>]+/gi,
+      "$1=[removido]",
+    )
   // tokens com cara de segredo
   t = t
+    .replace(/\bAIza[A-Za-z0-9_-]{20,}/g, "[token removido]")
+    .replace(/\bsb_secret_[A-Za-z0-9_-]{10,}/g, "[token removido]")
+    .replace(/\bsbp_[A-Za-z0-9]{10,}/g, "[token removido]")
+    .replace(/\b\d{6,}:[A-Za-z0-9_-]{30,}/g, "[token removido]")
+    .replace(/\bya29\.[A-Za-z0-9._-]{10,}/g, "[token removido]")
+    .replace(/(?<![\w/:.])1\/\/[A-Za-z0-9._-]{20,}/g, "[token removido]")
     .replace(/\bEAA[A-Za-z0-9]{10,}/g, "[token removido]")
     .replace(/\bIGAA[A-Za-z0-9_-]{10,}/g, "[token removido]")
     .replace(/\bsk-[A-Za-z0-9_-]{10,}/g, "[token removido]")
@@ -45,9 +62,12 @@ export function sanear(texto, raiz = RAIZ, nomes = nomesDeVariaveis()) {
   // e-mails
   t = t.replace(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g, "[e-mail removido]")
   // caminhos absolutos que sobraram (pasta do usuário primeiro, depois qualquer unidade)
+  // nome de usuário pode ter espaço: vale até 4 palavras, desde que venha uma barra depois
+  const nome = String.raw`(?:[^\\/\s"'<>|]+(?: [^\\/\s"'<>|]+){0,3}(?=[\\/])|[^\\/\s"'<>|]+)`
   t = t
-    .replace(/[A-Za-z]:[\\/]Users[\\/][^\\/\s"'<>|]+/gi, "~")
-    .replace(/\/(?:Users|home)\/[^/\s"'<>|]+/g, "~")
+    .replace(new RegExp(String.raw`[A-Za-z]:[\\/]Users[\\/]${nome}`, "gi"), "~")
+    .replace(new RegExp(`/mnt/[a-z]/Users/${nome}`, "gi"), "~")
+    .replace(new RegExp(`/(?:Users|home)/${nome}`, "g"), "~")
     .replace(/\b[A-Za-z]:[\\/][^\s"'<>|]*/g, "<caminho-local>")
   return t
 }

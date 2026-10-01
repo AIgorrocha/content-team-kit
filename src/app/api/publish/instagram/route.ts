@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import pool from "@/lib/db"
+import { safeEqual } from "@/lib/security/request-guard"
 import { publishToInstagram } from "@/lib/integrations/instagram"
 import { deleteFromStorage, extractStoragePaths, TEMP_MEDIA_BUCKET } from "@/lib/integrations/supabase-storage"
 
@@ -25,7 +26,7 @@ function isAuthorized(req: NextRequest): boolean {
   const secret = process.env.CRON_SECRET
   if (!secret) return false
   const provided = req.headers.get("x-cron-secret") ?? req.headers.get("authorization")?.replace(/^Bearer\s+/i, "")
-  return provided === secret
+  return safeEqual(provided, secret)
 }
 
 export async function POST(req: NextRequest) {

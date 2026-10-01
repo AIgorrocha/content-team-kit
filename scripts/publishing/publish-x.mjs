@@ -23,6 +23,7 @@ import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import { resolveClient, playwrightDir } from "../_lib/workspace-client.mjs"
 import { parseQueueItem, toTweets } from "./_lib/x-thread.mjs"
+import { exigirSlug } from "./_lib/guarda.mjs"
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(path.dirname(fileURLToPath(import.meta.url)), "_lib/register.mjs")).href)
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
@@ -38,7 +39,7 @@ const queueDir = path.join(REPO, "content", CLIENT, "fila-x")
 function findItem() {
   const file = flag("--file")
   if (file) return path.resolve(file)
-  const slug = flag("--slug")
+  const slug = exigirSlug("--slug", flag("--slug"))
   if (!slug) return null
   const pending = path.join(queueDir, "pending")
   const hits = existsSync(pending) ? readdirSync(pending).filter((f) => f.endsWith(`-${slug}.md`)).sort() : []

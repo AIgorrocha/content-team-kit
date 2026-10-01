@@ -12,7 +12,7 @@ import { mkdirSync, writeFileSync, readFileSync } from 'fs'
 import { resolve, dirname, join } from 'path'
 import { tmpdir } from 'os'
 import { fileURLToPath } from 'url'
-import { execSync } from 'child_process'
+import { execFileSync } from 'child_process'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '../..')
@@ -41,9 +41,12 @@ function parseArgs() {
 async function getYouTubeCaptions(url) {
   try {
     // Tenta usar yt-dlp pra baixar legendas
-    const result = execSync(
-      `yt-dlp --skip-download --write-auto-subs --sub-lang pt,en --sub-format json3 -o "${CAPTIONS_BASE}" "${url}" 2>&1`,
-      { encoding: 'utf8', timeout: 30000 }
+    // Sem shell: a URL vai em array, depois de "--", e so http(s) e aceito.
+    if (!/^https?:\/\//i.test(url)) throw new Error('URL invalida (so http ou https)')
+    execFileSync(
+      'yt-dlp',
+      ['--skip-download', '--write-auto-subs', '--sub-lang', 'pt,en', '--sub-format', 'json3', '-o', CAPTIONS_BASE, '--', url],
+      { encoding: 'utf8', timeout: 30000, stdio: ['ignore', 'pipe', 'pipe'], shell: false }
     )
     console.log('  Legendas baixadas via yt-dlp')
 

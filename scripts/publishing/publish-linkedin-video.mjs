@@ -5,7 +5,7 @@
  * NAO usar /rest/posts: trunca texto quando vai com midia.
  *
  * Uso:
- *   node scripts/publishing/publish-linkedin-video.mjs --text-file <post.txt> --video <v.mp4> [--title "..."] [--client slug] [--slug nome] [--allow-hashtags] [--dry-run]
+ *   node scripts/publishing/publish-linkedin-video.mjs --text-file <post.txt> --video <v.mp4> [--title "..."] [--client slug] [--slug nome] [--allow-hashtags] [--pode] [--dry-run]
  *
  * Padrao do kit: LinkedIn sem hashtag. --allow-hashtags so quando o brand-profile da marca libera.
  *
@@ -18,6 +18,7 @@ import { assertHashtagsPreserved, assertHashtagPolicy, extractHashtags } from ".
 import { basename, dirname, resolve } from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import path from "node:path"
+import { exigirSlug, somentePrevia } from "./_lib/guarda.mjs"
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(path.dirname(fileURLToPath(import.meta.url)), "_lib/register.mjs")).href)
 
 const args = process.argv.slice(2)
@@ -29,7 +30,8 @@ const PERSON = process.env.LINKEDIN_PERSON_ID
 const TEXT_FILE = flag("--text-file")
 const USO = "Uso: node scripts/publishing/publish-linkedin-video.mjs --text-file <post.txt> --video <v.mp4> [--title \"...\"] [--allow-hashtags] [--dry-run]"
 const VIDEO = flag("--video")
-const DRY = has("--dry-run")
+const DRY = somentePrevia()
+exigirSlug("--client", flag("--client")); exigirSlug("--slug", flag("--slug"))
 if (!TEXT_FILE || !existsSync(TEXT_FILE)) { console.error(`Faltou --text-file <post.txt>, ou o arquivo nao existe${TEXT_FILE ? ": " + TEXT_FILE : ""}.
 ${USO}`); process.exit(1) }
 if (!VIDEO || !existsSync(VIDEO)) { console.error(`Faltou --video <v.mp4>, ou o arquivo nao existe${VIDEO ? ": " + VIDEO : ""}.

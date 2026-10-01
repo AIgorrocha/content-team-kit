@@ -25,6 +25,14 @@ try {
 } catch {}
 
 const PORT = process.env.PORT || 3010
+// Atras do nginx: escuta so no loopback. HOST=0.0.0.0 so se expuser a porta de proposito.
+const HOST = process.env.HOST || "127.0.0.1"
+const MAX_BODY_BYTES = Number(process.env.MAX_BODY_BYTES) || 1024 * 1024
+const MAX_PER_USER_HOUR = Number(process.env.MAX_PER_USER_HOUR) || 3
+const MAX_PER_MINUTE = Number(process.env.MAX_PER_MINUTE) || 30
+const RELOAD_TOKEN = process.env.RELOAD_TOKEN || ""
+// DRY_SEND=1: so registra no log, nao chama a Graph API (usado nos testes).
+const DRY_SEND = process.env.DRY_SEND === "1"
 // IG_USER_ID e o nome antigo; o .env.local.example usa INSTAGRAM_USER_ID. Vale qualquer um dos dois.
 const IG_USER_ID = process.env.IG_USER_ID || process.env.INSTAGRAM_USER_ID || ""
 const IG_HANDLE = process.env.IG_HANDLE || defaultHandle
@@ -87,9 +95,53 @@ let seen = new Set()
 let pending = {} // igsid -> ruleId
 try { seen = new Set(JSON.parse(fs.readFileSync(SEEN_FILE, "utf8"))) } catch {}
 try { pending = JSON.parse(fs.readFileSync(PENDING_FILE, "utf8")) } catch {}
-const saveSeen = () => { try { fs.writeFileSync(SEEN_FILE, JSON.stringify([...seen].slice(-5000))) } catch {} }
-const savePending = () => { try { fs.writeFileSync(PENDING_FILE, JSON.stringify(pending)) } catch {} }
-function log(m) { const l = `[${new Date().toISOString()}] ${m}\n`; try { fs.appendFileSync(LOG_FILE, l) } catch {}; console.log(l.trim()) }
+const saveSeen = () => { try { writeSecret(SEEN_FILE, JSON.stringify([...seen].slice(-5000))) } catch {} }
+const savePending = () => { try { writeSecret(PENDING_FILE, JSON.stringify(pending)) } catch {} }
+// Nunca deixa token/segredo nem quebra de linha (injecao de log) chegar no log.
+function mask(s) {
+  s = String(s).replace(/(access_token|client_secret)=[^&\s"']+/gi, "$1=***").replace(/Bearer\s+[\w.-]+/gi, "Bearer ***").replace(/[\r\n]+/g, " ")
+  for (const v of [IG_TOKEN, APP_SECRET]) if (v) s = s.split(v).join("***")
+  return s
+}
+function log(m) { const l = `[${new Date().toISOString()}] ${mask(m)}\n`; try { fs.appendFileSync(LOG_FILE, l, { mode: 0o600 }) } catch {}; console.log(l.trim()) }
+// Arquivos com dado/segredo: so o dono le e escreve.
+function writeSecret(file, data) { fs.writeFileSync(file, data, { mode: 0o600 }); try { fs.chmodSync(file, 0o600) } catch {} }
+for (const f of [TOKEN_FILE, SEEN_FILE, PENDING_FILE, LOG_FILE, DELETIONS_FILE]) { try { fs.chmodSync(f, 0o600) } catch {} }
+
+// Limite de envio: por from.id/hora e global/minuto. Estourou: so registra, nao envia.
+const userHits = new Map()
+let globalHits = []
+function allowSend(fromId) {
+  const now = Date.now()
+  globalHits = globalHits.filter(t => now - t < 60000)
+  if (globalHits.length >= MAX_PER_MINUTE) return false
+  if (fromId) {
+    const h = (userHits.get(fromId) || []).filter(t => now - t < 3600000)
+    if (h.length >= MAX_PER_USER_HOUR) { userHits.set(fromId, h); return false }
+    h.push(now); userHits.set(fromId, h)
+    if (userHits.size > 10000) for (const [k, v] of userHits) if (now - v[v.length - 1] >= 3600000) userHits.delete(k)
+  }
+  globalHits.push(now)
+  return true
+}
+const esc = (x) => String(x).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]))
+const safeEq = (a, b) => { const h = (x) => crypto.createHash("sha256").update(String(x)).digest(); return crypto.timingSafeEqual(h(a), h(b)) }
+const LOOPBACK = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1"])
+// /reload: so pedido local direto (sem cabecalho de proxy) ou com RELOAD_TOKEN.
+function reloadAllowed(req, url) {
+  const t = url.searchParams.get("token")
+  if (RELOAD_TOKEN && t && safeEq(t, RELOAD_TOKEN)) return true
+  return LOOPBACK.has(req.socket.remoteAddress) && !req.headers["x-forwarded-for"] && !req.headers["x-real-ip"]
+}
+// state do OAuth: aleatorio, 10 min, uso unico.
+const oauthStates = new Map()
+const newState = () => {
+  const now = Date.now()
+  for (const [k, exp] of oauthStates) if (exp < now) oauthStates.delete(k)
+  if (oauthStates.size >= 1000) oauthStates.delete(oauthStates.keys().next().value)
+  const st = crypto.randomBytes(24).toString("hex"); oauthStates.set(st, now + 600000); return st
+}
+const takeState = (st) => { const exp = st && oauthStates.get(st); oauthStates.delete(st); return !!exp && exp >= Date.now() }
 
 // Texto do pedido de follow: explica o motivo (mais conteudo pratico e gratis). GENERICO/COMPARTILHADO
 // entre TODOS os gatilhos: nao e texto por regra no rules.json. Edite aqui pra mudar o tom.
@@ -143,8 +195,9 @@ function verifySig(raw, header) {
 }
 
 async function follows(igsid) {
+  if (DRY_SEND) { log(`DRY follows ${igsid}`); return true }
   try {
-    const r = await fetch(`${GRAPH}/${igsid}?fields=is_user_follow_business&access_token=${IG_TOKEN}`)
+    const r = await fetch(`${GRAPH}/${igsid}?fields=is_user_follow_business`, { headers: { Authorization: `Bearer ${IG_TOKEN}` } })
     const j = await r.json()
     if (j.error) { log(`follow check erro ${igsid}: ${JSON.stringify(j.error)}`); return null }
     return !!j.is_user_follow_business
@@ -152,9 +205,10 @@ async function follows(igsid) {
 }
 
 async function send(recipient, msg) {
+  if (DRY_SEND) { log(`DRY send ${JSON.stringify(recipient)}`); return true }
   const r = await fetch(`${GRAPH}/${IG_USER_ID}/messages`, {
-    method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ recipient, message: msg, access_token: IG_TOKEN }),
+    method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${IG_TOKEN}` },
+    body: JSON.stringify({ recipient, message: msg }),
   })
   const j = await r.json().catch(() => ({}))
   if (j.error) { log(`send ERRO ${JSON.stringify(recipient)}: ${JSON.stringify(j.error)}`); return false }
@@ -166,9 +220,10 @@ async function send(recipient, msg) {
 // O private reply (send com comment_id) vai pro Direct e so a pessoa ve.
 // O ManyChat faz os dois: confirma em publico e entrega no privado.
 async function replyToComment(commentId, message) {
+  if (DRY_SEND) { log(`DRY reply ${commentId}`); return true }
   const r = await fetch(`${GRAPH}/${commentId}/replies`, {
-    method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ message, access_token: IG_TOKEN }),
+    method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded", Authorization: `Bearer ${IG_TOKEN}` },
+    body: new URLSearchParams({ message }),
   })
   const j = await r.json().catch(() => ({}))
   if (j.error) { log(`reply publico ERRO ${commentId}: ${JSON.stringify(j.error)}`); return false }
@@ -184,6 +239,8 @@ async function handleComment(value) {
   seen.add(commentId); saveSeen()
   if (!rule) { log(`COMMENT sem keyword, ignorado comment=${commentId} from=${value.from?.username || fromId}`); return }
   log(`COMMENT match rule=${rule.id} comment=${commentId} media=${mediaId || "-"} from=${value.from?.username || fromId}`)
+
+  if (!allowSend(fromId)) { log(`LIMITE de envio atingido, nao enviado comment=${commentId} from=${fromId || "-"}`); return }
 
   // 1) Resposta publica, SEMPRE. E o sinal social: quem passa no post ve que respondemos.
   //    Nao depende do follow: negar resposta publica a quem nao segue fica hostil.
@@ -207,6 +264,7 @@ async function handleMessaging(m) {
   if (!igsid || igsid === IG_USER_ID) return
   const payload = m.message?.quick_reply?.payload || m.postback?.payload
   if (!payload || !payload.startsWith("JA_SEGUI:")) return
+  if (!allowSend(null)) { log(`LIMITE global de envio atingido, quickreply ignorado igsid=${igsid}`); return }
   const ruleId = payload.split(":")[1]
   const rule = findRule(ruleId) || findRule(pending[igsid])
   if (!rule) { log(`quickreply sem regra igsid=${igsid} payload=${payload}`); return }
@@ -248,10 +306,19 @@ function eraseUser(igUserId) {
   if (pending[igUserId]) { delete pending[igUserId]; savePending() }
 }
 
-function collectBody(req, cb) {
+// Le o corpo com teto de MAX_BODY_BYTES; estourou: 413 e para de ler (antes de qualquer assinatura).
+function collectBody(req, res, cb) {
+  const tooBig = () => { log("corpo grande demais, 413"); res.writeHead(413, { "Connection": "close" }); res.end("payload too large") }
+  if (Number(req.headers["content-length"]) > MAX_BODY_BYTES) { tooBig(); req.resume(); return }
   const chunks = []
-  req.on("data", c => chunks.push(c))
-  req.on("end", () => cb(Buffer.concat(chunks)))
+  let size = 0, over = false
+  req.on("data", c => {
+    if (over) return
+    size += c.length
+    if (size > MAX_BODY_BYTES) { over = true; chunks.length = 0; tooBig(); return }
+    chunks.push(c)
+  })
+  req.on("end", () => { if (!over) cb(Buffer.concat(chunks)) })
 }
 
 function authPage(title, detail) {
@@ -263,7 +330,8 @@ function authPage(title, detail) {
 async function handleAuthCallback(url, res) {
   const send = (code, title, detail) => { res.writeHead(code, { "Content-Type": "text/html; charset=utf-8" }); res.end(authPage(title, detail)) }
   const err = url.searchParams.get("error_description") || url.searchParams.get("error")
-  if (err) { log(`auth negado: ${err}`); return send(400, "Authorization was not completed", String(err)) }
+  if (err) { log(`auth negado: ${err}`); return send(400, "Authorization was not completed", esc(err)) }
+  if (!takeState(url.searchParams.get("state"))) { log("auth callback sem state valido"); return send(400, "Invalid or expired state", "Start again at /auth/start.") }
   const code = url.searchParams.get("code")
   if (!code) return send(400, "Missing authorization code", "This URL is the OAuth callback. Start at /auth/start.")
   if (!APP_SECRET) { log("auth sem INSTAGRAM_APP_SECRET"); return send(500, "Server is not configured", "INSTAGRAM_APP_SECRET is missing on the server.") }
@@ -274,22 +342,23 @@ async function handleAuthCallback(url, res) {
       body: new URLSearchParams({ client_id: IG_APP_ID, client_secret: APP_SECRET, grant_type: "authorization_code", redirect_uri: REDIRECT_URI, code }),
     })
     const short = await shortRes.json()
-    if (!short.access_token) { log(`auth troca falhou: ${JSON.stringify(short)}`); return send(400, "Token exchange failed", String(short.error_message || short.error_type || "unknown error")) }
+    if (!short.access_token) { log(`auth troca falhou: ${JSON.stringify(short)}`); return send(400, "Token exchange failed", esc(short.error_message || short.error_type || "unknown error")) }
 
     // 2) token curto -> token longo (60 dias)
+    // ponytail: esta troca (GET /access_token) exige access_token e client_secret na query; o log mascara.
     const longRes = await fetch(`${GRAPH_HOST}/access_token?` + new URLSearchParams({ grant_type: "ig_exchange_token", client_secret: APP_SECRET, access_token: short.access_token }))
     const long = await longRes.json()
     const token = long.access_token || short.access_token
 
     // 3) quem autorizou
-    const me = await fetch(`${GRAPH}/me?fields=id,username&access_token=${token}`).then(r => r.json())
+    const me = await fetch(`${GRAPH}/me?fields=id,username`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json())
 
-    fs.writeFileSync(TOKEN_FILE, JSON.stringify({ user_id: me.id, username: me.username, access_token: token, expires_in: long.expires_in || null, obtained_at: new Date().toISOString(), scope: OAUTH_SCOPE }, null, 2))
+    writeSecret(TOKEN_FILE, JSON.stringify({ user_id: me.id, username: me.username, access_token: token, expires_in: long.expires_in || null, obtained_at: new Date().toISOString(), scope: OAUTH_SCOPE }, null, 2))
     log(`auth OK user=${me.username || me.id} longlived=${!!long.access_token}`)
-    send(200, "Connected", `The Instagram professional account <b>@${me.username || me.id}</b> granted access to this app. The token is stored on our server. You can close this window.`)
+    send(200, "Connected", `The Instagram professional account <b>@${esc(me.username || me.id)}</b> granted access to this app. The token is stored on our server. You can close this window.`)
   } catch (e) {
     log(`auth exc: ${e.message}`)
-    send(500, "Unexpected error", e.message)
+    send(500, "Unexpected error", esc(e.message))
   }
 }
 
@@ -302,10 +371,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(403); res.end("forbidden"); return
   }
   if (req.method === "POST" && url.pathname.endsWith("/ig-webhook")) {
-    let chunks = []
-    req.on("data", c => chunks.push(c))
-    req.on("end", () => {
-      const raw = Buffer.concat(chunks)
+    collectBody(req, res, (raw) => {
       if (!verifySig(raw, req.headers["x-hub-signature-256"])) { log("assinatura invalida"); res.writeHead(401); res.end("bad sig"); return }
       res.writeHead(200); res.end("EVENT_RECEIVED")
       try {
@@ -318,7 +384,10 @@ const server = http.createServer((req, res) => {
     })
     return
   }
-  if (url.pathname.endsWith("/reload")) { RULES = loadRules(); log(`rules recarregadas: ${RULES.length}`); res.writeHead(200); res.end(`rules: ${RULES.length}`); return }
+  if (url.pathname === "/reload" || url.pathname === "/ig-webhook/reload") {
+    if (!reloadAllowed(req, url)) { log("reload negado"); res.writeHead(403); res.end("forbidden"); return }
+    RULES = loadRules(); log(`rules recarregadas: ${RULES.length}`); res.writeHead(200); res.end(`rules: ${RULES.length}`); return
+  }
   if (url.pathname.endsWith("/health")) { res.writeHead(200); res.end(`ok rules=${RULES.length} mode=${mode()}`); return }
 
   // Abre a tela de consentimento da Meta. E a URL que o dono da conta abre pra autorizar o app.
@@ -329,6 +398,7 @@ const server = http.createServer((req, res) => {
     auth.searchParams.set("redirect_uri", REDIRECT_URI)
     auth.searchParams.set("response_type", "code")
     auth.searchParams.set("scope", OAUTH_SCOPE)
+    auth.searchParams.set("state", newState())
     log(`auth start scope=${OAUTH_SCOPE}`)
     res.writeHead(302, { Location: auth.toString() }); res.end(); return
   }
@@ -339,7 +409,7 @@ const server = http.createServer((req, res) => {
 
   // Exigida pela Meta antes de submeter: chamada quando alguem remove o app.
   if (req.method === "POST" && url.pathname.endsWith("/auth/deauthorize")) {
-    collectBody(req, (raw) => {
+    collectBody(req, res, (raw) => {
       const data = parseSignedRequest(new URLSearchParams(raw.toString("utf8")).get("signed_request"))
       if (!data) { log("deauthorize com assinatura invalida"); res.writeHead(400); res.end("bad signature"); return }
       log(`deauthorize user=${data.user_id}`)
@@ -352,7 +422,7 @@ const server = http.createServer((req, res) => {
   // Exigida pela Meta antes de submeter: pedido de exclusao de dados.
   // A resposta TEM que ser {url, confirmation_code}, e a url precisa abrir e mostrar o status.
   if (req.method === "POST" && url.pathname.endsWith("/auth/data-deletion")) {
-    collectBody(req, (raw) => {
+    collectBody(req, res, (raw) => {
       const data = parseSignedRequest(new URLSearchParams(raw.toString("utf8")).get("signed_request"))
       if (!data) { log("data-deletion com assinatura invalida"); res.writeHead(400); res.end("bad signature"); return }
       if (!PUBLIC_BASE) { log(PUBLIC_BASE_ERRO); res.writeHead(500); res.end("PUBLIC_BASE missing"); return }
@@ -360,7 +430,7 @@ const server = http.createServer((req, res) => {
       eraseUser(data.user_id)
       const all = readJson(DELETIONS_FILE, {})
       all[code] = { user_id: data.user_id, requested_at: new Date().toISOString(), status: "completed" }
-      try { fs.writeFileSync(DELETIONS_FILE, JSON.stringify(all, null, 2)) } catch (e) { log(`deletions write erro: ${e.message}`) }
+      try { writeSecret(DELETIONS_FILE, JSON.stringify(all, null, 2)) } catch (e) { log(`deletions write erro: ${e.message}`) }
       log(`data-deletion user=${data.user_id} code=${code}`)
       res.writeHead(200, { "Content-Type": "application/json" })
       res.end(JSON.stringify({ url: `${PUBLIC_BASE}/auth/data-deletion?code=${code}`, confirmation_code: code }))
@@ -374,7 +444,7 @@ const server = http.createServer((req, res) => {
     const rec = code ? readJson(DELETIONS_FILE, {})[code] : null
     if (!rec) { res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" }); res.end(authPage("Unknown confirmation code", "We have no deletion request with this code.")); return }
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" })
-    res.end(authPage("Data deletion completed", `Request <code>${code}</code> was received on ${rec.requested_at} and the data we held for that user has been deleted. We only store a comment id for deduplication and the connected account token.`))
+    res.end(authPage("Data deletion completed", `Request <code>${esc(code)}</code> was received on ${esc(rec.requested_at)} and the data we held for that user has been deleted. We only store a comment id for deduplication and the connected account token.`))
     return
   }
 
@@ -384,4 +454,4 @@ const server = http.createServer((req, res) => {
 RULES = loadRules()
 if (!IG_USER_ID || !IG_TOKEN || !APP_SECRET || !VERIFY_TOKEN) log("AVISO: faltam variaveis no .env.local (INSTAGRAM_USER_ID, INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_APP_SECRET, IG_VERIFY_TOKEN). O webhook nao vai funcionar.")
 if (!PUBLIC_BASE) log("AVISO: " + PUBLIC_BASE_ERRO)
-server.listen(PORT, () => log(`ig-webhook (rules=${RULES.length}, mode=${mode()}) on :${PORT}`))
+server.listen(PORT, HOST, () => log(`ig-webhook (rules=${RULES.length}, mode=${mode()}) on ${HOST}:${PORT}`))

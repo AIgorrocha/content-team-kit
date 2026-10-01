@@ -5,7 +5,7 @@
  * Texto passa por escape "Little Text" (senao o post corta em parenteses, colchetes etc).
  *
  * Uso:
- *   node scripts/publishing/publish-linkedin-link.mjs --text-file <post.txt> --url <https://...> [--title "..."] [--thumb <img|url>] [--client slug] [--slug nome] [--allow-hashtags] [--dry-run]
+ *   node scripts/publishing/publish-linkedin-link.mjs --text-file <post.txt> --url <https://...> [--title "..."] [--thumb <img|url>] [--client slug] [--slug nome] [--allow-hashtags] [--pode] [--dry-run]
  *
  * Padrao do kit: LinkedIn sem hashtag. --allow-hashtags so quando o brand-profile da marca libera.
  *
@@ -21,11 +21,13 @@ import { escapeLittleText, assertHashtagPolicy } from "./_lib/linkedin-text.mjs"
 import { basename, dirname, resolve } from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import path from "node:path"
+import { exigirSlug, somentePrevia } from "./_lib/guarda.mjs"
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(path.dirname(fileURLToPath(import.meta.url)), "_lib/register.mjs")).href)
 
 const args = process.argv.slice(2)
 const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null }
-const TEXT_FILE = flag("--text-file"), URL = flag("--url"), TITLE = flag("--title") || "", DRY = args.includes("--dry-run")
+exigirSlug("--client", flag("--client")); exigirSlug("--slug", flag("--slug"))
+const TEXT_FILE = flag("--text-file"), URL = flag("--url"), TITLE = flag("--title") || "", DRY = somentePrevia()
 let THUMB = flag("--thumb")
 const yt = URL && URL.match(/(?:youtu\.be\/|v=|shorts\/)([\w-]{11})/)
 if (!THUMB && yt) THUMB = "https://img.youtube.com/vi/" + yt[1] + "/maxresdefault.jpg"

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { withAuth } from "@/lib/route-helper"
 import { readFile, readdir } from "fs/promises"
 import { join } from "path"
 
@@ -63,7 +64,7 @@ const DESIGN_SYSTEM = {
   carousel: { width: 1080, height: 1350, style: "Minimalista, dark theme" },
 }
 
-export async function GET(request: NextRequest) {
+export const GET = withAuth(async (request: NextRequest) => {
   try {
     const root = process.cwd()
 
@@ -124,4 +125,4 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})

@@ -1,4 +1,5 @@
 import * as cheerio from "cheerio"
+import { fetchPublic } from "@/lib/security/public-url"
 
 export interface SiteAnalysis {
   url: string
@@ -95,12 +96,11 @@ export async function analyzeSite(url: string): Promise<SiteAnalysis> {
     // Normalize URL
     const normalizedUrl = url.startsWith("http") ? url : `https://${url}`
 
-    const response = await fetch(normalizedUrl, {
+    const response = await fetchPublic(normalizedUrl, {
       headers: {
         "User-Agent": "Mozilla/5.0 (compatible; ContentTeamAI/1.0)",
         Accept: "text/html",
       },
-      redirect: "follow",
       signal: AbortSignal.timeout(15000),
     })
 

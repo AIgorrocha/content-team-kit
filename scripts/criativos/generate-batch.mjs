@@ -25,7 +25,7 @@
  *   HIGGSFIELD_ENABLED=true   liga o caminho pago (senao Remotion-only)
  *   R2_*                      liga o upload real (senao dry-run)
  */
-import { execFileSync, execSync } from "node:child_process";
+import { execSeguro } from "../_lib/exec-seguro.mjs";
 import { mkdirSync, cpSync, existsSync, writeFileSync, readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -66,12 +66,16 @@ if (!ANGLE) {
   console.error("chaves disponiveis: node scripts/criativos/emit-props.mjs");
   process.exit(1);
 }
+// O angulo entra em nome de arquivo e de comando: so letras, numeros, _ e -.
+if (!/^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(ANGLE)) {
+  console.error("--angle invalido: use so letras, numeros, _ e -");
+  process.exit(1);
+}
 
+// Sem shell: argumentos em array (ver scripts/_lib/exec-seguro.mjs).
 function run(cmd, cmdArgs, cwd) {
-  const q = (a) => (/[\s"]/.test(a) ? `"${a.replace(/"/g, '\\"')}"` : a);
-  const line = [cmd, ...cmdArgs].map(q).join(" ");
-  console.log(`  $ ${line}`);
-  execSync(line, { cwd, stdio: "inherit" });
+  console.log(`  $ ${[cmd, ...cmdArgs].join(" ")}`);
+  execSeguro(cmd === "node" ? process.execPath : cmd, cmdArgs, { cwd, stdio: "inherit" });
 }
 
 // Copia os assets do cliente pra remotion/public/{slug}/ antes de renderizar.
@@ -115,10 +119,8 @@ function loadPresetEntry(registro, angle) {
 function hfInvoke(job) {
   const jobFile = resolve(OUT_DIR, `.hf-job-${job.mode}-${ANGLE}.json`);
   writeFileSync(jobFile, JSON.stringify(job, null, 2));
-  const q = (a) => (/[\s"]/.test(a) ? `"${a.replace(/"/g, '\\"')}"` : a);
-  const line = ["node", resolve(__dirname, "hf-invoke.mjs"), jobFile].map(q).join(" ");
-  console.log(`  $ ${line}`);
-  const out = execSync(line, { cwd: REPO, stdio: ["ignore", "pipe", "inherit"] }).toString();
+  console.log(`  $ node ${resolve(__dirname, "hf-invoke.mjs")} ${jobFile}`);
+  const out = execSeguro(process.execPath, [resolve(__dirname, "hf-invoke.mjs"), jobFile], { cwd: REPO, stdio: ["ignore", "pipe", "inherit"] }).toString();
   process.stdout.write(out);
   const m = out.split(/\r?\n/).reverse().find((l) => l.startsWith("HFRESULT:"));
   if (!m) throw new Error("hf-invoke nao retornou HFRESULT");
@@ -137,10 +139,7 @@ async function main() {
     }
     const HF_BIN = process.env.HIGGSFIELD_BIN || "higgsfield";
     const cost = (model, extra) => {
-      const line = [HF_BIN, "generate", "cost", model, ...extra, "--json"]
-        .map((a) => (/[\s"]/.test(a) ? `"${a}"` : a))
-        .join(" ");
-      const out = execSync(line, { stdio: ["ignore", "pipe", "inherit"] }).toString();
+      const out = execSeguro(HF_BIN, ["generate", "cost", model, ...extra, "--json"], { stdio: ["ignore", "pipe", "inherit"] }).toString();
       return Number(JSON.parse(out.slice(out.indexOf("{"), out.lastIndexOf("}") + 1)).credits_exact || 0);
     };
     const imgCred = cost("nano_banana", ["--prompt", storyEntry.hfImagePrompt, "--aspect_ratio", "9:16"]);

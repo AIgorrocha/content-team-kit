@@ -15,16 +15,23 @@ import { existsSync } from 'fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { playwrightDir } from '../_lib/workspace-client.mjs'
+import { somentePrevia } from "./_lib/guarda.mjs"
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(path.dirname(fileURLToPath(import.meta.url)), '_lib/register.mjs')).href)
 
-const VIDEO_PATH = process.argv[2]
-const TITLE = process.argv[3] || 'YouTube Short'
-const DESCRIPTION = process.argv[4] || ''
-const TAGS = process.argv[5] || ''
+const posicionais = process.argv.slice(2).filter((a) => a !== '--pode')
+const VIDEO_PATH = posicionais[0]
+const TITLE = posicionais[1] || 'YouTube Short'
+const DESCRIPTION = posicionais[2] || ''
+const TAGS = posicionais[3] || ''
 
 if (!VIDEO_PATH || !existsSync(VIDEO_PATH)) {
-  console.error('Uso: node upload-youtube-short.mjs <video.mp4> "<titulo>" "<descricao>" "<tags>"')
+  console.error('Uso: node upload-youtube-short.mjs <video.mp4> "<titulo>" "<descricao>" "<tags>" [--pode]')
   process.exit(1)
+}
+
+if (somentePrevia()) {
+  console.log(`[youtube] video: ${VIDEO_PATH}\n[youtube] titulo: ${TITLE}\n[youtube] descricao: ${DESCRIPTION}\n[youtube] tags: ${TAGS}`)
+  process.exit(0)
 }
 
 const USER_DATA_DIR = playwrightDir('youtube')

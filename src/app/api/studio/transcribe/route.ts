@@ -3,6 +3,7 @@ import { withAuth } from "@/lib/route-helper"
 import { query, queryOne } from "@/lib/db"
 import { parseSrt } from "@/lib/studio-types"
 import OpenAI from "openai"
+import { fetchPublic } from "@/lib/security/public-url"
 
 const WHISPER_MAX_SIZE = 25 * 1024 * 1024 // 25MB
 
@@ -62,7 +63,9 @@ export const POST = withAuth(async (req: NextRequest) => {
     )
 
     // Download the video
-    const videoResponse = await fetch(project.video_url)
+    // O vídeo vem do armazenamento do próprio dono (Supabase) ou de URL pública; nunca de rede interna.
+    const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname : ""
+    const videoResponse = await fetchPublic(project.video_url, {}, supabaseHost ? [supabaseHost] : [])
 
     if (!videoResponse.ok) {
       await query(

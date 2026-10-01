@@ -12,6 +12,7 @@ config({ quiet: true, path: '.env.local', override: true })
 config({ quiet: true, path: '.env' })
 import { google } from 'googleapis'
 import { readFileSync } from 'node:fs'
+import { somentePrevia } from "./_lib/guarda.mjs"
 
 const [, , MODE, VIDEO_ID, DESC_FILE] = process.argv
 const { YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REFRESH_TOKEN } = process.env
@@ -36,6 +37,7 @@ if (MODE === 'read') {
   console.log(v.snippet.description)
 } else if (MODE === 'write') {
   const desc = readFileSync(DESC_FILE, 'utf8').replace(/\r\n/g, '\n').trim()
+  if (somentePrevia()) { console.log('---DESCRICAO NOVA---\n' + desc); process.exit(0) }
   const v = await fetchSnippet()
   const res = await youtube.videos.update({
     part: ['snippet'],
@@ -53,5 +55,5 @@ if (MODE === 'read') {
   })
   console.log('UPDATE OK. Descricao gravada, tamanho:', res.data.snippet.description.length)
 } else {
-  console.error('Uso: read <videoId> | write <videoId> <arquivo.txt>'); process.exit(1)
+  console.error('Uso: read <videoId> | write <videoId> <arquivo.txt> [--pode]'); process.exit(1)
 }

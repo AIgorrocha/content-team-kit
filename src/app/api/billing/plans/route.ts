@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server"
+import { withAuth } from "@/lib/route-helper"
 import { listPlans } from "@/lib/queries/billing"
 
-export async function GET() {
+export const GET = withAuth(async () => {
   try {
     const plans = await listPlans()
     return NextResponse.json({ data: plans })
@@ -11,4 +12,4 @@ export async function GET() {
       { status: 500 }
     )
   }
-}
+})

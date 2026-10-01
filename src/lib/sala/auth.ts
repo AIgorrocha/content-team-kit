@@ -2,16 +2,15 @@
 // extraída aqui pra ser reutilizada por todas as rotas de /api/sala/*.
 import type { NextRequest } from "next/server"
 import { createServerClient } from "@supabase/ssr"
+import { checarPedido } from "@/lib/security/request-guard"
 
 export async function authCheck(req: NextRequest): Promise<{
   ok: boolean
   error?: string
   userId?: string
 }> {
-  if (!["GET", "HEAD", "OPTIONS"].includes(req.method)) {
-    const origem = req.headers.get("origin")
-    if (origem && origem !== new URL(req.url).origin) return { ok: false, error: "Origem não permitida" }
-  }
+  const recusa = checarPedido(req)
+  if (recusa) return { ok: false, error: recusa.error }
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!supabaseUrl || !supabaseKey) {

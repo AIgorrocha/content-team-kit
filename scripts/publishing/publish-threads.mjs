@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Publica thread-twitter.txt no Threads (mesmo texto do X).
- * Uso: node scripts/publishing/publish-threads.mjs --from path/thread-twitter.txt [--client slug] [--slug nome] [--dry-run]
+ * Uso: node scripts/publishing/publish-threads.mjs --from path/thread-twitter.txt [--client slug] [--slug nome] [--pode] [--dry-run]
  * Env: THREADS_USER_ID e THREADS_ACCESS_TOKEN (o Threads tem token proprio; NAO usa o do Instagram).
  * Opcional: THREADS_HANDLE (ou IG_HANDLE), so para montar o link se a API nao devolver o permalink.
  */
@@ -11,14 +11,15 @@ config({ quiet: true, path: ".env" })
 import { readFileSync, existsSync } from "node:fs"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import path from "node:path"
+import { exigirSlug, somentePrevia } from "./_lib/guarda.mjs"
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(path.dirname(fileURLToPath(import.meta.url)), "_lib/register.mjs")).href)
 
 const args = process.argv.slice(2)
 const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null }
 const FROM = flag("--from")
-const DRY = args.includes("--dry-run")
-const CLIENT = flag("--client")
-const SLUG = flag("--slug")
+const DRY = somentePrevia()
+const CLIENT = exigirSlug("--client", flag("--client"))
+const SLUG = exigirSlug("--slug", flag("--slug"))
 if (!FROM || !existsSync(FROM)) {
   console.error("Uso: node scripts/publishing/publish-threads.mjs --from <thread-twitter.txt> [--dry-run]")
   process.exit(1)
