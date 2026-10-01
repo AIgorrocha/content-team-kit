@@ -62,6 +62,9 @@ Para parar: `npm run supabase:stop`. Para voltar: abra o Docker e rode
 (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_URL`,
 `SUPABASE_SERVICE_ROLE_KEY`, `DATABASE_URL`) e aplique os arquivos de `supabase/migrations/`
 em ordem pelo SQL Editor. O comando `--all` do passo 3 só funciona no banco local.
+O projeto é seu: cada pessoa ou empresa usa o próprio Supabase, nunca o de outra. Na nuvem, desligue o
+cadastro aberto (Authentication, Sign In / Providers, "Allow new users to sign up") e crie o seu usuário
+à mão; as migrations já ligam a proteção por linha (RLS) nas tabelas.
 
 Se não for usar o banco local, copie `.env.local.example` para `.env.local` e preencha à mão.
 
