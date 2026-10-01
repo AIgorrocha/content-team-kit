@@ -11,7 +11,7 @@
 
 const fs = require('fs');
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '..', '.env.local') });
+require('dotenv').config({ quiet: true, path: path.join(__dirname, '..', '.env.local') });
 
 const { createClient } = require('@supabase/supabase-js');
 const { CLIENT_ACCOUNTS } = require(path.join(__dirname, '..', 'skills', '_shared', 'ig-accounts.cjs'));

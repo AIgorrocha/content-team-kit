@@ -16,8 +16,8 @@
 const fs = require('fs');
 const path = require('path');
 // .env.local (privado) primeiro; .env depois (dotenv nao sobrescreve o que ja foi carregado)
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env.local') });
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
+require('dotenv').config({ quiet: true, path: path.resolve(__dirname, '../../.env.local') });
+require('dotenv').config({ quiet: true, path: path.resolve(__dirname, '../../.env') });
 
 const { createClient } = require('@supabase/supabase-js');
 const { getClientDefaults } = require('../_shared/client-defaults/index.cjs');

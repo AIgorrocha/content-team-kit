@@ -11,8 +11,8 @@
  * Uso: node scripts/publishing/youtube-auth.mjs
  */
 import { config } from 'dotenv'
-config({ path: '.env.local' })
-config({ path: '.env' })
+config({ quiet: true, path: '.env.local' })
+config({ quiet: true, path: '.env' })
 
 import { google } from 'googleapis'
 import http from 'node:http'

@@ -108,7 +108,7 @@ DECISAO: aprovar / ajustar / cancelar?
 
 ### 3. Setup (se primeira vez)
 ```bash
-cd remotion && npm install
+cd remotion && npm ci
 ```
 
 ### 4. Validar 1 frame (barato) antes do render full

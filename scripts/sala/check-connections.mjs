@@ -2,8 +2,8 @@
 // Checa as conexoes de rede do cliente ativo e grava status/last_checked_at em ct_connections.
 // Nunca fabrica obtained_at/expires_at aqui; so quem autoriza (fluxo OAuth) grava essas datas.
 import { config } from "dotenv"
-config({ path: ".env.local" })
-config({ path: ".env" })
+config({ quiet: true, path: ".env.local" })
+config({ quiet: true, path: ".env" })
 
 import { resolveClient } from "../_lib/workspace-client.mjs"
 import { checarConexao, registrarConexao, buscarConexao, encerrarPool } from "./connections-lib.mjs"

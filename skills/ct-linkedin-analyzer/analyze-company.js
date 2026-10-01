@@ -2,7 +2,7 @@
 // analyze-company.js - analisa posts da company page do cliente.
 // ATENCAO: pode falhar com 401/403 - scopes organizacionais podem nao estar aprovados.
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../../.env.local') });
+require('dotenv').config({ quiet: true, path: path.join(__dirname, '../../.env.local') });
 
 const { fetchPosts, fetchSocialActions, normalize, saveJson, appendMarkdown, snapshotLinkedIn } = require('./_lib');
 const { CLIENT_ACCOUNTS } = require('../_shared/ig-accounts.cjs');

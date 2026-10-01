@@ -306,6 +306,7 @@ function build({ root, slug, nome, slides, layout: layoutArg }) {
     brand: { name: opt.name, handle: opt.handle },
     layout,
     temAvatar: !!avatarFile,
+    avatarNeutro: !!avatarFile && path.dirname(avatarFile) === path.join(SKILL, 'assets'),
   };
 }
 
@@ -320,9 +321,9 @@ async function main() {
   const slidesFile = a.slides || path.join(root, 'content', slug, 'carousels', a.nome, 'slides.json');
   const raw = JSON.parse(fs.readFileSync(slidesFile, 'utf8'));
   const slides = Array.isArray(raw) ? raw : raw.slides;
-  const { htmls, outDir: defaultOut, origemTokens, brand, layout, temAvatar } = build({ root, slug, nome: a.nome, slides, layout: a.layout });
+  const { htmls, outDir: defaultOut, origemTokens, brand, layout, temAvatar, avatarNeutro } = build({ root, slug, nome: a.nome, slides, layout: a.layout });
   const outDir = a.out ? path.resolve(a.out) : defaultOut;
-  console.log(`Marca: ${slug} (${brand.name} ${brand.handle}). Layout: ${layout}. Tokens: ${origemTokens}. Foto: ${temAvatar ? 'sim' : 'nao'}`);
+  console.log(`Marca: ${slug} (${brand.name} ${brand.handle}). Layout: ${layout}. Tokens: ${origemTokens}. Foto: ${avatarNeutro ? 'neutra (de exemplo). Coloque a sua em clients/' + slug + '/assets/' : temAvatar ? 'sim' : 'nao'}`);
 
   const { chromium } = require('playwright');
   fs.mkdirSync(outDir, { recursive: true });

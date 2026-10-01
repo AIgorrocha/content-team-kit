@@ -17,7 +17,7 @@
  * O token dura cerca de 60 dias: rode de novo para renovar.
  */
 import { config } from "dotenv"
-config({ path: ".env.local", override: true }); config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 import { captureAuthCode, newState, saveEnvVar, registrarSemFalhar, OAUTH_REDIRECT } from "./_lib/oauth-local.mjs"
 
 const ENV_FILE = ".env.local"

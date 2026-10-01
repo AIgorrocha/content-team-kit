@@ -186,9 +186,13 @@
             <div class="step-h"><span class="num">1</span><h3>Alternativa: Codex, da OpenAI</h3></div>
             <dl class="rows">
               <div class="row"><dt>O que fazer</dt><dd>
-                <p>Se a sua assinatura é do ChatGPT, use o Codex. Instale o aplicativo do ChatGPT para computador (Windows ou Mac), entre com a sua conta e escolha <strong>Codex</strong> na lista do aplicativo. Passo a passo atualizado: <a href="https://developers.openai.com/codex/quickstart" rel="noopener">documentação oficial do Codex</a>.</p>
-                <p>Quem prefere o terminal no Mac cola este comando e depois digita <code>codex</code> dentro da pasta do kit; na primeira vez, escolha "Sign in with ChatGPT" (entrar com o ChatGPT).</p>
+                <p>Se a sua assinatura é do ChatGPT, use o Codex. <strong>Jeito mais fácil:</strong> baixe o aplicativo do Codex para computador na <a href="https://chatgpt.com/codex?app-landing-page=true" rel="noopener">página oficial do aplicativo</a> (no Windows, o botão leva para a Microsoft Store), abra, entre com a sua conta do ChatGPT e escolha a pasta do kit.</p>
+                <p><strong>Pelo terminal</strong> (tela de texto): cole o comando do seu sistema, espere terminar, abra a pasta do kit e digite <code>codex</code>. Na primeira vez, escolha "Sign in with ChatGPT" (entrar com o ChatGPT).</p>
+                <p>Windows (PowerShell):</p>
+                <div class="cmd"><code>powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"</code><button class="copy" type="button">Copiar</button></div>
+                <p>Mac:</p>
                 <div class="cmd"><code>curl -fsSL https://chatgpt.com/codex/install.sh | sh</code><button class="copy" type="button">Copiar</button></div>
+                <p>Comandos conferidos em 01/10/2026 no <a href="https://github.com/openai/codex" rel="noopener">repositório oficial do Codex</a>.</p>
               </dd></div>
               <div class="row"><dt>O que vai aparecer</dt><dd><p>Uma conversa onde você escreve o que quer. Para o navegador automático do kit funcionar no Codex, o assistente pede a sua permissão para ligá-lo uma vez.</p></dd></div>
               <div class="row"><dt>Quanto tempo</dt><dd><p>Cerca de 10 minutos.</p></dd></div>
@@ -210,7 +214,7 @@
         <dl class="rows">
           <div class="row"><dt>O que fazer</dt><dd>
             <ol>
-              <li>Crie uma pasta vazia, por exemplo em Documentos, com o nome <code>meu-time-de-conteudo</code>.</li>
+              <li>Crie uma pasta vazia chamada <code>kit</code> dentro de Documentos. Dica: prefira um caminho curto e evite pastas muito dentro de outras pastas (o Windows se atrapalha com caminhos muito longos, e isso pode dar erro ao fazer vídeo).</li>
               <li>Abra o assistente <strong>dentro dessa pasta</strong>. No aplicativo: aba Code, Local, <strong>Select folder</strong> e escolha a pasta. No terminal: digite <code>cd</code> e um espaço, arraste a pasta para dentro da janela, aperte Enter e digite <code>claude</code>.</li>
               <li>Cole esta frase exatamente como está:</li>
             </ol>
@@ -382,6 +386,8 @@
       <h2>Perguntas e problemas comuns</h2>
       <details class="faq"><summary>O assistente pediu permissão para rodar um comando. É seguro?</summary><div><p>É o funcionamento normal: antes de cada comando ele explica em uma frase o que faz. Leia, e responda sim se concordar. Se não entendeu, pergunte "o que isso faz?" ou diga não.</p></div></details>
       <details class="faq"><summary>Apareceu "comando não encontrado" ou "claude não é reconhecido"</summary><div><p>O programa foi instalado, mas a janela aberta ainda não o enxerga. Feche o terminal, abra um novo e tente de novo. Se continuar, siga <a href="https://code.claude.com/docs/en/troubleshoot-install" rel="noopener">a página oficial de problemas de instalação</a>. O mesmo vale para <code>node</code> e <code>git</code> recém-instalados: feche e abra de novo, e volte à mesma pasta.</p></div></details>
+      <details class="faq"><summary>Os avisos do npm são normais</summary><div><p>Ao instalar, o terminal pode mostrar muitas linhas com "deprecated", "vulnerabilities" ou "install-scripts". São avisos comuns, não são erro. O que importa é terminar sem nenhuma linha com "ERR!".</p></div></details>
+      <details class="faq"><summary>Vídeo: erro ENOENT no Windows (caminho longo)</summary><div><p>Se ao fazer vídeo aparecer uma mensagem com "Failed to launch the browser process" e "ENOENT", quase sempre é porque a pasta do kit está num caminho comprido demais (o Windows aceita no máximo 260 caracteres). Mova o kit para uma pasta curta, como <code>C:\kit</code> ou <code>Documentos\kit</code>, e tente de novo. Na primeira vez, o vídeo também baixa cerca de 107 MB, então demorar é normal.</p></div></details>
       <details class="faq"><summary>Esqueci onde parei</summary><div><p>Abra o assistente na pasta do kit e diga <strong>continuar configuração</strong>. Ele lê o que já está feito, resume em duas linhas e retoma do ponto certo.</p></div></details>
       <details class="faq"><summary>Deu erro ao publicar</summary><div><p>Conte ao assistente a mensagem exata que apareceu. Os motivos mais comuns: chave vencida (as do Instagram e do LinkedIn duram cerca de 60 dias e podem ser renovadas) ou conta que não é profissional. Se não resolver, diga "reportar problema".</p></div></details>
       <details class="faq"><summary>Fechei a janela no meio da configuração</summary><div><p>Nada se perde. Abra a mesma pasta e diga "continuar configuração".</p></div></details>
@@ -395,7 +401,7 @@
         <li><a href="https://github.com/AIgorrocha/content-team-kit/tree/master/guia" rel="noopener">Este guia, dentro do repositório (pasta guia)</a></li>
         <li><a href="https://github.com/AIgorrocha/content-team-kit/issues/new/choose" rel="noopener">Avisar de problema ou sugerir melhoria</a></li>
         <li><a href="https://code.claude.com/docs/en/setup" rel="noopener">Instalar o Claude Code (documentação oficial)</a></li>
-        <li><a href="https://developers.openai.com/codex/quickstart" rel="noopener">Começar com o Codex (documentação oficial)</a></li>
+        <li><a href="https://github.com/openai/codex" rel="noopener">Instalar o Codex (repositório oficial)</a></li>
       </ul>
     </section>
   </main>

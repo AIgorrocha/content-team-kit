@@ -15,7 +15,7 @@
  * Env: LINKEDIN_ACCESS_TOKEN, LINKEDIN_PERSON_ID
  */
 import { config } from "dotenv"
-config({ path: ".env.local", override: true }); config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 import { existsSync, readFileSync } from "node:fs"
 import { escapeLittleText, assertHashtagPolicy } from "./_lib/linkedin-text.mjs"
 import { basename, dirname, resolve } from "node:path"
@@ -29,11 +29,14 @@ const TEXT_FILE = flag("--text-file"), URL = flag("--url"), TITLE = flag("--titl
 let THUMB = flag("--thumb")
 const yt = URL && URL.match(/(?:youtu\.be\/|v=|shorts\/)([\w-]{11})/)
 if (!THUMB && yt) THUMB = "https://img.youtube.com/vi/" + yt[1] + "/maxresdefault.jpg"
-if (!TEXT_FILE || !existsSync(TEXT_FILE)) { console.error("--text-file invalido"); process.exit(1) }
-if (!URL) { console.error("--url obrigatorio"); process.exit(1) }
+const USO = "Uso: node scripts/publishing/publish-linkedin-link.mjs --text-file <post.txt> --url <https://...> [--title \"...\"] [--thumb <img|url>] [--dry-run]"
+if (!TEXT_FILE || !existsSync(TEXT_FILE)) { console.error(`Faltou --text-file <post.txt>, ou o arquivo nao existe${TEXT_FILE ? ": " + TEXT_FILE : ""}.
+${USO}`); process.exit(1) }
+if (!URL) { console.error(`Faltou --url <https://...>.
+${USO}`); process.exit(1) }
 
 const TOKEN = process.env.LINKEDIN_ACCESS_TOKEN, PERSON = process.env.LINKEDIN_PERSON_ID
-if (!TOKEN || !PERSON) { console.error("faltam LINKEDIN_ACCESS_TOKEN / LINKEDIN_PERSON_ID"); process.exit(1) }
+if (!TOKEN || !PERSON) { console.error("Faltam LINKEDIN_ACCESS_TOKEN e LINKEDIN_PERSON_ID no .env.local. Passo a passo: docs/CONECTAR-REDES.md, secao LinkedIn."); process.exit(1) }
 const API = "https://api.linkedin.com"
 const H = { Authorization: `Bearer ${TOKEN}`, "Content-Type": "application/json", "X-Restli-Protocol-Version": "2.0.0", "LinkedIn-Version": "202606" }
 

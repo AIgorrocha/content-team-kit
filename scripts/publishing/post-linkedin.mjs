@@ -11,7 +11,7 @@
  * Env: LINKEDIN_ACCESS_TOKEN, LINKEDIN_PERSON_ID (docs/CONECTAR-REDES.md)
  */
 import { config } from "dotenv"
-config({ path: ".env.local", override: true }); config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 import { existsSync, readFileSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"

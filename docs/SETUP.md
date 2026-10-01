@@ -26,12 +26,23 @@ No Mac, use `brew install node git ffmpeg uv` e instale o Docker Desktop pelo si
 Abra o terminal na pasta do kit e rode:
 
 ```bash
-npm install
+npm ci
 cd remotion && npm ci && cd ..
 npx playwright install chromium
 ```
 
 O último comando instala o navegador que o time usa para gerar imagens de carrossel e ler sites.
+
+> **Avisos do npm são normais.** Durante a instalação (`npm ci`) podem aparecer linhas com "deprecated",
+> "vulnerabilities" e "install-scripts". São avisos esperados, não erro. O que importa é o
+> comando terminar sem nenhuma linha com "ERR!".
+
+> **Vídeo, primeira vez e Windows.** A primeira renderização de vídeo baixa cerca de 107 MB (o
+> navegador do Remotion), então é normal demorar. No Windows, se aparecer
+> `Failed to launch the browser process ... ENOENT`, a causa costuma ser caminho de pasta longo
+> demais (limite de 260 caracteres). Instale o kit numa pasta de caminho curto (ex.: `C:\kit` ou
+> `Documentos\kit`) ou aponte um Chrome já instalado com a variável `BROWSER_EXECUTABLE`
+> (já suportada em `remotion/remotion.config.ts`).
 
 ## 3. Banco de dados (local, no seu computador)
 

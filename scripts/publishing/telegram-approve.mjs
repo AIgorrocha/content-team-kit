@@ -20,7 +20,7 @@
  * Modo check: node scripts/publishing/telegram-approve.mjs --check (envia pendentes e sai)
  */
 import { config } from 'dotenv'
-config({ path: '.env.local' }); config()
+config({ quiet: true, path: '.env.local' }); config()
 import { createClient } from '@supabase/supabase-js'
 
 const SUPABASE_URL = process.env.SUPABASE_URL

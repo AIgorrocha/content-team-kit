@@ -112,6 +112,7 @@ test('tokens ainda iguais ao modelo: nome e @ vem do brand-profile; avatar neutr
   assert.match(r.htmls[0], /header-name">Padaria Sol/);
   assert.match(r.htmls[0], /@padariasol/);
   assert.strictEqual(r.temAvatar, true);
+  assert.strictEqual(r.avatarNeutro, true); // a linha de status avisa que a foto e de exemplo
   assert.match(r.htmls[0], /class="avatar"><img src="data:image\/svg\+xml/);
   assert.doesNotMatch(r.htmls[0], /https?:\/\/(?!fonts\.googleapis)/);
 });

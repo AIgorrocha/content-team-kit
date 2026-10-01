@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // analyze-personal.js - analisa posts da conta pessoal (urn:li:person).
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../../.env.local') });
+require('dotenv').config({ quiet: true, path: path.join(__dirname, '../../.env.local') });
 
 const { fetchPosts, fetchSocialActions, normalize, saveJson, appendMarkdown, snapshotLinkedIn } = require('./_lib');
 const { CLIENT_ACCOUNTS } = require('../_shared/ig-accounts.cjs');

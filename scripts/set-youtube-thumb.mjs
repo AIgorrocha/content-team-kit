@@ -1,6 +1,6 @@
 import { config } from "dotenv"
-config({ path: ".env.local", override: true })
-config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true })
+config({ quiet: true, path: ".env" })
 import { google } from "googleapis"
 import { createReadStream } from "node:fs"
 const { YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET, YOUTUBE_REFRESH_TOKEN } = process.env

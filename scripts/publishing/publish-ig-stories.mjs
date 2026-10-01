@@ -28,7 +28,7 @@
 import { config } from "dotenv"
 import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
-config({ path: ".env.local", override: true }); config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 const here = path.dirname(fileURLToPath(import.meta.url))
 const { registerPublicationSafe } = await import(pathToFileURL(path.join(here, "_lib/register.mjs")).href)
 const { resolveIgAccount, resolveIgUserId, fetchPermalink } = await import(pathToFileURL(path.join(here, "_lib/ig-account.mjs")).href)

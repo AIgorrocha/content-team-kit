@@ -12,7 +12,7 @@
  * Env: LINKEDIN_ACCESS_TOKEN, LINKEDIN_PERSON_ID
  */
 import { config } from "dotenv"
-config({ path: ".env.local", override: true }); config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 import { readFileSync, existsSync, statSync } from "node:fs"
 import { assertHashtagsPreserved, assertHashtagPolicy, extractHashtags } from "./_lib/linkedin-text.mjs"
 import { basename, dirname, resolve } from "node:path"
@@ -25,13 +25,16 @@ const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : n
 const has = (n) => args.includes(n)
 const TOKEN = process.env.LINKEDIN_ACCESS_TOKEN
 const PERSON = process.env.LINKEDIN_PERSON_ID
-if (!TOKEN || !PERSON) { console.error("LINKEDIN_ACCESS_TOKEN / LINKEDIN_PERSON_ID faltando"); process.exit(1) }
 
 const TEXT_FILE = flag("--text-file")
+const USO = "Uso: node scripts/publishing/publish-linkedin-video.mjs --text-file <post.txt> --video <v.mp4> [--title \"...\"] [--allow-hashtags] [--dry-run]"
 const VIDEO = flag("--video")
 const DRY = has("--dry-run")
-if (!TEXT_FILE || !existsSync(TEXT_FILE)) { console.error("--text-file invalido"); process.exit(1) }
-if (!VIDEO || !existsSync(VIDEO)) { console.error("--video invalido"); process.exit(1) }
+if (!TEXT_FILE || !existsSync(TEXT_FILE)) { console.error(`Faltou --text-file <post.txt>, ou o arquivo nao existe${TEXT_FILE ? ": " + TEXT_FILE : ""}.
+${USO}`); process.exit(1) }
+if (!VIDEO || !existsSync(VIDEO)) { console.error(`Faltou --video <v.mp4>, ou o arquivo nao existe${VIDEO ? ": " + VIDEO : ""}.
+${USO}`); process.exit(1) }
+if (!TOKEN || !PERSON) { console.error("Faltam LINKEDIN_ACCESS_TOKEN e LINKEDIN_PERSON_ID no .env.local. Passo a passo: docs/CONECTAR-REDES.md, secao LinkedIn."); process.exit(1) }
 
 const text = readFileSync(TEXT_FILE, "utf8").trim()
 const owner = `urn:li:person:${PERSON}`

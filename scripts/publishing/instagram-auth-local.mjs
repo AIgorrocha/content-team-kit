@@ -21,7 +21,7 @@
  * proprio painel da Meta, cole em INSTAGRAM_ACCESS_TOKEN e rode --completar.
  */
 import { config } from "dotenv"
-config({ path: ".env.local", override: true }); config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 import { captureAuthCode, newState, saveEnvVar, registrarSemFalhar, OAUTH_REDIRECT } from "./_lib/oauth-local.mjs"
 import { buildAuthUrl, pickShortToken, diasAteVencer, IG_ENV_VARS } from "./_lib/ig-oauth.mjs"
 

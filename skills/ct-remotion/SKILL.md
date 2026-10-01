@@ -23,7 +23,7 @@ NAO usar pra: avatar falando (ct-video/HeyGen), video cinematografico IA
 1. Skill oficial `remotion-best-practices`: instalar com `npx skills add remotion-dev/skills` (o assistente instala, com permissao, na primeira vez que for fazer video por codigo)
    (instalar com `npx skills add remotion-dev/skills` se faltar)
 2. Projeto compartilhado em `remotion/` (ja versionado)
-3. `cd remotion && npm install` (uma vez)
+3. `cd remotion && npm ci` (uma vez, segue o lockfile)
 
 ## Ler a marca antes de produzir (BLOQUEANTE)
 
@@ -84,6 +84,10 @@ cd remotion
 npx remotion render AnimatedReel ../output/videos/{slug}-{nome}.mp4 \
   --props='{"themeSlug":"<slug>","showHandle":true,"scenes":[...]}'
 ```
+A primeira renderizacao baixa cerca de 107 MB (o navegador do Remotion): e normal demorar so nessa vez.
+
+No Windows, se aparecer `Failed to launch the browser process ... ENOENT`, a causa costuma ser caminho de pasta longo demais (limite de 260 caracteres). Instalar o kit numa pasta de caminho curto (ex.: `C:\kit` ou `Documentos\kit`) ou apontar um Chrome ja instalado com a variavel `BROWSER_EXECUTABLE` (ja suportada em `remotion/remotion.config.ts`).
+
 Saida em `output/videos/` (temporario). Validar 1 frame antes do render full:
 ```bash
 npx remotion still AnimatedReel ../output/videos/preview.png --frame=30 --props='...'

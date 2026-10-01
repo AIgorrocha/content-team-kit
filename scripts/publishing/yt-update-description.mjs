@@ -8,8 +8,8 @@
  * videos.update exige o snippet inteiro (title + categoryId), entao lemos antes e reenviamos.
  */
 import { config } from 'dotenv'
-config({ path: '.env.local', override: true })
-config({ path: '.env' })
+config({ quiet: true, path: '.env.local', override: true })
+config({ quiet: true, path: '.env' })
 import { google } from 'googleapis'
 import { readFileSync } from 'node:fs'
 

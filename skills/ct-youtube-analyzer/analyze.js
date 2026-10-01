@@ -8,7 +8,7 @@ const https = require('https');
 const { writeMetrics } = require('../_shared/metrics-writer.cjs');
 const { CLIENT_ACCOUNTS } = require('../_shared/ig-accounts.cjs');
 
-require('dotenv').config({ path: path.join(__dirname, '../../.env.local'), override: true });
+require('dotenv').config({ quiet: true, path: path.join(__dirname, '../../.env.local'), override: true });
 
 const CLIENT_ID = process.env.YOUTUBE_CLIENT_ID;
 const CLIENT_SECRET = process.env.YOUTUBE_CLIENT_SECRET;

@@ -1,5 +1,5 @@
 import { config } from 'dotenv'
-config({ path: '.env.local', override: true }); config({ path: '.env' })
+config({ quiet: true, path: '.env.local', override: true }); config({ quiet: true, path: '.env' })
 import { createClient } from '@supabase/supabase-js'
 import { readFileSync, existsSync } from 'fs'
 import { basename } from 'path'

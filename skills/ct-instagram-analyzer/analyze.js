@@ -7,8 +7,8 @@ const path = require('path');
 const https = require('https');
 const { writeMetrics } = require('../_shared/metrics-writer.cjs');
 
-require('dotenv').config({ path: path.join(__dirname, '../../.env') });
-require('dotenv').config({ path: path.join(__dirname, '../../.env.local'), override: true });
+require('dotenv').config({ quiet: true, path: path.join(__dirname, '../../.env') });
+require('dotenv').config({ quiet: true, path: path.join(__dirname, '../../.env.local'), override: true });
 
 const { isIgDirectToken, CLIENT_ACCOUNTS } = require('../_shared/ig-accounts.cjs');
 

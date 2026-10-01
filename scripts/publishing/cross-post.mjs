@@ -12,7 +12,7 @@
  * MODELOS genericos: revise e adapte a voz da marca antes de publicar.
  */
 import { config } from 'dotenv'
-config({ path: '.env.local', override: true }); config({ path: '.env' })
+config({ quiet: true, path: '.env.local', override: true }); config({ quiet: true, path: '.env' })
 import { createClient } from '@supabase/supabase-js'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'

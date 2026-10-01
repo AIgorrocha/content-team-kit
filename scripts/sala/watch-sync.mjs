@@ -24,7 +24,7 @@ import { arquivoRegrasCliente } from "./arquivo-regras.mjs"
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, "..", "..")
 
-dotenv.config({ path: join(ROOT, ".env.local") })
+dotenv.config({ quiet: true, path: join(ROOT, ".env.local") })
 const regrasLegadas = process.env.SALA_REGRAS_CLIENT ? arquivoRegrasCliente(process.env.SALA_REGRAS_CLIENT, ROOT) : null
 
 const OUTPUT_DIR = join(ROOT, "output")

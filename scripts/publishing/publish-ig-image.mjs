@@ -14,7 +14,7 @@
  * Env: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, e as credenciais da conta escolhida
  */
 import { config } from "dotenv"
-config({ path: ".env.local", override: true }); config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 import { createClient } from "@supabase/supabase-js"
 import { readFileSync, existsSync } from "node:fs"
 import { basename, extname } from "node:path"
@@ -32,15 +32,17 @@ const IMAGE = args.find((a) => !a.startsWith("--") && /\.(png|jpe?g)$/i.test(a))
 const CAPTION_FILE = flag("--caption-file")
 const DRY = has("--dry-run")
 
+const USO = "Uso: node scripts/publishing/publish-ig-image.mjs <imagem.png|jpg> --caption-file <legenda.txt> [--account principal|business] [--dry-run]"
+if (!IMAGE || !existsSync(IMAGE)) { console.error(`Faltou a imagem (.png ou .jpg), ou o arquivo nao existe${IMAGE ? ": " + IMAGE : ""}.
+${USO}`); process.exit(1) }
+if (!CAPTION_FILE || !existsSync(CAPTION_FILE)) { console.error(`Faltou --caption-file <legenda.txt>, ou o arquivo nao existe${CAPTION_FILE ? ": " + CAPTION_FILE : ""}.
+${USO}`); process.exit(1) }
 const BUCKET = "content-media"
 let acct
 try { acct = resolveIgAccount({ account: flag("--account") || "principal" }) } catch (e) { console.error(e.message); process.exit(1) }
 const IG_API = acct.graph
 const IG_TOKEN = acct.token
 const CLIENT = flag("--client") || acct.clientSlug
-
-if (!IMAGE || !existsSync(IMAGE)) { console.error("imagem invalida"); process.exit(1) }
-if (!CAPTION_FILE || !existsSync(CAPTION_FILE)) { console.error("--caption-file invalido"); process.exit(1) }
 
 // PORTA BLOQUEANTE: legenda sempre de arquivo UTF-8, nunca inline no shell.
 const caption = readFileSync(CAPTION_FILE, "utf8").trim()

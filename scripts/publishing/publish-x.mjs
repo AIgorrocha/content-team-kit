@@ -16,7 +16,7 @@
  * ler o nome da conta na propria tela. Com o link, a peca e registrada em ct_content_items.
  */
 import { config } from "dotenv"
-config({ path: ".env.local", override: true }); config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 import { chromium } from "playwright"
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, writeFileSync, appendFileSync } from "node:fs"
 import path from "node:path"

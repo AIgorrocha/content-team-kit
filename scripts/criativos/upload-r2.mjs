@@ -19,8 +19,8 @@
  * Programatico:  import { uploadR2 } from "./upload-r2.mjs"
  */
 import { config } from "dotenv";
-config({ path: ".env.local", override: true });
-config({ path: ".env" });
+config({ quiet: true, path: ".env.local", override: true });
+config({ quiet: true, path: ".env" });
 import { readFileSync, existsSync } from "node:fs";
 import { basename, extname } from "node:path";
 

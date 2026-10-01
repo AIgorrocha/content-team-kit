@@ -13,7 +13,7 @@
  * Env: LINKEDIN_ACCESS_TOKEN, LINKEDIN_PERSON_ID
  */
 import { config } from "dotenv"
-config({ path: ".env.local", override: true }); config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true }); config({ quiet: true, path: ".env" })
 import { readFileSync, existsSync } from "node:fs"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import path from "node:path"
@@ -27,13 +27,16 @@ const has = (n) => args.includes(n)
 const DRY_RUN = has("--dry-run")
 const TOKEN = process.env.LINKEDIN_ACCESS_TOKEN
 const PERSON = process.env.LINKEDIN_PERSON_ID
-if (!TOKEN || !PERSON) { console.error("LINKEDIN_ACCESS_TOKEN / LINKEDIN_PERSON_ID faltando"); process.exit(1) }
 
 const TEXT_FILE = flag("--text-file")
+const USO = "Uso: node scripts/publishing/publish-linkedin-image.mjs --text-file <post.txt> --image <img.png|url> [--allow-hashtags] [--dry-run]"
 const IMAGE = flag("--image")
 const IMAGE_IS_URL = !!IMAGE && /^https?:\/\//i.test(IMAGE)
-if (!TEXT_FILE || !existsSync(TEXT_FILE)) { console.error("--text-file invalido"); process.exit(1) }
-if (!IMAGE || (!IMAGE_IS_URL && !existsSync(IMAGE))) { console.error("--image invalido"); process.exit(1) }
+if (!TEXT_FILE || !existsSync(TEXT_FILE)) { console.error(`Faltou --text-file <post.txt>, ou o arquivo nao existe${TEXT_FILE ? ": " + TEXT_FILE : ""}.
+${USO}`); process.exit(1) }
+if (!IMAGE || (!IMAGE_IS_URL && !existsSync(IMAGE))) { console.error(`Faltou --image <img.png|url>, ou o arquivo nao existe${IMAGE ? ": " + IMAGE : ""}.
+${USO}`); process.exit(1) }
+if (!TOKEN || !PERSON) { console.error("Faltam LINKEDIN_ACCESS_TOKEN e LINKEDIN_PERSON_ID no .env.local. Passo a passo: docs/CONECTAR-REDES.md, secao LinkedIn."); process.exit(1) }
 const text = readFileSync(TEXT_FILE, "utf8").trim()
 const owner = `urn:li:person:${PERSON}`
 const H = { Authorization: `Bearer ${TOKEN}`, "X-Restli-Protocol-Version": "2.0.0" }

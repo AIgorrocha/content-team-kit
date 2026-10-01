@@ -20,7 +20,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { Pool } from "pg"
 
-dotenv.config({ path: ".env.local" })
+dotenv.config({ quiet: true, path: ".env.local" })
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const migrationsDir = path.resolve(__dirname, "..", "..", "supabase", "migrations")

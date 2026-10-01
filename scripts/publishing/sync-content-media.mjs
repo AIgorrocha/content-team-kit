@@ -11,8 +11,8 @@ import { join, extname } from 'path'
 import dotenv from 'dotenv'
 import { resolveClient } from '../_lib/workspace-client.mjs'
 
-dotenv.config({ path: '.env.local' })
-dotenv.config()
+dotenv.config({ quiet: true, path: '.env.local' })
+dotenv.config({ quiet: true })
 
 const supabase = createClient(
   process.env.SUPABASE_URL,

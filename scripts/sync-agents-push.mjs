@@ -23,8 +23,8 @@ const __dirname = dirname(__filename)
 const ROOT = join(__dirname, "..")
 
 // Carrega .env e .env.local (local sobrescreve)
-dotenv.config({ path: join(ROOT, ".env") })
-dotenv.config({ path: join(ROOT, ".env.local"), override: true })
+dotenv.config({ quiet: true, path: join(ROOT, ".env") })
+dotenv.config({ quiet: true, path: join(ROOT, ".env.local"), override: true })
 
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY

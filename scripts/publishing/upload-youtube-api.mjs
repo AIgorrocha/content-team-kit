@@ -9,8 +9,8 @@
  * Depois de publicar, registra a peca em ct_content_items (sem banco configurado, so avisa).
  */
 import { config } from 'dotenv'
-config({ path: '.env.local', override: true })
-config({ path: '.env' })
+config({ quiet: true, path: '.env.local', override: true })
+config({ quiet: true, path: '.env' })
 import { google } from 'googleapis'
 import { readFileSync, createReadStream, statSync } from 'node:fs'
 import path from 'node:path'

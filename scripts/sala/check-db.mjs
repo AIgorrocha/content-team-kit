@@ -3,7 +3,7 @@
 import dotenv from "dotenv"
 import { Pool } from "pg"
 
-dotenv.config({ path: ".env.local" })
+dotenv.config({ quiet: true, path: ".env.local" })
 
 const expectedTables = [
   "ct_agents", "ct_tasks", "ct_content_items", "ct_content_series", "ct_content_series_items",

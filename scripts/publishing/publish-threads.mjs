@@ -6,8 +6,8 @@
  * Opcional: THREADS_HANDLE (ou IG_HANDLE), so para montar o link se a API nao devolver o permalink.
  */
 import { config } from "dotenv"
-config({ path: ".env.local", override: true })
-config({ path: ".env" })
+config({ quiet: true, path: ".env.local", override: true })
+config({ quiet: true, path: ".env" })
 import { readFileSync, existsSync } from "node:fs"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import path from "node:path"
