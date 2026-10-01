@@ -26,7 +26,7 @@ const marca = (f) => f.startsWith("clients/") || f.startsWith("content/")
 
 // 1. Precisa ser um repositório git
 if (!git("rev-parse", "--is-inside-work-tree").ok) {
-  parar('Esta pasta não foi baixada com o Git (não é um repositório). Peça ao Claude: "baixar o kit".')
+  parar('Esta pasta não foi baixada com o Git (não é um repositório). Numa pasta vazia, peça: "Baixe o kit de https://github.com/AIgorrocha/content-team-kit para esta pasta (git clone com ponto no final)".')
 }
 
 // 2. Merge ou rebase em andamento

@@ -10,12 +10,13 @@ nunca apagam nem trocam essas pastas.
 ## a) Primeira vez: baixar o kit
 
 **Jeito fácil:** crie uma pasta vazia (por exemplo `Documentos/kit-conteudo`), abra o Claude
-Code (ou o Codex) dentro dela e diga:
+Code (ou o Codex) dentro dela e cole esta frase (numa pasta vazia o assistente ainda não
+conhece o kit, por isso ela traz o endereço):
 
-> baixar o kit
+> Baixe o kit de https://github.com/AIgorrocha/content-team-kit para esta pasta (git clone com ponto no final; se faltar o Git, instale antes e me avise), depois leia o CLAUDE.md e me diga o próximo passo.
 
 Ele baixa o kit para dentro dessa pasta e depois é só dizer "configurar empresa nova". Por baixo, o comando é
-`git clone https://github.com/AIgorrocha/content-team-kit.git` (clonar = baixar uma cópia
+`git clone https://github.com/AIgorrocha/content-team-kit.git .` (clonar = baixar uma cópia
 que depois sabe receber as novidades).
 
 **Jeito com botões:**

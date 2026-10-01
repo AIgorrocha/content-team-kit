@@ -1,5 +1,8 @@
 # Content Team AI
 
+> **Guia visual passo a passo: https://content-team-kit-guia.vercel.app**
+> ou abra `guia/index.html` no navegador.
+
 Um time de conteúdo com 25 agentes de IA que roda no seu computador, dentro do Claude Code
 ou do Codex. Você descreve a sua marca uma vez. Depois o time pesquisa, escreve, monta
 carrossel, story, reel e artigo, adapta para cada rede e só publica quando você aprova.
@@ -10,8 +13,11 @@ Você só precisa do Claude Code ou do Codex instalado, com **uma assinatura sua
 ou empresa usa a própria conta, nunca a de quem passou o kit). O resto o assistente faz
 conversando com você, pedindo permissão a cada passo.
 
-1. **Baixar o kit:** crie uma pasta vazia, abra o Claude Code (ou o Codex) nela e diga
-   **"baixar o kit"** (ou siga `docs/COMO-RECEBER-ATUALIZACOES.md`).
+1. **Baixar o kit:** crie uma pasta vazia, abra o Claude Code (ou o Codex) nela e cole esta
+   frase (numa pasta vazia o assistente ainda não conhece o kit, por isso ela traz o endereço):
+   *"Baixe o kit de https://github.com/AIgorrocha/content-team-kit para esta pasta (git clone com
+   ponto no final; se faltar o Git, instale antes e me avise), depois leia o CLAUDE.md e me diga
+   o próximo passo."* Ou siga `docs/COMO-RECEBER-ATUALIZACOES.md`.
 2. **Configurar:** diga **"configurar empresa nova"**. O assistente prepara o computador
    (instala o que faltar), faz as perguntas uma por vez (público, tom de voz, cores, redes,
    concorrentes), lê o seu site e as suas redes, **mostra prévias** de legenda, carrossel,
