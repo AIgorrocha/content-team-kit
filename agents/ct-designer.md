@@ -39,7 +39,7 @@ Slides são consumidos 100% no Instagram em portrait, horizontal duplicava sem u
 
 - Slides: sempre `1080x1350`, salvos em `content/{cliente}/carousels/{slug}/slides/slide-0X.png`
 - Sem subpastas `vertical/` ou `horizontal/`
-- Script único: `skills/ct-carrossel-gen/scripts/generate-slides.js` (sem arg de formato; lê cores, nome e handle da marca ativa)
+- Script único: `skills/ct-carrossel-gen/scripts/generate-slides.js` (sempre 1080x1350; lê cores, nome, handle, foto e layout da marca ativa; `--layout` e `--out` opcionais)
 
 ### Capa 9:16 de reel (por cliente)
 

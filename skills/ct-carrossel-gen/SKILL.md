@@ -1,6 +1,6 @@
 ---
 name: ct-carrossel-gen
-description: "Gera slides de carrossel (PNG 1080x1350) a partir de HTML + Playwright, usando as cores, fontes, nome e handle da marca ativa."
+description: "Gera slides de carrossel (PNG 1080x1350) a partir de HTML + Playwright, em 3 layouts (perfil-v2 padrao, perfil, chip), usando cores, fontes, nome, handle e foto da marca ativa."
 homepage: https://playwright.dev
 metadata: { "kit": { "emoji": "🎨", "requires": { "bins": ["node", "npx"], "env": [] } } }
 od:
@@ -18,15 +18,15 @@ od:
 
 Gera os slides de um carrossel de Instagram como PNG 1080x1350. Metodo UNICO: HTML renderizado
 no Playwright e captura de tela, feito pelo script `skills/ct-carrossel-gen/scripts/generate-slides.js`.
-Nada de cor, nome ou handle fica fixo: tudo vem da marca ativa (`clients/{slug}/`).
+Nada de cor, nome ou handle fica fixo: tudo vem da marca ativa (`clients/{slug}/design-tokens.css`).
 
 ## Regras absolutas
 
 - **Unico metodo:** HTML + Playwright via `generate-slides.js`. PROIBIDO: nano-banana, Pillow, IA generativa, canvas manual.
-- **Identidade vem da marca:** cores e fontes do design system da marca (`clients/{slug}/design-tokens.css` ou `design-system.md`), nome e handle do `brand-profile.md`. Em conflito, prevalece a marca.
-- **Todo slide tem tag de categoria e titulo.** Regra do `references/viral-playbook.md` (secao 3) e do `references/carousel-design-system.md`. O slide 1 e o gancho inteiro.
-- **Foto da marca so a real**, em `clients/{slug}/assets/` (nome comecando com `perfil`, `profile`, `avatar`, `foto` ou `logo`). Aparece no header de todo slide. Sem foto, o slide sai sem avatar. NUNCA gerar foto por IA e NUNCA usar imagem de URL externa.
-- **Sem selo de verificado.** Simular verificacao e proibido.
+- **Identidade vem da marca:** cores, fontes, nome e handle dos tokens da marca (`clients/{slug}/design-tokens.css`, ou `design-system.md` e `brand-profile.md` quando ela ainda nao tem o arquivo). Em conflito, prevalece a marca.
+- **Todo slide tem titulo** (e tag, no layout `chip`). Regra do `references/viral-playbook.md` (secao 3) e do `references/carousel-design-system.md`. O slide 1 e o gancho inteiro.
+- **Foto da marca so a real**, em `clients/{slug}/assets/` (arquivo indicado em `--brand-avatar`, ou nome comecando com `perfil`, `profile`, `avatar`, `foto` ou `logo`). Aparece no header de todo slide. Sem foto real, sai a imagem neutra do kit (`assets/avatar-placeholder.svg`): serve so para previa, troque antes de publicar. NUNCA gerar foto por IA e NUNCA usar imagem de URL externa.
+- **Selo de verificado desligado por padrao** (`--car-verified: off`). So ligue se a conta for realmente verificada: simular verificacao e proibido.
 - **Confirmar os textos** com o usuario ANTES de gerar as imagens.
 - **CTA unico e claro** no ultimo slide, conforme o `brand-profile.md` e a secao 4 do playbook. Sem "Siga!" ou "Curta!" soltos.
 - **Texto revisado:** limpo, legivel e natural. Sem travessao.
@@ -38,25 +38,34 @@ Nada de cor, nome ou handle fica fixo: tudo vem da marca ativa (`clients/{slug}/
 - Maximo 30 palavras por slide (slide de lista ou passo a passo pode passar, sem virar paragrafao).
 - Hashtags so na legenda, nunca no slide.
 
+## Layouts
+
+Padrao para marca nova: `perfil-v2`. Os outros dois sao opcoes (token `--car-layout` ou `--layout` na linha de comando).
+
+| Layout | Como e |
+|--------|--------|
+| `perfil-v2` (padrao) | Header compacto (foto, nome, selo opcional e @) com linha fina, zona de titulo separada da zona de midia/corpo, contador `N/TOTAL` com pontos de progresso. Tipos de slide: capa, conteudo, cta |
+| `perfil` | Foto, nome e @ no topo e texto corrido embaixo, sem numeracao |
+| `chip` | Tag no topo esquerdo, @ e logo no topo direito, titulo em maiusculas, frase da marca no rodape, fundo alternando entre base e cor de destaque |
+
 ## Design: o que vem da marca e o que e do kit
 
 | Propriedade | Origem |
 |-------------|--------|
 | Dimensao 1080 x 1350 px, PNG | Kit (fixo) |
-| Fundo, texto, destaque | Design system da marca (tokens) |
-| Fontes | Design system da marca |
-| Margens 80 / 150 / 175 (lateral, topo, base) | Kit, ver `references/carousel-safe-zone.md` |
-| Header compacto (avatar 64px + nome + handle) e linha fina | Kit, dados da marca |
-| Tag em cima do titulo, contador `N/TOTAL` e barra de progresso | Kit |
-| Seta de passar (todo slide, menos o ultimo) | Kit |
+| Fundo, texto, destaque, fontes | Tokens da marca |
+| Nome, @, foto, selo, frase de rodape, layout | Tokens da marca (bloco CARROSSEL) |
+| Margens 80 / 150 / 175 (lateral, topo, base) | Kit, ver `references/carousel-safe-zone.md` (tokens `--car-margin-*`) |
+| Tamanhos de titulo e texto, zonas, foto | Kit, ajustaveis nos tokens `--car-size-*` e `--car-avatar-*` |
 
-Fluxo dos tokens (nesta ordem, o gerador usa o primeiro que existir):
+Fluxo dos tokens: o modelo neutro `skills/ct-carrossel-gen/templates/design-tokens.modelo.css` vai sempre por baixo, e por cima entra o primeiro que existir:
 
-1. `clients/{slug}/design-tokens.css` da marca.
+1. `clients/{slug}/design-tokens.css` da marca (bloco CARROSSEL: `--brand-name`, `--brand-handle`, `--brand-avatar`, `--car-layout`, `--car-verified`, `--car-footer-text`, `--car-margin-*`, `--car-size-*`, `--car-font-*`).
 2. Tokens derivados da tabela de cores e fontes de `clients/{slug}/design-system.md`.
-3. Modelo neutro `skills/ct-carrossel-gen/templates/design-tokens.modelo.css` (marca ainda sem cores preenchidas).
+3. So o modelo neutro (marca ainda sem cores preenchidas).
 
-Para fixar e ajustar, copie o modelo para `clients/{slug}/design-tokens.css` e troque so os valores marcados TROCAR.
+Nome e @ ainda iguais ao modelo ("Sua Marca", "@suamarca") contam como nao preenchidos: o gerador usa os do `brand-profile.md`. Frase de rodape entre [colchetes] nao vai para a imagem.
+Para fixar e ajustar, use o `clients/{slug}/design-tokens.css` (copia de `clients/_template/`) e troque so os valores marcados TROCAR.
 Sistema visual do Open Design (`ct-od-design-import`) pode sobrescrever os tokens sob pedido.
 
 ## Como montar os slides
@@ -65,25 +74,26 @@ Crie `content/{slug}/carousels/{nome}/slides.json` (nome em kebab-case):
 
 ```json
 [
-  { "tag": "DICA", "titulo": "Tres erros de ==preco== que custam caro" },
-  { "tag": "ERRO 1", "titulo": "Copiar o preco do vizinho", "texto": ["Cada bairro tem **outro publico**."] },
-  { "tag": "PASSOS", "titulo": "Como corrigir", "itens": ["Liste os custos | pese cada insumo", "Some a margem | minimo 30%"], "claro": true },
-  { "tag": "FECHAMENTO", "titulo": "Quer a planilha?", "texto": ["Comenta ==PALAVRA== que eu mando."] }
+  { "tipo": "capa", "titulo": "Tres erros de ==preco==\nque custam caro", "texto": ["Veja o que corrigir"] },
+  { "tipo": "conteudo", "titulo": "Copiar o preco do vizinho", "texto": ["Cada bairro tem **outro publico**."] },
+  { "tipo": "conteudo", "titulo": "Como corrigir", "itens": ["Liste os custos | pese cada insumo", "Some a margem | minimo 30%"] },
+  { "tipo": "cta", "titulo": "Quer a planilha?", "texto": ["Comenta ==PALAVRA== que eu mando."] }
 ]
 ```
 
 | Campo | Faz |
 |-------|-----|
-| `tag` | Categoria em maiusculas acima do titulo |
-| `titulo` | Titulo do slide (obrigatorio) |
-| `texto` | Um paragrafo por item da lista |
-| `itens` | Lista numerada, `"acao | descricao"` |
-| `codigo` | Bloco de codigo ou comando |
-| `imagem` | Print, foto ou tela em `clients/{slug}/assets/` (caminho relativo a essa pasta), abaixo do titulo, nunca sob o texto |
-| `claro` | `true` para fundo claro (alterne claro e escuro para dar ritmo) |
-| `tipo` | `hook`, `body`, `list`, `code` ou `cta`. Sem ele: primeiro e hook, ultimo e cta, o resto e body |
+| `titulo` | Titulo do slide (obrigatorio). No `perfil-v2` aceita quebra de linha (`\n`) e `==destaque==` |
+| `texto` | Uma linha por item. `1. x` vira passo numerado, `- x` vira marcador. No cta do `perfil-v2`, as demais linhas viram a frase de chamada |
+| `itens` | Lista numerada, `"acao | descricao"` (no `perfil` e no `chip` viram linhas de texto) |
+| `codigo` | Bloco de codigo ou comando (so `perfil-v2`) |
+| `imagem` | Print, foto ou tela em `clients/{slug}/assets/` (caminho relativo a essa pasta), na zona de midia, nunca sob o texto (so `perfil-v2`) |
+| `html` | Conteudo escrito a mao. No `perfil-v2` substitui so a zona de midia (header, titulo e N/TOTAL ficam; classes `.card`, `.card-row`, `.steps`) |
+| `tag` | Categoria no topo, so no layout `chip` |
+| `tom` | So no `chip`: `claro` (fundo base) ou `escuro` (fundo de cor); sem ele, alterna |
+| `tipo` | `capa`, `conteudo` ou `cta` (`hook` e `body` valem como apelidos). Sem ele: primeiro e capa, ultimo e cta, o resto e conteudo |
 
-Marcacao no texto: `**negrito**` e `==destaque na cor da marca==`. HTML digitado e tratado como texto.
+Marcacao no texto: `**negrito**` e `==destaque na cor da marca==`. HTML digitado no texto e tratado como texto.
 Tipos de slide e arco narrativo: `references/carousel-design-system.md`. Componentes prontos (card de destaque,
 lista numerada, comparacao em colunas) em `skills/ct-carrossel-gen/templates/components/`; mockups de aparelho
 em `assets/devices/`.
@@ -106,7 +116,12 @@ node skills/ct-carrossel-gen/scripts/generate-slides.js --nome {nome}
 
 O gerador usa a marca ativa (`.workspace`). Para outra marca, o fluxo e trocar o `.workspace`, nao passar
 `--slug` de outra marca (o script recusa). Saida: `content/{slug}/carousels/{nome}/slides/slide-01.png`, `slide-02.png`...
-O script imprime de onde vieram os tokens e se achou foto.
+
+Opcionais: `--slides arquivo.json` (padrao: o `slides.json` da pasta da peca), `--layout perfil-v2|perfil|chip`
+(vence o token da marca, bom para comparar os 3 visuais) e `--out pasta` (padrao: a pasta `slides/` da peca;
+use uma pasta fora de `content/` para previas).
+
+O script imprime o layout, de onde vieram os tokens e se achou foto. No `perfil-v2`, avisa se algum texto passou da zona de midia.
 
 Se faltar Playwright: `npm install` e `npx playwright install chromium`.
 
@@ -130,12 +145,12 @@ Nada e publicado sem "pode" explicito do usuario.
 ## Checklist de qualidade
 
 - [ ] Cores e fontes vem da marca (nada do modelo neutro, a menos que a marca ainda nao tenha cores)
-- [ ] Nome e handle corretos no header de todo slide
-- [ ] Foto real da marca no header, ou sem avatar (nunca imagem externa, nunca selo de verificado)
-- [ ] Tag e titulo em todo slide; 1 conceito por slide
+- [ ] Nome e handle corretos no header de todo slide (nada de "Sua Marca" ou "@suamarca")
+- [ ] Foto real da marca no header (nunca a imagem neutra do kit, nunca imagem externa, selo so em conta verificada)
+- [ ] Titulo em todo slide; 1 conceito por slide
 - [ ] Contraste do texto legivel (minimo 4,5:1 no corpo, 3:1 em titulo grande), nenhum texto abaixo de 22px
 - [ ] Nada de texto fora das margens 80 / 150 / 175
-- [ ] Ultimo slide sem seta e com CTA unico
+- [ ] Ultimo slide com CTA unico
 - [ ] Texto revisado, sem travessao, termos tecnicos traduzidos
 - [ ] PNG 1080x1350
 
@@ -143,6 +158,6 @@ Nada e publicado sem "pode" explicito do usuario.
 
 - **Fonte nao carrega:** precisa de internet na primeira vez (Google Fonts). Sem internet, o gerador usa a fonte do sistema.
 - **Playwright nao instalado:** `npm install` e `npx playwright install chromium`.
-- **Texto muito longo:** encurtar ou dividir em 2 slides.
-- **Cores erradas:** conferir a origem dos tokens na primeira linha que o script imprime e preencher `design-system.md` ou criar `design-tokens.css`.
-- **Sem avatar:** colocar `perfil.jpg` (ou `avatar`, `foto`, `logo`) em `clients/{slug}/assets/`.
+- **Texto muito longo:** encurtar ou dividir em 2 slides (no `perfil-v2` o aviso de zona de midia aponta o slide).
+- **Cores erradas:** conferir a origem dos tokens na primeira linha que o script imprime e preencher `design-tokens.css` (ou `design-system.md`).
+- **Aparece a imagem neutra no lugar da foto:** colocar `perfil.jpg` (ou `avatar`, `foto`, `logo`) em `clients/{slug}/assets/`, ou apontar o arquivo em `--brand-avatar`.

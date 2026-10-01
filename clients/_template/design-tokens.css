@@ -2,7 +2,7 @@
    Modelo de tokens visuais da marca (neutro). Copie para
    clients/{slug}/design-tokens.css e troque SO os valores marcados
    "TROCAR". O gerador (skills/ct-carrossel-gen/scripts/generate-slides.js)
-   le esse arquivo; sem ele, usa este modelo como esta.
+   le esse arquivo por cima deste modelo; sem ele, usa o modelo como esta.
    Estrutura de variaveis inspirada em nexu-io/open-design (Apache-2.0).
    ========================================================================= */
 
@@ -80,4 +80,80 @@
   --safe-top:        150px;                      /* margem do topo */
   --safe-bottom:     175px;                      /* margem de baixo (interface do Instagram cobre) */
   --safe-side:       80px;                       /* margem lateral */
+
+  /* =====================================================================
+     CARROSSEL (lido por skills/ct-carrossel-gen/scripts/generate-slides.js)
+     Troque so o que estiver marcado TROCAR. O resto ja sai no padrao do kit.
+     ===================================================================== */
+
+  /* Identidade no header */
+  --brand-name:         "Sua Marca";           /* TROCAR: nome exibido no header */
+  --car-header-name:    "";                    /* nome curto so no header do perfil-v2 (vazio = usa --brand-name) */
+  --brand-handle:       "@suamarca";           /* TROCAR: @ da conta */
+  --brand-avatar:       "avatar-placeholder.svg"; /* TROCAR: foto ou logo em clients/{slug}/assets/ (ex: "perfil.jpg"); sem trocar, sai a imagem neutra do kit */
+  --car-footer-text:    "[Frase da marca no rodape]"; /* TROCAR: so no layout chip */
+
+  /* Opcoes da marca */
+  --car-layout:         perfil-v2;             /* perfil-v2 = padrao do kit | perfil = texto corrido | chip = faixa com titulo em maiusculas */
+  --car-verified:       off;                   /* selo ao lado do nome (on|off): so ligue se a conta for realmente verificada */
+  --car-verified-color: #3897F0;
+  --car-titles:         on;                    /* titulo em todo slide (on|off) */
+  --car-numbering:      on;                    /* perfil-v2: contador N/TOTAL + pontos de progresso (on|off) */
+  --car-alternate:      on;                    /* chip: alterna fundo base e fundo de cor (on|off; override por slide: "tom") */
+
+  /* Fontes do carrossel (seguem as fontes da marca acima) */
+  --car-font-display:   var(--font-display);
+  --car-font-body:      var(--font-body);
+  --car-font-mono:      var(--font-mono);
+  --car-chip-weight:    800;                   /* chip: peso do titulo em maiusculas */
+
+  /* perfil-v2: margens e zonas (safe zone 80 / 150 / 175) */
+  --car-margin-x:       var(--safe-side);
+  --car-margin-top:     var(--safe-top);
+  --car-media-top:      400px;                 /* onde a midia/corpo comeca (desce se o titulo for maior) */
+  --car-stack-bottom:   250px;                 /* fim da zona de midia, medido da base do canvas */
+  --car-footer-top:     1175px;                /* topo do rodape N/TOTAL */
+
+  /* perfil-v2: foto e tamanhos de texto */
+  --car-avatar-mid:     64px;
+  --car-avatar-cover:   96px;
+  --car-avatar-cta:     64px;
+  --car-size-cover:     60px;                  /* titulo da capa */
+  --car-size-cta:       52px;                  /* titulo do CTA */
+  --car-size-slide:     44px;                  /* titulo de slide de conteudo */
+  --car-size-body:      28px;
+  --car-size-meta:      20px;                  /* contador */
+  --car-size-name:      22px;                  /* nome no header (conteudo e CTA) */
+  --car-size-handle:    16px;
+  --car-size-name-cover: 28px;                 /* nome no header da capa */
+  --car-size-handle-cover: 20px;
+
+  /* perfil-v2: cartao claro (slides com "html") e pontos de progresso */
+  --car-card-bg:        var(--light-bg);
+  --car-card-ink:       var(--light-text);
+  --car-card-navy:      var(--light-text);
+  --car-card-meta:      var(--light-text-muted);
+  --car-dot-border:     var(--text-meta);
+
+  /* perfil (texto corrido) e chip: margens e tamanhos */
+  --car-header-pad-top: 56px;
+  --car-header-pad-x:   72px;
+  --car-avatar-size:    88px;
+  --car-content-pad-x:  80px;
+  --car-content-top:    150px;
+  --car-content-bottom: 140px;
+  --car-footer-bottom:  60px;
+  --car-closing:        var(--text-muted);
+  --car-quote-border:   var(--text-meta);
+  --car-quote-text:     var(--text-secondary);
+
+  /* chip: cinzas sobre o fundo base e cores do slide alternado */
+  --car-body-text:      var(--text-secondary);
+  --car-subtle:         var(--text-muted);
+  --car-rule:           var(--border);
+  --car-caption:        var(--text-meta);
+  --alt-bg:             var(--accent-dark);
+  --alt-fg:             #FFFFFF;
+  --alt-arrow:          color-mix(in oklab, var(--accent-dark), black 30%);
+  --alt-accent:         #CFE2FD;
 }

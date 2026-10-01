@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  /* Layout chip: tag topo-esquerdo, handle + logo topo-direito, rodape com frase da marca,
+     slides alternando fundo claro/colorido. Todos os valores vem do design-tokens.css da marca. */
+
+  {{FONT_IMPORT}}
+  {{TOKENS}}
+
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: var(--canvas-w);
+    height: var(--canvas-h);
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    overflow: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* === BACKGROUNDS === */
+  body.slide-base { background: var(--bg); color: var(--text-primary); }
+  body.slide-alt  { background: var(--alt-bg); color: var(--alt-fg); }
+
+  /* === HEADER (tag esquerda + handle+logo direita) === */
+  .hdr {
+    position: absolute;
+    top: var(--car-header-pad-top);
+    left: var(--car-header-pad-x);
+    right: var(--car-header-pad-x);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+  }
+  .hdr .tag {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  body.slide-alt .hdr .tag { color: rgba(255,255,255,0.92); }
+
+  .hdr .handle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+  body.slide-alt .hdr .handle-wrap { color: var(--alt-fg); }
+
+  .hdr .brand-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: var(--bg);
+    background-image: {{LOGO_CSS}};
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 32px 32px;
+    border: 1px solid var(--accent);
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  body.slide-alt .hdr .brand-avatar { border: none; }
+
+  /* === FOOTER FIXO (tagline esquerda apenas) === */
+  .ftr {
+    position: absolute;
+    bottom: var(--car-footer-bottom);
+    left: var(--car-header-pad-x);
+    right: var(--car-header-pad-x);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 2px solid var(--car-rule);
+    font-family: var(--font-body);
+    font-size: 14px;
+    z-index: 5;
+  }
+  body.slide-alt .ftr { border-top-color: rgba(255,255,255,0.28); }
+  .ftr .tagline {
+    font-weight: 500;
+    color: var(--car-subtle);
+    letter-spacing: 0.2px;
+  }
+  body.slide-alt .ftr .tagline { color: var(--alt-fg); font-weight: 600; }
+
+  /* === SAFE ZONE / CONTENT === */
+  .content {
+    position: absolute;
+    top: var(--car-content-top);
+    bottom: var(--car-content-bottom);
+    left: var(--car-content-pad-x);
+    right: var(--car-content-pad-x);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .content.top-align { justify-content: flex-start; padding-top: 30px; }
+
+  /* === HEADLINE (fonte de titulo da marca) === */
+  .headline {
+    font-family: var(--font-display);
+    font-weight: var(--car-chip-weight);
+    font-size: 96px;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+  body.slide-alt .headline { color: var(--alt-fg); }
+  /* Trecho em destaque: cor de destaque no fundo base, --alt-accent no fundo alternado */
+  .headline .ac { color: var(--accent); }
+  body.slide-alt .headline .ac { color: var(--alt-accent); }
+
+  .subtitle {
+    margin-top: 22px;
+    font-family: var(--font-body);
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--car-subtle);
+    max-width: 92%;
+  }
+  body.slide-alt .subtitle { color: rgba(255,255,255,0.92); font-weight: 600; }
+
+  /* === BODY textos === */
+  .body-bold {
+    font-family: var(--font-body);
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.4;
+    color: var(--text-primary);
+  }
+  .body-regular {
+    font-family: var(--font-body);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--car-body-text);
+  }
+  body.slide-alt .body-bold { color: var(--alt-fg); text-shadow: 0 2px 8px rgba(0,0,0,0.14); }
+  body.slide-alt .body-regular { color: var(--alt-fg); font-weight: 600; text-shadow: 0 2px 8px rgba(0,0,0,0.10); }
+
+  .hl { color: var(--accent); font-weight: 900; }
+  body.slide-alt .hl { color: var(--alt-fg); }
+
+  /* === CARD DE IMAGEM (sombra suave, radius amplo) === */
+  .image-card {
+    position: absolute;
+    left: 145px;
+    right: 145px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: var(--bg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    padding: 14px;
+  }
+  .image-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 12px;
+  }
+  .source-caption {
+    position: absolute;
+    left: 145px;
+    right: 145px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    color: var(--car-caption);
+    text-align: right;
+  }
+  body.slide-alt .source-caption { color: rgba(255,255,255,0.78); }
+
+  /* === CARDS ARREDONDADOS (para listas/itens) === */
+  .items-grid {
+    display: grid;
+    gap: 16px;
+    margin-top: 28px;
+  }
+  .items-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+
+  .item-card {
+    padding: 22px 24px;
+    border-radius: 16px;
+    background: var(--bg);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+  }
+  body.slide-alt .item-card {
+    background: var(--bg);
+    color: var(--text-primary);
+    box-shadow: 0 6px 0 var(--alt-arrow), 0 10px 22px rgba(0,0,0,0.12);
+  }
+  body.slide-base .item-card {
+    background: var(--alt-bg);
+    color: var(--alt-fg);
+    box-shadow: 0 6px 0 var(--alt-arrow), 0 10px 22px rgba(0,0,0,0.10);
+  }
+  .item-card .label {
+    font-family: var(--font-display);
+    font-size: 34px;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+  body.slide-base .item-card .label { color: var(--alt-fg); }
+  body.slide-alt .item-card .label { color: var(--accent); }
+  .item-card .text {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 6px;
+    line-height: 1.35;
+  }
+
+  /* === CTA FINAL (slide de fechamento) ===
+     Pill na cor de fundo + texto na cor de destaque da marca, em maiusculas.
+     Pill menor que a legada pois o texto do CTA é mais longo.
+     Fora da pill: provocação acima + "Link na bio." abaixo (discreto). */
+  .final-cta {
+    margin-top: 38px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    width: 100%;
+  }
+  .pill-cta {
+    display: inline-block;
+    padding: 28px 56px;
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-weight: var(--car-chip-weight);
+    font-size: 46px;
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
+    max-width: 880px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  body.slide-base .pill-cta {
+    background: var(--bg);
+    color: var(--accent);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  .final-cta .cta-sub {
+    font-family: var(--font-body);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: rgba(255,255,255,0.95);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  body.slide-base .final-cta .cta-sub { color: var(--car-subtle); }
+  .final-cta .cta-sub .arrow {
+    display: inline-block;
+    font-size: 28px;
+    line-height: 1;
+    transform: translateY(-1px);
+  }
+</style>
+</head>
+<body class="{{SLIDE_CLASS}}">
+  <div class="hdr">
+    <div class="tag">{{TAG}}</div>
+    <div class="handle-wrap">
+      <span>{{HANDLE_TEXT}}</span>
+      <div class="brand-avatar"></div>
+    </div>
+  </div>
+
+  {{CONTENT}}
+
+  <div class="ftr">
+    <div class="tagline">{{FOOTER}}</div>
+  </div>
+</body>
+</html>

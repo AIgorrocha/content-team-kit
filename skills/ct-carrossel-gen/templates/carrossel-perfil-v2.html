@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  {{FONT_IMPORT}}
+  {{TOKENS}}
+
+  /* Padrao visual v2 (header compacto, hairline, titulo, midia, N/TOTAL).
+     Empilhamento em 3 blocos, nunca sobrepostos: header + hairline, titulo, midia/corpo; rodape com N/TOTAL.
+     Todo valor numerico de marca vem dos tokens --car-* (design-tokens.css). */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: var(--canvas-w); height: var(--canvas-h);
+    background: var(--bg); color: var(--text-primary);
+    font-family: var(--car-font-body); overflow: hidden; -webkit-font-smoothing: antialiased;
+  }
+  .slide { width: var(--canvas-w); height: var(--canvas-h); position: relative; --av: var(--car-avatar-mid); --name: var(--car-size-name); --handle: var(--car-size-handle); }
+  .slide.capa { --av: var(--car-avatar-cover); --name: var(--car-size-name-cover); --handle: var(--car-size-handle-cover); }
+  .slide.cta { --av: var(--car-avatar-cta); }
+
+  /* 1) Header: avatar + nome (+ selo) + @handle, hairline logo abaixo */
+  .header { position: absolute; top: var(--car-margin-top); left: var(--car-margin-x); display: flex; align-items: center; gap: 16px; }
+  .avatar { width: var(--av); height: var(--av); border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 2px solid var(--border); }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .header-text { display: flex; flex-direction: column; gap: 2px; }
+  .header-name { font-family: var(--car-font-display); font-size: var(--name); font-weight: 600; color: var(--text-primary); letter-spacing: -0.01em; display: flex; align-items: center; gap: 0.3em; }
+  .check-selo { display: inline-flex; width: 0.9em; height: 0.9em; flex-shrink: 0; } /* selo proporcional ao nome */
+  .header-handle { font-size: var(--handle); font-weight: 400; font-style: italic; color: var(--text-meta); }
+  .hairline { position: absolute; top: calc(var(--car-margin-top) + var(--av) + 16px); left: var(--car-margin-x); right: var(--car-margin-x); height: 1px; background: var(--border); }
+
+  /* 2) Titulo + 3) midia/corpo, em coluna: a midia comeca em --car-media-top ou logo apos o titulo se ele for maior */
+  .stack { position: absolute; top: calc(var(--car-margin-top) + var(--av) + 40px); left: var(--car-margin-x); right: var(--car-margin-x); bottom: var(--car-stack-bottom); display: flex; flex-direction: column; }
+  .title-zone { min-height: calc(var(--car-media-top) - var(--car-margin-top) - var(--av) - 40px); padding-bottom: 32px; flex-shrink: 0; }
+  .display-cover, .headline-cta, .headline-slide { font-family: var(--car-font-display); font-weight: 700; color: var(--text-primary); }
+  .display-cover { font-size: var(--car-size-cover); line-height: 1.12; letter-spacing: -0.02em; }
+  .headline-cta { font-size: var(--car-size-cta); line-height: 1.15; letter-spacing: -0.02em; }
+  .headline-slide { font-size: var(--car-size-slide); line-height: 1.18; letter-spacing: -0.015em; }
+  .display-cover em, .headline-cta em, .headline-slide em { font-style: normal; color: var(--accent); }
+
+  .media-zone { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; }
+  .media-zone > * + * { margin-top: 24px; }
+  .para { font-size: var(--car-size-body); line-height: 1.45; color: var(--text-primary); }
+  .para strong, .bullet strong { font-weight: 600; }
+  .capa .para { color: var(--text-muted); }
+  .kw { color: var(--accent); font-weight: 700; }
+  .bullet { font-size: var(--car-size-body); line-height: 1.45; padding-left: 8px; }
+  .bullet::before { content: "\2022  "; color: var(--accent); font-weight: 700; }
+  .steps { display: flex; flex-direction: column; gap: 28px; }
+  .step { display: flex; align-items: flex-start; gap: 22px; }
+  .step-num { font-family: var(--car-font-display); font-size: 30px; font-weight: 700; color: var(--accent); min-width: 44px; }
+  .step-txt { font-size: var(--car-size-body); font-weight: 500; line-height: 1.4; padding-top: 2px; }
+  .step-desc { display: block; margin-top: 6px; font-size: 24px; font-weight: 400; color: var(--text-muted); }
+  .code { font-family: var(--car-font-mono); font-size: 24px; line-height: 1.5; white-space: pre-wrap; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; }
+  .shot img { display: block; width: 100%; max-height: 560px; object-fit: contain; border-radius: 12px; }
+  .cta-line { font-size: 30px; font-weight: 600; line-height: 1.4; }
+  .steps + .cta-line { margin-top: 36px; }
+
+  /* cartao claro para exemplo/midia escrita a mao (slide.html) */
+  .card { background: var(--car-card-bg); border-radius: 16px; padding: 40px 36px; color: var(--car-card-ink); }
+  .card-label { font-family: var(--car-font-mono); font-size: 15px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--car-card-navy); opacity: 0.55; margin-bottom: 18px; }
+  .card-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.08); font-size: 24px; font-weight: 600; }
+  .card-row:last-child { border-bottom: none; }
+  .card-row .v { color: var(--accent); font-weight: 700; }
+  .card-row .exemplo { font-family: var(--car-font-mono); font-size: 14px; font-weight: 500; color: var(--car-card-meta); text-transform: uppercase; letter-spacing: 0.03em; margin-left: 8px; }
+
+  /* 4) Rodape: contador mono N/TOTAL + pontos */
+  .footer { position: absolute; top: var(--car-footer-top); left: var(--car-margin-x); right: var(--car-margin-x); display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  .counter { font-family: var(--car-font-mono); font-size: var(--car-size-meta); font-weight: 500; color: var(--text-meta); letter-spacing: 0.02em; }
+  .dots { display: flex; gap: 8px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--car-dot-border); }
+  .dot.on { background: var(--accent); border-color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="slide {{SLIDE_CLASS}}">
+    <div class="header">
+      {{AVATAR}}
+      <div class="header-text">
+        <div class="header-name">{{BRAND_NAME}}{{BADGE}}</div>
+        {{HANDLE}}
+      </div>
+    </div>
+    <div class="hairline"></div>
+    <div class="stack">
+      <div class="title-zone">{{TITLE}}</div>
+      <div class="media-zone" id="slide-content">{{BODY}}</div>
+    </div>
+    {{FOOTER}}
+  </div>
+</body>
+</html>

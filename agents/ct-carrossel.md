@@ -130,7 +130,7 @@ Motivos: carrossel é consumido 100% no Instagram em portrait, horizontal duplic
 
 - Slides: salvar direto em `content/{slug}/carousels/{nome}/slides/slide-0X.png` (sem subpastas `vertical/` ou `horizontal/`)
 - Naming: `slide-01.png`, `slide-02.png`, ... `slide-0N.png`
-- Script único: `generate-slides.js` (sempre 1080x1350; recebe só `--nome`, `--slides` e, se preciso, `--slug`)
+- Script único: `generate-slides.js` (sempre 1080x1350; recebe `--nome`, `--slides` e, se preciso, `--slug`, `--layout` (perfil-v2, perfil ou chip) e `--out`)
 - Zona segura: topo 150px / base 175px / laterais 80px (mínimo absoluto da plataforma: 65px; ver `references/carousel-safe-zone.md`)
 - Slide em vídeo (MP4) é OPÇÃO, não padrão. Só quando o slide É a demonstração de uma tela ou automação: ver `references/carousel-design-system.md`, seção "Slide em vídeo (opção)"
 

@@ -38,6 +38,7 @@ clients/active-client.md
 assets/photos/
 skills/ct-carrossel-gen/assets/*
 !skills/ct-carrossel-gen/assets/devices/
+!skills/ct-carrossel-gen/assets/avatar-placeholder.svg
 .playwright-mcp/
 test-results/
 social-intel-local.log

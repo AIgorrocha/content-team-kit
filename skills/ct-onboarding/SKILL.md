@@ -192,9 +192,10 @@ post-gabarito, mais as regras de tamanho, emoji, hashtag e CTA) e resume em
 
 ### 8b. Carrossel
 Mostrar **estrutura e estilo** com prévia real (antes, conferir o navegador automático como no 8c): gerar **1 ou 2 slides** de verdade com
-`ct-carrossel-gen` (HTML mais Playwright, nas cores e fontes da marca), em 2 estilos
-(por exemplo: texto corrido minimalista; destaque com número grande). Salvar em
-`output/previas/{slug}/carrossel/` e **abrir a imagem** para a pessoa ver.
+`ct-carrossel-gen` (HTML mais Playwright, nas cores e fontes da marca), nos 3 visuais do gerador
+(`--layout perfil-v2`: header compacto, título e numeração, o padrão; `--layout perfil`: texto corrido;
+`--layout chip`: faixa com título em maiúsculas). Pode mostrar 2 ou os 3. Salvar com `--out output/previas/{slug}/carrossel/{layout}`
+e **abrir a imagem** para a pessoa ver. O escolhido vira `--car-layout` no `design-tokens.css`.
 Perguntar: estilo escolhido, quantidade típica de slides (respeitar o máximo de 10), se leva
 foto ou logo no topo, como termina (pergunta, resumo ou convite).
 Grava em `design-system.md` (tabela "Carrossel Instagram": estilo, slides, foto) e em
