@@ -8,6 +8,7 @@ Comece pelo `README.md` da raiz (uso do dia a dia) e por `SETUP.md` (instalaçã
 |---|---|
 | `SETUP.md` | Instalação completa numa máquina nova |
 | `INTEGRACOES.md` | Cada integração, chave por chave (todas opcionais) |
+| `SEGURANCA.md` | O que protege a marca, as contas e o computador; regras de segurança do time |
 | `CONECTAR-REDES.md` | Conectar as redes pelo painel |
 | `CHECAGEM-CONEXOES.md` | Conferir se as conexões ainda valem |
 | `SALA-TERMINAL.md` | Ligar o terminal ao quadro Trabalho do painel |
