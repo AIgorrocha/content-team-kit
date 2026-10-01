@@ -7,7 +7,7 @@ Bridge entre ct-diretor e Remotion (video por codigo React). Gera videos animado
 - Arquivo fonte: `agents/ct-video-remotion.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Skill", "Glob", "Grep"]
-- Skills que usa: [ct-motion-code](../03-skills/README.md), [ct-reel-narrado-higgsfield](../03-skills/README.md), [ct-remotion](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-motion-code](../03-skills/README.md), [ct-reel-narrado-higgsfield](../03-skills/README.md), [ct-remotion](../03-skills/README.md)
 - Menciona/delega para: [ct-diretor](ct-diretor.md), [ct-video-higgsfield](ct-video-higgsfield.md), [ct-video](ct-video.md)
 
 ## Secoes principais

@@ -63,6 +63,7 @@ Antes de adaptar conteúdo, SEMPRE consulte:
 - clients/{slug}/brand-profile.md: Tom de voz e regras do cliente ativo; seção "Preferências de formato" vence o padrão deste agente
 - clients/{slug}/voice-patterns.md: seção "Legendas aprovadas" (abertura, tamanho e fechamento reais da marca)
 - clients/{slug}/regras-cliente.md: regras e correções da marca
+- `clients/{slug}/aprendizado-do-perfil.md`: o que os numeros reais do Instagram da marca mostram (o que funciona, linguagem, ganchos, stories), atualizado pela skill `ct-aprender-perfil`. Orienta a escolha; nao vence `brand-profile.md`, `regras-cliente.md` nem `voice-patterns.md`. Ausente: seguir sem ele.
 - references/aprendizados-de-producao.md: item 7.6 (um caso real alimenta quatro formatos) e seção 7
 - references/copywriting-frameworks.md: Frameworks de copy
 

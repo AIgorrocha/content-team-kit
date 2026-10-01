@@ -36,7 +36,7 @@ para ele. Uso interno e para clientes e permitido; revender o Hypit nao.
   `references/aprendizados-de-producao.md` (parafrase de peca de referencia e plagio).
 - **Marca ativa.** Ler `.workspace` e da marca: `brand-profile.md` (inclusive "Preferencias de
   formato"), `design-system.md` ("Legenda de reel", cores, fontes), `voice-patterns.md` e
-  `regras-cliente.md`. O roteiro vem do `ct-redator`, na voz da marca.
+  `regras-cliente.md` e `aprendizado-do-perfil.md` (orienta a escolha, nao vence as regras da marca). O roteiro vem do `ct-redator`, na voz da marca.
 - **Baixar video de terceiros** (link de rede social) so para estudo da estrutura, dentro de
   `output/`, e nunca publicar o original nem trechos dele.
 - **Nada e publicado sem "pode".** Entrega em `output/` para previa; o final vai para

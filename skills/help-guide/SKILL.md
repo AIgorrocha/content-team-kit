@@ -22,8 +22,8 @@ como no exemplo abaixo.
 
 <b>2. PESQUISA E ANALISE</b>
    Agentes: ct-pesquisador · ct-social
-   Skills: ct-pesquisa (concorrentes) · ct-seo · ct-social-cockpit (painel de desempenho) · ct-instagram-analyzer · ct-linkedin-analyzer · ct-youtube-analyzer
-   Pedir: "analisa o concorrente Y" · "como estao minhas redes" · "o que esta funcionando"
+   Skills: ct-pesquisa (concorrentes) · ct-seo · ct-social-cockpit (painel de desempenho) · ct-aprender-perfil (aprendizado diário do seu Instagram) · ct-instagram-analyzer · ct-linkedin-analyzer · ct-youtube-analyzer
+   Pedir: "analisa o concorrente Y" · "como estao minhas redes" · "o que esta funcionando" · "aprender com o meu perfil"
 
 <b>3. PUBLICACAO</b> (sempre com o seu "pode")
    Skills: ct-publicar-ig · ct-publicar-li · ct-publicar-yt · ct-publicar-tiktok · ct-agendar

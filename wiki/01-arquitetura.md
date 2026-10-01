@@ -18,7 +18,7 @@ flowchart LR
 ### Numeros reais (gerado)
 
 - Agentes em `agents/`: 25
-- Pastas em `skills/`: 65
-- Skills invocaveis (com `SKILL.md`): 64
+- Pastas em `skills/`: 66
+- Skills invocaveis (com `SKILL.md`): 65
 
 <!-- WIKI:GERADO:END -->

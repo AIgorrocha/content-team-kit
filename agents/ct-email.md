@@ -46,6 +46,7 @@ SEMPRE consulte:
 - references/copywriting-frameworks.md: Frameworks para subject lines e body
 - clients/{slug}/brand-profile.md (cliente ativo, conferir antes `clients/active-client.md`): Tom de voz
 - clients/{slug}/regras-cliente.md: regras e correções da marca (vence este agente)
+- `clients/{slug}/aprendizado-do-perfil.md`: o que os numeros reais do Instagram da marca mostram (o que funciona, linguagem, ganchos, stories), atualizado pela skill `ct-aprender-perfil`. Orienta a escolha; nao vence `brand-profile.md`, `regras-cliente.md` nem `voice-patterns.md`. Ausente: seguir sem ele.
 - references/gatilhos-mentais.md: Gatilhos éticos para email
 
 ## Padrões de voz por cliente

@@ -59,6 +59,7 @@ Tambem consultar:
 - `clients/{slug}/voice-patterns.md` (padroes validados, quando existir; secao "Legendas aprovadas")
 - `clients/{slug}/brand-profile.md`, secao "Preferencias de formato": as escolhas da configuracao vencem o padrao deste agente
 - `clients/{slug}/regras-cliente.md` (regras e correcoes da marca)
+- `clients/{slug}/aprendizado-do-perfil.md`: o que os numeros reais do Instagram da marca mostram (o que funciona, linguagem, ganchos, stories), atualizado pela skill `ct-aprender-perfil`. Orienta a escolha; nao vence `brand-profile.md`, `regras-cliente.md` nem `voice-patterns.md`. Ausente: seguir sem ele.
 - `references/aprendizados-de-producao.md` secao 6 (diario de stories, destaques, story de venda)
 
 **Precedencia:** `brand-profile.md` > `design-system.md` > `stories-playbook.md` >

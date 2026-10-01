@@ -7,7 +7,7 @@ Carrossel - Designer de Carrossel. Slides Instagram 1080x1350.
 - Arquivo fonte: `agents/ct-carrossel.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Glob", "Grep"]
-- Skills que usa: [ct-carrossel-gen](../03-skills/README.md), [ct-od-deck](../03-skills/README.md), [ct-od-design-import](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-carrossel-gen](../03-skills/README.md), [ct-od-deck](../03-skills/README.md), [ct-od-design-import](../03-skills/README.md)
 - Menciona/delega para: [ct-designer](ct-designer.md), [ct-diretor](ct-diretor.md)
 
 ## Secoes principais

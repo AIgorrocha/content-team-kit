@@ -7,7 +7,7 @@ Bridge entre ct-diretor e Higgsfield AI via CLI oficial @higgsfield/cli. Gera Re
 - Arquivo fonte: `agents/ct-video-higgsfield.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Skill"]
-- Skills que usa: [ct-higgsfield-prompt](../03-skills/README.md), [ct-publicar-ig](../03-skills/README.md), [ct-reel-narrado-higgsfield](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-higgsfield-prompt](../03-skills/README.md), [ct-publicar-ig](../03-skills/README.md), [ct-reel-narrado-higgsfield](../03-skills/README.md)
 - Menciona/delega para: [ct-diretor](ct-diretor.md), [ct-video](ct-video.md)
 
 ## Secoes principais

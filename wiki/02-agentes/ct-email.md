@@ -7,6 +7,7 @@ Email - Email Marketing. Newsletters e campanhas.
 - Arquivo fonte: `agents/ct-email.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Glob", "Grep"]
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md)
 
 ## Secoes principais
 

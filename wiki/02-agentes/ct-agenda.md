@@ -7,7 +7,7 @@ Agenda - Gerente de Prazos. Calendário editorial, agendamentos e prazos.
 - Arquivo fonte: `agents/ct-agenda.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Glob", "Grep"]
-- Skills que usa: [ct-social-intel](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-social-intel](../03-skills/README.md)
 
 ## Secoes principais
 

@@ -7,7 +7,7 @@ Story - Editor de Stories. Monta sequencia com arco narrativo (bastidor, rotina,
 - Arquivo fonte: `agents/ct-story.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Glob", "Grep"]
-- Skills que usa: [ct-story](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-story](../03-skills/README.md)
 - Menciona/delega para: [ct-diretor](ct-diretor.md)
 
 ## Secoes principais

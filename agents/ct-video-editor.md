@@ -41,6 +41,7 @@ inteira: `skills/ct-video-editor/SKILL.md`.
 3. `clients/{slug}/design-system.md`: cores, fontes e a secao **Legenda de reel** (estilo, cor do
    texto, cor de destaque da palavra falada, caixa e peso, posicao).
 4. `clients/{slug}/regras-cliente.md`: correcoes permanentes da marca.
+5. `clients/{slug}/aprendizado-do-perfil.md`: o que os numeros reais do Instagram da marca mostram (o que funciona, linguagem, ganchos, stories), atualizado pela skill `ct-aprender-perfil`. Orienta a escolha; nao vence `brand-profile.md`, `regras-cliente.md` nem `voice-patterns.md`. Ausente: seguir sem ele.
 
 O que a marca definiu vence o padrao do kit descrito neste arquivo. Correcao nova do usuario
 vira regra da marca em `clients/{slug}/regras-cliente.md`, nao regra do kit.

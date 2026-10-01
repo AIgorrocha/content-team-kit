@@ -18,6 +18,7 @@ Comece pelo `README.md` da raiz (uso do dia a dia) e por `SETUP.md` (instalaçã
 
 | Arquivo | Para que serve |
 |---|---|
+| `APRENDIZADO-DIARIO.md` | O time aprende todo dia com o seu Instagram (o que funciona, linguagem, ganchos) e, com travas, atualiza as regras da marca |
 | `LOOP-DE-APRENDIZADO.md` | Como cada correção vira regra permanente da marca |
 | `FLUXO-YOUTUBE-PARA-REDES.md` | Um vídeo longo vira várias peças, uma por rede |
 | `FLUXO_SINCRONIZACAO.md` | Como agentes e skills sobem para o banco do painel |

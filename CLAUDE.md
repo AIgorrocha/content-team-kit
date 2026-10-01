@@ -28,13 +28,28 @@ indicado e seguir o passo a passo:
 | "criar meu repositório privado", "salvar a minha marca" | `skills/ct-atualizar-kit/SKILL.md`, seção do repositório privado |
 | "reportar problema", "sugerir melhoria" | `skills/ct-reportar-problema/SKILL.md` |
 | "avaliar essa ferramenta", "vale a pena instalar isso?", link de skill ou repositório | `skills/ct-avaliar-novidade/SKILL.md` |
+| "aprender com o meu perfil", "o que está dando certo?" | `skills/ct-aprender-perfil/SKILL.md` (aprendizado diário, `docs/APRENDIZADO-DIARIO.md`) |
 | "o que você sabe fazer?", "ajuda" | `skills/help-guide/SKILL.md` |
+
+## Aprendizado diário do perfil
+
+Ao abrir a pasta, se a marca ativa tem Instagram conectado e `clients/{slug}/aprendizado-do-perfil.md`
+tem "Atualizado em" de antes de hoje (ou ainda "não rodou"): na primeira vez, oferecer em duas linhas
+("quer que o time aprenda todo dia com o seu perfil do Instagram? Ele lê o que você postou, vê o que
+deu certo e anota na pasta da marca, sem apagar nada seu") e, com o "sim", rodar a skill
+`ct-aprender-perfil` e mostrar o resumo. Depois que a pessoa aceitou, rodar `ct-aprender-perfil` antes
+de produzir, sem perguntar de novo. Sem Instagram conectado ou com aviso de credencial, seguir
+normalmente (não é erro). Se a pessoa recusar, não oferecer outra vez. Ela também pode pedir
+("aprender com o meu perfil", "o que está dando certo?"). Detalhes e agendamento opcional no
+Windows: `docs/APRENDIZADO-DIARIO.md`.
 
 ## Fluxo de toda tarefa de conteúdo
 
 1. Ler `.workspace` (ou `clients/active-client.md`) para saber a marca ativa.
 2. Ler da marca: `brand-profile.md` (inclusive a seção "Preferências de formato"),
-   `design-system.md`, `voice-patterns.md` ("Legendas aprovadas") e `regras-cliente.md`.
+   `design-system.md`, `voice-patterns.md` ("Legendas aprovadas"), `regras-cliente.md` e
+   `aprendizado-do-perfil.md` (o que os números reais do Instagram mostram; orienta a escolha e
+   nunca vence `brand-profile.md`, `regras-cliente.md` nem `voice-patterns.md`).
 3. Ler `references/viral-playbook.md` e `references/aprendizados-de-producao.md` antes de produzir.
 4. O assistente principal assume o papel do diretor: lê `agents/ct-diretor.md` e segue. Para
    cada parte da peça, delega a um sub-agente (ferramenta de agente, tipo `general-purpose`)

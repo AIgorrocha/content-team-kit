@@ -8,6 +8,7 @@ import {
   ambienteDoCliente,
   coletarInstagram,
   validarCliente,
+  credenciaisInstagramDaConta,
 } from "./sync-publicacoes.mjs"
 
 test("sincronização rejeita cliente inexistente e travessia", () => {
@@ -170,4 +171,21 @@ test("normalizadores nunca incluem token: nenhuma saida carrega a palavra access
     normalizarTiktokSnapshot({ client_slug: "c", post_url: "https://x" }),
   ]
   for (const l of linhas) assert.equal(JSON.stringify(l).includes("access_token"), false)
+})
+
+test("conta Instagram da marca vem das chaves do .env; sem token ou outra marca devolve vazio", () => {
+  const antes = { ...process.env }
+  process.env.CT_CLIENT = "marca-teste"
+  process.env.INSTAGRAM_ACCESS_TOKEN = "IGAAtoken"
+  process.env.INSTAGRAM_USER_ID = "111"
+  try {
+    const c = credenciaisInstagramDaConta("marca-teste")
+    assert.equal(c.INSTAGRAM_ACCESS_TOKEN, "IGAAtoken")
+    assert.equal(c.INSTAGRAM_USER_ID, "111")
+    assert.deepEqual(credenciaisInstagramDaConta("outra-marca"), {})
+    assert.deepEqual(credenciaisInstagramDaConta("marca-teste", "/pasta/que/nao/existe"), {})
+  } finally {
+    for (const k of Object.keys(process.env)) if (!(k in antes)) delete process.env[k]
+    Object.assign(process.env, antes)
+  }
 })

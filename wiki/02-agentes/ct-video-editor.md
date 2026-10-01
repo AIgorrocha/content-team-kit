@@ -7,7 +7,7 @@ Bridge entre ct-diretor e o pipeline ct-video-editor (CapCut por codigo). Edita 
 - Arquivo fonte: `agents/ct-video-editor.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Skill", "Glob", "Grep"]
-- Skills que usa: [ct-video-editor](../03-skills/README.md), [ct-video-mpt](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-video-editor](../03-skills/README.md), [ct-video-mpt](../03-skills/README.md)
 - Menciona/delega para: [ct-diretor](ct-diretor.md), [ct-video-higgsfield](ct-video-higgsfield.md), [ct-video-mpt](ct-video-mpt.md), [ct-video-remotion](ct-video-remotion.md), [ct-video](ct-video.md)
 
 ## Secoes principais

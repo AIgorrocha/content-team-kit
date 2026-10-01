@@ -7,7 +7,7 @@ Vídeo - Editor de Vídeo. Avatar digital HeyGen + edição Reels.
 - Arquivo fonte: `agents/ct-video.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Glob", "Grep"]
-- Skills que usa: [ct-openshorts](../03-skills/README.md), [ct-remotion](../03-skills/README.md), [ct-telas](../03-skills/README.md), [ct-video-editor](../03-skills/README.md), [ct-video-mpt](../03-skills/README.md), [diagram-design](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-openshorts](../03-skills/README.md), [ct-remotion](../03-skills/README.md), [ct-telas](../03-skills/README.md), [ct-video-editor](../03-skills/README.md), [ct-video-mpt](../03-skills/README.md), [diagram-design](../03-skills/README.md)
 - Menciona/delega para: [ct-diretor](ct-diretor.md), [ct-otimizador](ct-otimizador.md), [ct-redator](ct-redator.md), [ct-video-editor](ct-video-editor.md), [ct-video-mpt](ct-video-mpt.md)
 
 ## Secoes principais

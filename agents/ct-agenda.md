@@ -49,3 +49,4 @@ Antes de montar calendário, SEMPRE consulte:
 - references/platform-specs.md: Horários e specs por plataforma
 - clients/{slug}/brand-profile.md: Tom de voz, regras do cliente ativo e seção "Preferências de formato" (ritmo de publicação)
 - clients/{slug}/regras-cliente.md: regras da marca (inclui horários confirmados pelo usuário)
+- `clients/{slug}/aprendizado-do-perfil.md`: o que os numeros reais do Instagram da marca mostram (o que funciona, linguagem, ganchos, stories), atualizado pela skill `ct-aprender-perfil`. Orienta a escolha; nao vence `brand-profile.md`, `regras-cliente.md` nem `voice-patterns.md`. Ausente: seguir sem ele.

@@ -3,7 +3,11 @@
 As regras desta pasta estão em `CLAUDE.md` (valem para qualquer assistente). Leia o
 `CLAUDE.md` inteiro antes de qualquer tarefa e siga, inclusive a tabela "Primeiro uso e frases
 que disparam skills" (configurar empresa nova, continuar configuração, conectar as redes,
-atualizar o kit, reportar problema).
+atualizar o kit, reportar problema, aprender com o meu perfil).
+
+Aprendizado diário: ao abrir a pasta, siga a seção "Aprendizado diário do perfil" do `CLAUDE.md`
+(marca ativa com Instagram conectado e `aprendizado-do-perfil.md` com "Atualizado em" de antes de
+hoje: oferecer na primeira vez e depois rodar a skill `ct-aprender-perfil` antes de produzir).
 
 Diferenças no Codex:
 - Onde o `CLAUDE.md` diz "delegar a um sub-agente", use os sub-agentes do Codex se estiverem

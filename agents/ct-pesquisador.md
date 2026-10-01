@@ -197,5 +197,5 @@ TODA pesquisa. Sem essa secao, este passo nao se aplica.
   3. **A secao 7 (avisos metodologicos permanentes)** e a versao curta das minhas regras R1, R2 e R3 acima. Se o playbook e este arquivo divergirem, os dois estao errados: conserte os dois.
 - A **secao 1 (o que sabemos que satura)** tem o `[MEDIDO]` de saturacao e a hipotese "pessoa bate empresa". Ao pesquisar tendencia ou concorrente, checar contra ela antes de sugerir formato.
 - **O framework nao traz `[MEDIDO]` de nenhum cliente.** O `[MEDIDO]` nasce dos dados do cliente ativo (Graph API, `ct-social-intel`, `ct-social-cockpit`). Ver `viral-playbook.md` secao 8 e `stories-playbook.md` secao 0.
-- `clients/{slug}/brand-profile.md` (inclui a secao "Preferencias de formato"), `clients/{slug}/regras-cliente.md` e `clients/{slug}/competitors.md` (cliente ativo). Precedencia: dado do cliente vence o playbook generico.
+- `clients/{slug}/brand-profile.md` (inclui a secao "Preferencias de formato"), `clients/{slug}/regras-cliente.md`, `clients/{slug}/aprendizado-do-perfil.md` (o que os numeros reais do Instagram mostram; orienta, nao vence as regras) e `clients/{slug}/competitors.md` (cliente ativo). Precedencia: dado do cliente vence o playbook generico.
 - `references/aprendizados-de-producao.md` secao 8 (pesquisa de concorrentes).

@@ -22,6 +22,7 @@ Depois carregue os arquivos da pasta do cliente:
 - `clients/{slug}/brand-profile.md`: Identidade, tom de voz e público-alvo
 - `clients/{slug}/design-system.md`: Visual e cores
 - `clients/{slug}/regras-cliente.md`: Regras e correções da marca (incluindo a lista "Reincidentes", se existir). Vence o padrão dos agentes
+- `clients/{slug}/aprendizado-do-perfil.md`: o que os numeros reais do Instagram da marca mostram (o que funciona, linguagem, ganchos, stories), atualizado pela skill `ct-aprender-perfil`. Orienta a escolha; nao vence `brand-profile.md`, `regras-cliente.md` nem `voice-patterns.md`. Ausente: seguir sem ele.
 - `clients/{slug}/voice-patterns.md`: seção "Legendas aprovadas" (abertura, tamanho e fechamento reais da marca) e posts-gabarito
 - `clients/{slug}/brand-profile.md`, seção "Preferências de formato": as escolhas feitas na configuração (vencem o padrão do agente)
 - `clients/{slug}/competitors.md`: Concorrentes
@@ -35,7 +36,7 @@ Depois carregue os arquivos da pasta do cliente:
     - Se a seção disser que há peças publicadas **sem publish_url** ou **com URL que não casa**, isso é dívida de registro: avise o usuário em 1 linha e peça o link. Peça sem link fica invisível pro aprendizado.
 - `content/{slug}/briefing-semanal.md`: **BRIEFING DE PAUTAS** (gerado domingo). Pendências + drafts + ideias registradas + pautas sugeridas cruzadas com o cockpit. Quando o usuário disser **"desenvolve pauta N do briefing {slug}"**, leia este arquivo, pegue a Pauta N (ângulo, formato/horário sugerido, CTA) e delegue a produção pro sub-agente certo (ct-carrossel / ct-redator / ct-video) na voz do cliente. Ideias soltas ficam em `content/{slug}/ideas.md` (1 por linha).
 
-Ao delegar para sub-agentes, SEMPRE inclua o slug do cliente na instrução e mande o sub-agente ler `brand-profile.md` (seção "Preferências de formato"), `voice-patterns.md` (seção "Legendas aprovadas") e `regras-cliente.md`.
+Ao delegar para sub-agentes, SEMPRE inclua o slug do cliente na instrução e mande o sub-agente ler `brand-profile.md` (seção "Preferências de formato"), `voice-patterns.md` (seção "Legendas aprovadas"), `regras-cliente.md` e `aprendizado-do-perfil.md`.
 
 ## Cross-post: PREPARAR no mesmo dia (REGRA ATIVA: preparar sem perguntar, publicar só com "pode")
 
@@ -169,7 +170,7 @@ pra você virar decisão editorial.
 Os agentes `ct-*` são arquivos de instrução em `agents/`, não subagentes registrados. Por isso o diretor (o assistente principal) delega assim: Agent tool com `subagent_type: general-purpose` e um prompt que manda LER o arquivo do agente e seguir.
 
 ```
-Agent(subagent_type="general-purpose", prompt="Leia agents/ct-redator.md e siga. Cliente ativo: {slug}. Leia clients/{slug}/brand-profile.md (seção Preferências de formato), clients/{slug}/voice-patterns.md (seção Legendas aprovadas) e clients/{slug}/regras-cliente.md. Tarefa: escreva a legenda para post sobre IA no Instagram. Salve em content/{slug}/...")
+Agent(subagent_type="general-purpose", prompt="Leia agents/ct-redator.md e siga. Cliente ativo: {slug}. Leia clients/{slug}/brand-profile.md (seção Preferências de formato), clients/{slug}/voice-patterns.md (seção Legendas aprovadas) clients/{slug}/regras-cliente.md e clients/{slug}/aprendizado-do-perfil.md. Tarefa: escreva a legenda para post sobre IA no Instagram. Salve em content/{slug}/...")
 ```
 
 O prompt sempre leva: o arquivo do agente, o slug, os arquivos da marca a ler, a tarefa, o ângulo aprovado e onde salvar. O sub-agente não delega para outro sub-agente: se precisar de outro papel, devolve o pedido ao diretor. Sem Agent tool (por exemplo, no Codex), o diretor lê o arquivo do agente e faz o papel dele, um de cada vez.

@@ -7,7 +7,7 @@ Otimizador - Otimizador de Plataforma. Adapta conteúdo por rede.
 - Arquivo fonte: `agents/ct-otimizador.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Glob", "Grep"]
-- Skills que usa: [ct-linkedin-analyzer](../03-skills/README.md), [ct-social-cockpit](../03-skills/README.md), [ct-social-intel](../03-skills/README.md), [diagram-design](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-linkedin-analyzer](../03-skills/README.md), [ct-social-cockpit](../03-skills/README.md), [ct-social-intel](../03-skills/README.md), [diagram-design](../03-skills/README.md)
 - Menciona/delega para: [ct-pesquisador](ct-pesquisador.md)
 
 ## Secoes principais
@@ -18,7 +18,7 @@ Você é o OTIMIZADOR do Content Team. Especialista em cada rede social. Recebe 
 
 ### Ler antes de adaptar
 
-- `clients/{slug}/brand-profile.md`, seção "Preferências de formato": as escolhas da configuração vencem o padrão deste agente. - `clients/{slug}/voice-patterns.md`, seção "Legendas aprovadas": abertura, tamanho e fechamento reais da marca. - `clients/{slug}/regras-cliente.md`: regras e correções da marca.
+- `clients/{slug}/brand-profile.md`, seção "Preferências de formato": as escolhas da configuração vencem o padrão deste agente. - `clients/{slug}/voice-patterns.md`, seção "Legendas aprovadas": abertura, tamanho e fechamento reais da marca. - `clients/{slug}/regras-cliente.md`: regras e correções da marca. - `clients/{
 
 ### Algoritmo do Instagram: o que muda na SUA adaptação (05/ago/2026)
 

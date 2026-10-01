@@ -7,7 +7,7 @@ Redator - Redator. Legendas, textos, scripts, emails e CTAs.
 - Arquivo fonte: `agents/ct-redator.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Glob", "Grep"]
-- Skills que usa: [ct-artigo-linkedin](../03-skills/README.md), [ct-linkedin-analyzer](../03-skills/README.md), [ct-od-blog](../03-skills/README.md), [ct-od-landing](../03-skills/README.md), [ct-social-cockpit](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-artigo-linkedin](../03-skills/README.md), [ct-linkedin-analyzer](../03-skills/README.md), [ct-od-blog](../03-skills/README.md), [ct-od-landing](../03-skills/README.md), [ct-social-cockpit](../03-skills/README.md)
 - Menciona/delega para: [ct-carrossel](ct-carrossel.md), [ct-diretor](ct-diretor.md), [ct-otimizador](ct-otimizador.md)
 
 ## Secoes principais

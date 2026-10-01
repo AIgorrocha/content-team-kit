@@ -7,7 +7,7 @@ Reciclador - Reciclador de Conteúdo. Transforma 1 conteúdo em vários formatos
 - Arquivo fonte: `agents/ct-reciclador.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Glob", "Grep"]
-- Skills que usa: [ct-openshorts](../03-skills/README.md), [ct-video-editor](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-openshorts](../03-skills/README.md), [ct-video-editor](../03-skills/README.md)
 - Menciona/delega para: [ct-video-editor](ct-video-editor.md)
 
 ## Secoes principais

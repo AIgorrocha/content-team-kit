@@ -360,7 +360,12 @@ Entregar em poucas linhas, em português simples:
    (`AIgorrocha/content-team-kit`), oferecer guardar a marca: "sua marca está só neste
    computador; quer que eu crie um repositório privado seu no GitHub?". Com o "sim", seguir a
    seção do repositório privado de `skills/ct-atualizar-kit/SKILL.md`.
-6. Oferecer o **primeiro plano da semana**: "quer que eu monte o plano desta semana?". Com o
+6. Se o **Instagram foi conectado**, oferecer ligar o **aprendizado diário**: "quer que o time
+   aprenda todo dia com o seu perfil? Ele lê o que você posta, vê o que deu certo e anota na pasta
+   da marca, sem apagar nada seu". Com o "sim", rodar a skill `ct-aprender-perfil` agora (primeira
+   leitura) e explicar `docs/APRENDIZADO-DIARIO.md` (inclusive a tarefa agendada do Windows, que é
+   opcional). Sem Instagram conectado, não oferecer.
+7. Oferecer o **primeiro plano da semana**: "quer que eu monte o plano desta semana?". Com o
    "sim", delegar a `ct-plano-semanal` com o ritmo da Fase 5.
 
 Depois de gravar tudo: `npm run workspace:boot` e conferir que `clients/active-client.md`

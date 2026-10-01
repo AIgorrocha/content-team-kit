@@ -7,7 +7,7 @@ Bridge entre ct-diretor e MoneyPrinterTurbo (motor de video faceless). Gera Reel
 - Arquivo fonte: `agents/ct-video-mpt.md`
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Skill", "Glob", "Grep"]
-- Skills que usa: [ct-video-mpt](../03-skills/README.md)
+- Skills que usa: [ct-aprender-perfil](../03-skills/README.md), [ct-video-mpt](../03-skills/README.md)
 - Menciona/delega para: [ct-diretor](ct-diretor.md), [ct-redator](ct-redator.md), [ct-video-higgsfield](ct-video-higgsfield.md), [ct-video-remotion](ct-video-remotion.md), [ct-video](ct-video.md)
 
 ## Secoes principais

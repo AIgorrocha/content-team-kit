@@ -4,7 +4,7 @@ Este arquivo e o CATALOGO COMPLETO das skills do repo: toda skill, o agente dono
 e uma linha do que ela faz. O `CLAUDE.md` carrega so as familias e as de uso
 diario, e aponta pra ca. Se a skill nao esta aqui, ela nao existe.
 
-Numeros atuais do kit: **65 pastas em `skills/`, 64 skills invocaveis** (1 e
+Numeros atuais do kit: **66 pastas em `skills/`, 65 skills invocaveis** (1 e
 infra sem `SKILL.md`: `_shared`).
 
 ## Duas regras que valem pra tudo
@@ -92,6 +92,7 @@ Escopo estreito. Nao e pipeline generico:
 | Skill | Dono | O que faz |
 |---|---|---|
 | ct-social-cockpit | ct-pesquisador | Painel unificado de performance por cliente em `content/{cliente}/cockpit.md`. ct-diretor le ANTES de produzir |
+| ct-aprender-perfil | ct-pesquisador | Aprendizado DIARIO do perfil: le feed, reel (normal e trial) e story (inclusive postado a mao) por `scripts/analytics/aprender-perfil-dados.mjs`, atualiza `clients/{slug}/aprendizado-do-perfil.md` e, com travas (3 publicacoes em 30 dias acima da mediana, nunca apaga, max 3 mudancas por marca por dia), `voice-patterns.md` e `regras-cliente.md`. Resumo na conversa (Telegram so se configurado). Ao abrir a pasta ou por "aprender com o meu perfil". Ver `docs/APRENDIZADO-DIARIO.md` |
 | ct-social-intel | ct-pesquisador | Best-time computado do historico real (ct_metrics_snapshots): heatmap 7x24 por rede e cliente |
 
 ## Meta Ads

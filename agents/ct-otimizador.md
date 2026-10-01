@@ -16,6 +16,7 @@ Recebe conteúdo do Instagram e adapta pra cada plataforma automaticamente.
 - `clients/{slug}/brand-profile.md`, seção "Preferências de formato": as escolhas da configuração vencem o padrão deste agente.
 - `clients/{slug}/voice-patterns.md`, seção "Legendas aprovadas": abertura, tamanho e fechamento reais da marca.
 - `clients/{slug}/regras-cliente.md`: regras e correções da marca.
+- `clients/{slug}/aprendizado-do-perfil.md`: o que os numeros reais do Instagram da marca mostram (o que funciona, linguagem, ganchos, stories), atualizado pela skill `ct-aprender-perfil`. Orienta a escolha; nao vence `brand-profile.md`, `regras-cliente.md` nem `voice-patterns.md`. Ausente: seguir sem ele.
 
 O texto final é para o SEGUIDOR: nunca linguagem de processo da produção ("versão adaptada", "ajustei pro LinkedIn", "conforme o briefing").
 

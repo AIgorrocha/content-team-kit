@@ -19,9 +19,11 @@
 import dotenv from "dotenv"
 import { Pool } from "pg"
 import { fileURLToPath } from "node:url"
+import { createRequire } from "node:module"
 import { ALLOWED, resolveClient } from "../_lib/workspace-client.mjs"
 
 dotenv.config({ path: ".env.local", quiet: true })
+dotenv.config({ path: ".env", quiet: true }) // quem guarda as chaves em .env (sem .env.local) tambem funciona
 
 // ---------------------------------------------------------------------------
 // Normalizadores puros (Rung 7 da ladder: so o minimo, sem classe/estado). Cada um recebe
@@ -341,13 +343,21 @@ async function main() {
   }
   const pool = criarPool(databaseUrl)
 
-  await import("tsx")
-  const { lerCredencialOAuth } = await import("../../src/lib/sala/oauth-credentials.ts")
-  const { default: db } = await import("../../src/lib/db.ts")
-  const poolCofre = db.default ?? db
   const porRede = {}
   const via = {}
   const avisos = []
+  // Cofre de credenciais da Sala (TypeScript, precisa do tsx). Sem tsx ou sem a chave de
+  // criptografia, segue so com as chaves do .env: o cofre e opcional, nunca bloqueia a coleta.
+  let lerCredencialOAuth = async () => null
+  let poolCofre = null
+  try {
+    await import("tsx")
+    ;({ lerCredencialOAuth } = await import("../../src/lib/sala/oauth-credentials.ts"))
+    const { default: db } = await import("../../src/lib/db.ts")
+    poolCofre = db.default ?? db
+  } catch {
+    avisos.push("cofre de credenciais indisponível, usando as chaves do .env")
+  }
 
   for (const rede of redesAlvo) {
     console.error(`[sync-publicacoes] coletando ${rede}...`)
@@ -360,11 +370,15 @@ async function main() {
       if (!coletor) { avisos.push(`${rede}: rede desconhecida`); continue }
       const env = ambienteDoCliente(process.env, clientSlug)
       try {
-        const cred = await lerCredencialOAuth(clientSlug, rede)
+        // Cofre indisponivel nao impede a coleta: sem credencial salva, o Instagram cai nas
+        // chaves da conta da marca (.env, via skills/_shared/ig-accounts.cjs).
+        const cred = await lerCredencialOAuth(clientSlug, rede).catch(() => null)
         if (cred) {
           if (rede === "instagram") env.INSTAGRAM_ACCESS_TOKEN = cred.accessToken
           if (rede === "linkedin") env.LINKEDIN_ACCESS_TOKEN = cred.accessToken
           if (rede === "youtube") env.YOUTUBE_REFRESH_TOKEN = cred.refreshToken ?? ""
+        } else if (rede === "instagram") {
+          Object.assign(env, credenciaisInstagramDaConta(clientSlug))
         }
         resultado = await coletor({ env, fetchImpl: fetch, clientSlug, desde })
       } catch {
@@ -396,7 +410,7 @@ async function main() {
   }
 
   if (pool) await pool.end()
-  await poolCofre.end()
+  if (poolCofre) await poolCofre.end()
   console.log(JSON.stringify({ porRede, via, avisos }))
 }
 
@@ -424,4 +438,18 @@ export function ambienteDoCliente(env, cliente) {
     for (const chave of ["INSTAGRAM_ACCESS_TOKEN", "INSTAGRAM_USER_ID", "LINKEDIN_ACCESS_TOKEN", "YOUTUBE_REFRESH_TOKEN", "YOUTUBE_ACCESS_TOKEN"]) delete resultado[chave]
   }
   return resultado
+}
+
+// Conta Instagram da marca pelas chaves do .env, via skills/_shared/ig-accounts.cjs (slot principal
+// ou business). Marca sem conta ali devolve {} e a coleta segue com o aviso "credencial ausente".
+export function credenciaisInstagramDaConta(cliente, raiz = process.cwd()) {
+  try {
+    const { CLIENT_ACCOUNTS } = createRequire(import.meta.url)(`${raiz}/skills/_shared/ig-accounts.cjs`)
+    const conta = Object.values(CLIENT_ACCOUNTS).find((c) => c.clientSlug === cliente && c.creds().token)
+    if (!conta) return {}
+    const { token, userId } = conta.creds()
+    return { INSTAGRAM_ACCESS_TOKEN: token, INSTAGRAM_USER_ID: userId }
+  } catch {
+    return {}
+  }
 }
