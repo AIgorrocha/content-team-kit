@@ -70,10 +70,20 @@ Cores e fontes: as da marca. Regras extras: [preencher].
 
 ## Legenda de reel
 
-Preenchido pela configuração, depois da prévia. Os agentes de vídeo usam estes valores.
+Os agentes de vídeo usam estes valores. Já vem no padrão testado em produção (legenda por frase,
+branca, maiúsculas, negrito, sem destaque nem contorno); a configuração ajusta cada item depois da
+prévia (cor, fonte, tamanho, espaçamento, linhas, destaque da palavra falada, contorno). Seção apagada ou campo
+entre [colchetes]: seguem o padrão de legenda do próprio agente.
 
-- Estilo: [palavra a palavra / por frase]
+- Estilo: por frase
 - Cor do texto: #FFFFFF
-- Cor de destaque da palavra falada: [#hex ou "sem destaque"]
-- Caixa: [maiúsculas / normal], peso: [negrito / normal]
-- Posição: [terço inferior / centro]
+- Cor de destaque da palavra falada: sem destaque
+- Caixa: maiúsculas, peso: negrito
+- Posição: terço inferior
+- Fonte: Inter
+- Tamanho: 76
+- Espaçamento entre letras: -1
+- Espaçamento entre linhas: 1.15
+- Linhas no máximo: sem limite
+- Palavras por página: 4
+- Contorno: sem contorno

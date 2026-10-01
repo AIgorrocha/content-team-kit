@@ -12,6 +12,8 @@ const norm = (s) =>
   String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim()
 const HEX = /#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b/
 
+const num = (v) => { const m = v.match(/-?\d+(?:[.,]\d+)?/); return m ? Number(m[0].replace(",", ".")) : undefined }
+
 export const DEFAULT_CAPTION = {
   style: "phrase", // "phrase" = pagina inteira de uma vez | "word" = palavra a palavra
   color: "#FFFFFF",
@@ -19,6 +21,13 @@ export const DEFAULT_CAPTION = {
   uppercase: true,
   bold: true,
   position: "bottom", // "bottom" (terco inferior) | "center"
+  font: "Inter", // nome no Google Fonts
+  size: null, // px; null = padrao da composicao
+  letterSpacing: -1, // px
+  lineHeight: 1.15, // multiplicador
+  maxLines: null, // null = sem limite
+  wordsPerPage: 4, // palavras por pagina de legenda (build-captions.mjs)
+  outline: null, // { color, width } (px visiveis) ou null = sem contorno
 }
 
 // Linhas de tabela "| Nome | #hex | uso |" -> { "background": "#000000", ... }
@@ -70,6 +79,17 @@ export function parseCaption(md) {
       const peso = nv.match(/peso:\s*(\w+)/)
       if (peso) cap.bold = peso[1] !== "normal"
     } else if (label === "posicao") cap.position = /centro/.test(nv) ? "center" : "bottom"
+    else if (label === "fonte") cap.font = value
+    else if (label === "tamanho") cap.size = num(value) ?? cap.size
+    else if (label === "espacamento entre letras") cap.letterSpacing = num(value) ?? cap.letterSpacing
+    else if (label === "espacamento entre linhas") cap.lineHeight = num(value) ?? cap.lineHeight
+    else if (label === "linhas no maximo") cap.maxLines = /sem limite/.test(nv) ? null : num(value) ?? cap.maxLines
+    else if (label === "palavras por pagina") cap.wordsPerPage = num(value) || cap.wordsPerPage
+    else if (label === "contorno") {
+      const color = (value.match(HEX) || [])[0]
+      if (/sem contorno/.test(nv)) cap.outline = null
+      else if (color) cap.outline = { color, width: num(value.replace(HEX, "")) ?? 4 }
+    }
   }
   return cap
 }

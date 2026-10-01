@@ -64,6 +64,13 @@ export const capCutSplitSchema = z.object({
   captionUppercase: z.boolean().default(true),
   captionBold: z.boolean().default(true),
   captionPosition: z.enum(["bottom", "center"]).default("bottom"),
+  // opcionais (ausente = padrao): fonte, tamanho, espacamentos, linhas no maximo e contorno
+  captionFont: z.string().optional(),
+  captionSize: z.number().optional(),
+  captionLetterSpacing: z.number().optional(),
+  captionLineHeight: z.number().optional(),
+  captionMaxLines: z.number().nullable().optional(),
+  captionOutline: z.object({ color: z.string(), width: z.number() }).nullable().optional(),
 });
 
 export type CapCutSplitProps = z.infer<typeof capCutSplitSchema>;
@@ -101,6 +108,7 @@ const Captions: React.FC<{
   style: Pick<
     CapCutSplitProps,
     "captionStyle" | "captionColor" | "highlightColor" | "captionUppercase" | "captionBold" | "captionPosition"
+    | "captionFont" | "captionSize" | "captionLetterSpacing" | "captionLineHeight" | "captionMaxLines" | "captionOutline"
   >;
 }> = ({ captions, style }) => {
   const frame = useCurrentFrame();
@@ -135,7 +143,12 @@ const Captions: React.FC<{
           highlightColor={style.highlightColor}
           uppercase={style.captionUppercase}
           bold={style.captionBold}
-          fontSize={76}
+          font={style.captionFont}
+          letterSpacing={style.captionLetterSpacing}
+          lineHeight={style.captionLineHeight}
+          maxLines={style.captionMaxLines}
+          outline={style.captionOutline}
+          fontSize={style.captionSize ?? 76}
           // legenda classica: cor da marca com sombra preta suave (sem contorno/stroke)
           shadow="0 2px 6px rgba(0,0,0,0.85), 0 4px 14px rgba(0,0,0,0.7)"
         />

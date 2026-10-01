@@ -22,6 +22,13 @@ const md = `# Design System - Acme Ltda
 - Cor de destaque da palavra falada: #FFD400
 - Caixa: normal, peso: normal
 - Posição: centro
+- Fonte: Poppins
+- Tamanho: 64 px
+- Espaçamento entre letras: 0
+- Espaçamento entre linhas: 1,3
+- Linhas no máximo: 1
+- Palavras por página: 3
+- Contorno: #000000, 5
 
 ## Outra
 - Estilo: nada
@@ -34,7 +41,10 @@ test("cores e fontes", () => {
 
 test("legenda de reel lida do design-system", () => {
   assert.deepEqual(parseCaption(md), {
+    ...DEFAULT_CAPTION,
     style: "word", color: "#EEEEEE", highlight: "#FFD400", uppercase: false, bold: false, position: "center",
+    font: "Poppins", size: 64, letterSpacing: 0, lineHeight: 1.3, maxLines: 1, wordsPerPage: 3,
+    outline: { color: "#000000", width: 5 },
   })
 })
 
@@ -42,6 +52,8 @@ test("sem secao ou campo nao preenchido: fallback neutro", () => {
   assert.deepEqual(parseCaption("# x"), DEFAULT_CAPTION)
   const tpl = "## Legenda de reel\n- Estilo: [palavra a palavra / por frase]\n- Cor de destaque da palavra falada: sem destaque\n"
   assert.deepEqual(parseCaption(tpl), DEFAULT_CAPTION)
+  const semLimite = "## Legenda de reel\n- Linhas no máximo: sem limite\n- Contorno: sem contorno\n- Tamanho: [px]\n"
+  assert.deepEqual(parseCaption(semLimite), DEFAULT_CAPTION)
 })
 
 test("tema a partir do design-system", () => {

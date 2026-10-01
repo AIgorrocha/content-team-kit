@@ -26,12 +26,14 @@ algum trecho a destacar).
 - `clients/{slug}/brand-profile.md`, secao **Preferencias de formato** (tipos de reel, estilo
   de edicao, ritmo de cortes, zoom, trilha);
 - `clients/{slug}/design-system.md`, secao **Legenda de reel** (estilo, cor do texto, cor de
-  destaque da palavra falada, caixa e peso, posicao) e as cores e fontes;
+  destaque da palavra falada, caixa e peso, posicao, fonte, tamanho, espacamento entre letras e
+  entre linhas, linhas no maximo, palavras por pagina, contorno) e as cores e fontes;
 - `clients/{slug}/regras-cliente.md` (correcoes permanentes da marca).
 Tudo o que essas tres fontes definirem SOBREPOE o padrao descrito abaixo (por exemplo, marca
 que escolheu legenda palavra a palavra com destaque, ou fala direta sem split). O codigo ja
 respeita o que suporta: `run-editor.mjs` le a "Legenda de reel" e passa estilo, cor, destaque,
-caixa, peso e posicao para a composicao. Onde a marca nao escolheu, vale o padrao do kit.
+caixa, peso, posicao, fonte, tamanho, espacamentos, linhas, palavras por pagina e contorno para a
+composicao. Para mudar: editar o valor na secao e gerar a previa de novo. Onde a marca nao escolheu, vale o padrao do kit.
 Uma correcao nova do usuario vira regra da marca em `regras-cliente.md`, nao regra do kit.
 
 ### 1. Layout (split sob demanda, nao flip constante)

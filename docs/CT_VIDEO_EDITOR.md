@@ -8,7 +8,8 @@ demonstracao de tela, sem depender de ferramenta paga (CapCut, Submagic, Veed).
 ## O que entrega
 - Legenda automatica (transcricao WhisperX, palavra a palavra ou por frase), na lingua do video.
   Estilo da marca: secao "Legenda de reel" do `design-system.md` (cor, destaque da palavra
-  falada, caixa, peso, posicao). Padrao do kit: branca sombreada, sem destaque.
+  falada, caixa, peso, posicao, fonte, tamanho, espacamentos, linhas no maximo, palavras por pagina,
+  contorno). Padrao do kit: por frase, branca sombreada, maiusculas, negrito, sem destaque.
 - **Split dinamico**: talento em cima, a **tela de um produto** (proposta, app,
   dashboard, site) rolando embaixo; alterna com tela cheia + talento em PIP. Ou split
   **alternado** (`CapCutSplitAlt`): rosto maior, cima ou baixo por bloco, b-roll por bloco.

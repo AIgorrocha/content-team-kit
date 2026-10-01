@@ -21,7 +21,11 @@
 // cor do texto, cor de destaque da palavra falada, caixa e peso, posicao). Sem a secao, vale o
 // padrao do kit (branca, maiusculas, negrito, sem destaque). O config.json pode sobrepor com
 // captionColor, highlightColor ("sem destaque" = null), captionStyle ("phrase"|"word"),
-// captionUppercase, captionBold e captionPosition ("bottom"|"center").
+// captionUppercase, captionBold e captionPosition ("bottom"|"center"). A secao tambem aceita
+// Fonte, Tamanho, Espacamento entre letras e entre linhas, Linhas no maximo, Palavras por
+// pagina e Contorno (modelo em clients/_template/design-system.md). O config.json tambem pode
+// sobrepor captionFont, captionSize, captionLetterSpacing, captionLineHeight, captionMaxLines e
+// captionOutline ({"color":"#000000","width":4} ou null).
 //
 // Ambiente (.env.local): FFMPEG_BIN, FFPROBE_BIN, SELF_EVAL=0 (desliga o self-eval),
 // BROWSER_EXECUTABLE (Chrome do sistema, lido por remotion/remotion.config.ts),
@@ -123,7 +127,7 @@ if (CUT_SEMANTIC) {
 // 3) Legendas estilo CapCut
 console.log("== 3/5 legendas ==");
 const captionsJson = path.join(WORK, "captions.json");
-shv("node", [path.join(__dirname, "build-captions.mjs"), wordsJsonPath, captionsJson, "4", "0.6"]);
+shv("node", [path.join(__dirname, "build-captions.mjs"), wordsJsonPath, captionsJson, String(brandFor(cfg.client || resolveClient()).caption.wordsPerPage), "0.6"]);
 console.log("   >> revise/corrija o texto das legendas em " + captionsJson + " antes do render final.");
 const captions = JSON.parse(fs.readFileSync(captionsJson, "utf8"));
 
@@ -168,6 +172,12 @@ const captionProps = {
   captionUppercase: cfg.captionUppercase ?? cap.uppercase,
   captionBold: cfg.captionBold ?? cap.bold,
   captionPosition: cfg.captionPosition || cap.position,
+  captionFont: cfg.captionFont || cap.font,
+  captionSize: cfg.captionSize ?? cap.size ?? undefined,
+  captionLetterSpacing: cfg.captionLetterSpacing ?? cap.letterSpacing,
+  captionLineHeight: cfg.captionLineHeight ?? cap.lineHeight,
+  captionMaxLines: cfg.captionMaxLines === undefined ? cap.maxLines : cfg.captionMaxLines,
+  captionOutline: cfg.captionOutline === undefined ? cap.outline : cfg.captionOutline,
 };
 
 // layout default: talk -> split -> screen -> split -> talk (termina no talento ao vivo)

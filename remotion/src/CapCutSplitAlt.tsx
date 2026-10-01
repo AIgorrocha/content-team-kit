@@ -60,6 +60,13 @@ export const capCutSplitAltSchema = z.object({
   highlightColor: z.string().nullable().default(null), // cor da palavra falada (so em "word")
   captionUppercase: z.boolean().default(true),
   captionBold: z.boolean().default(true),
+  // opcionais (ausente = padrao): fonte, tamanho, espacamentos, linhas no maximo e contorno
+  captionFont: z.string().optional(),
+  captionSize: z.number().optional(),
+  captionLetterSpacing: z.number().optional(),
+  captionLineHeight: z.number().optional(),
+  captionMaxLines: z.number().nullable().optional(),
+  captionOutline: z.object({ color: z.string(), width: z.number() }).nullable().optional(),
 });
 export type CapCutSplitAltProps = z.infer<typeof capCutSplitAltSchema>;
 
@@ -91,6 +98,7 @@ const Captions: React.FC<{
   style: Pick<
     CapCutSplitAltProps,
     "captionStyle" | "captionColor" | "highlightColor" | "captionUppercase" | "captionBold"
+    | "captionFont" | "captionSize" | "captionLetterSpacing" | "captionLineHeight" | "captionMaxLines" | "captionOutline"
   >;
 }> = ({ captions, layout, style }) => {
   const frame = useCurrentFrame();
@@ -145,7 +153,12 @@ const Captions: React.FC<{
           highlightColor={style.highlightColor}
           uppercase={style.captionUppercase}
           bold={style.captionBold}
-          fontSize={74}
+          font={style.captionFont}
+          letterSpacing={style.captionLetterSpacing}
+          lineHeight={style.captionLineHeight}
+          maxLines={style.captionMaxLines}
+          outline={style.captionOutline}
+          fontSize={style.captionSize ?? 74}
           shadow="0 2px 6px rgba(0,0,0,0.9), 0 4px 16px rgba(0,0,0,0.8)"
         />
       </div>
