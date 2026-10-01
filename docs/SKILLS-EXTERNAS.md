@@ -17,6 +17,10 @@ Já incluída no kit: `design-taste-frontend` (taste-skill, MIT), em
 
 ## Antes de instalar qualquer ferramenta nova
 
+Diga "avaliar essa ferramenta" e cole o link: a skill `ct-avaliar-novidade` faz a conferência
+abaixo por você e entrega um parecer antes de instalar. Resumo do que ela confere:
+
+
 1. Ver a licença (o arquivo LICENSE do repositório). Sem licença, não copiar para o kit.
 2. Ler o que a skill manda o agente fazer: scripts de instalação, programas baixados, chaves
    pedidas, envio de dados para fora.

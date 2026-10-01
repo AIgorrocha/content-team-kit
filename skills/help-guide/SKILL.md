@@ -34,8 +34,8 @@ como no exemplo abaixo.
    Pedir: "edita esse video" · "faz uma thumbnail" · "desenha o fluxo do processo"
 
 <b>5. CONFIGURACAO E MANUTENCAO</b>
-   Skills: ct-onboarding (configurar) · ct-atualizar-kit · ct-reportar-problema
-   Pedir: "configurar empresa nova" · "continuar configuracao" · "conectar as redes" · "atualizar o kit" · "reportar problema"
+   Skills: ct-onboarding (configurar) · ct-atualizar-kit · ct-reportar-problema · ct-avaliar-novidade
+   Pedir: "configurar empresa nova" · "continuar configuracao" · "conectar as redes" · "atualizar o kit" · "reportar problema" · "avaliar essa ferramenta"
 
 <b>Regras</b>
 - Toda acao envolvendo cliente: confirmo qual e o cliente ativo antes

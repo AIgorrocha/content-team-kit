@@ -27,6 +27,7 @@ indicado e seguir o passo a passo:
 | "atualizar o kit", "tem atualização?" | `skills/ct-atualizar-kit/SKILL.md` |
 | "criar meu repositório privado", "salvar a minha marca" | `skills/ct-atualizar-kit/SKILL.md`, seção do repositório privado |
 | "reportar problema", "sugerir melhoria" | `skills/ct-reportar-problema/SKILL.md` |
+| "avaliar essa ferramenta", "vale a pena instalar isso?", link de skill ou repositório | `skills/ct-avaliar-novidade/SKILL.md` |
 | "o que você sabe fazer?", "ajuda" | `skills/help-guide/SKILL.md` |
 
 ## Fluxo de toda tarefa de conteúdo

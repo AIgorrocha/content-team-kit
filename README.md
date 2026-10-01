@@ -62,6 +62,7 @@ Converse em português normal. Alguns exemplos:
 | "clona a estrutura deste vídeo viral com o nosso produto" | Mesmo formato do vídeo de referência, com o conteúdo da sua marca (ferramenta externa opcional) |
 | "atualizar o kit" | Traz as melhorias novas sem mexer na sua marca |
 | "reportar problema" | Monta um aviso para quem mantém o kit, sem senhas nem dados da marca |
+| "avaliar essa ferramenta: [link]" | Parecer de licença, segurança e utilidade antes de instalar qualquer coisa |
 | "o que você sabe fazer?" | Lista tudo o que o time faz |
 
 Quem recebe o pedido é o **Diretor** (`agents/ct-diretor.md`). Ele distribui o trabalho para

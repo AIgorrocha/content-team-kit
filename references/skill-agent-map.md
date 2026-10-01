@@ -4,7 +4,7 @@ Este arquivo e o CATALOGO COMPLETO das skills do repo: toda skill, o agente dono
 e uma linha do que ela faz. O `CLAUDE.md` carrega so as familias e as de uso
 diario, e aponta pra ca. Se a skill nao esta aqui, ela nao existe.
 
-Numeros atuais do kit: **64 pastas em `skills/`, 63 skills invocaveis** (1 e
+Numeros atuais do kit: **65 pastas em `skills/`, 64 skills invocaveis** (1 e
 infra sem `SKILL.md`: `_shared`).
 
 ## Duas regras que valem pra tudo
@@ -146,6 +146,7 @@ Artefato web standalone com os tokens do cliente ativo. Todas com dono `ct-desig
 | ct-onboarding `[local]` | ct-diretor | Configuracao completa por conversa: prepara o computador, cria `clients/{slug}/`, mostra previas de legenda, carrossel, reel, story e design para a pessoa escolher, e guia a conexao das redes pelo navegador (`references/conexoes-guiadas.md`). Retomavel ("continuar configuracao") |
 | ct-atualizar-kit `[local]` | (assistivo) | "atualizar o kit": traz a versao nova do kit sem mexer na marca; "criar meu repositorio privado": guarda a marca num repositorio privado da pessoa |
 | ct-reportar-problema `[local]` | (assistivo) | "reportar problema", "sugerir melhoria": monta o relatorio sem segredo nem dado da marca, mostra antes e envia so com "pode" |
+| ct-avaliar-novidade `[local]` | ct-diretor | "avaliar essa ferramenta", link de skill ou repositorio: le sem executar, confere licenca, seguranca e valor, diz onde encaixa e so instala ou integra com "pode" |
 
 ## Infra (nao invocavel, sem SKILL.md)
 
