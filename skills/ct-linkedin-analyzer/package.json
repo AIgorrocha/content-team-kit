@@ -1,0 +1,14 @@
+{
+  "name": "ct-linkedin-analyzer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Analisa posts LinkedIn (pessoal + company) via REST API",
+  "main": "analyze-personal.js",
+  "scripts": {
+    "analyze:personal": "node analyze-personal.js",
+    "analyze:company": "node analyze-company.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

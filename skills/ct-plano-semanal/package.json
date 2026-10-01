@@ -1,0 +1,15 @@
+{
+  "name": "ct-plano-semanal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gera planejamento editorial semanal cruzando brand + top posts de pesquisa (Supabase)",
+  "main": "gerar.js",
+  "scripts": {
+    "gerar": "node gerar.js",
+    "dry": "node gerar.js --dry-run"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ct-republicar-twitter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Republica posts do LinkedIn do cliente ativo no Twitter/X via Playwright, adaptando pra single tweet ou thread",
+  "scripts": {
+    "adapt": "node adapt.js",
+    "post": "node post.js",
+    "dry-run": "node post.js --dry-run --limit 3"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "ct-twitter-research",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pesquisa no Twitter/X via Playwright com sessao persistente (qualquer cliente com Twitter/X no brand-profile)",
+  "scripts": {
+    "setup": "node login-setup.js",
+    "timeline": "node scrape.js timeline",
+    "bookmarks": "node scrape.js bookmarks",
+    "search": "node scrape.js search"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0"
+  }
+}

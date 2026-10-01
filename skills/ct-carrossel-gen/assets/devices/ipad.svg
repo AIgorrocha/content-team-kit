@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- iPad Pro frame canônico — neutral grey
+     Inspirado em nexu-io/open-design (Apache-2.0). 4:3 aspect. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect x="4" y="4" width="792" height="592" rx="38" ry="38"
+        fill="#1F2937" stroke="#0F172A" stroke-width="2"/>
+  <rect x="28" y="28" width="744" height="544" rx="14" ry="14" fill="#000000"/>
+  <rect x="36" y="36" width="728" height="528" rx="8" ry="8" fill="#F3F4F6"/>
+  <circle cx="20" cy="300" r="3" fill="#0F172A"/>
+  <circle cx="780" cy="300" r="3" fill="#0F172A"/>
+</svg>

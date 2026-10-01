@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PROSPECT_NOME}} · Proposta · {{EMPRESA_NOME}}</title>
+<meta name="description" content="Proposta comercial para {{PROSPECT_NOME}}. {{EMPRESA_NOME}}.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family={{FONTE_TITULO}}:wght@400;600;700;800&family={{FONTE_TEXTO}}:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---- TOKENS DE MARCA (a skill preenche a partir do company-profile ou do site do prospect) ---- */
+  :root{
+    --brand:{{COR_PRIMARIA}};
+    --brand2:{{COR_SECUNDARIA}};
+    --bg:{{COR_FUNDO}};
+    --txt:{{COR_TEXTO}};
+    --accent:{{COR_ACENTO}};
+    --muted:#9aa6b2;
+    --surface:rgba(255,255,255,.05);
+    --line:rgba(255,255,255,.10);
+    --radius:18px;
+    --shadow:0 18px 50px -20px rgba(0,0,0,.55);
+    --max:1140px;
+    --font-h:'{{FONTE_TITULO}}',sans-serif;
+    --font-b:'{{FONTE_TEXTO}}',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font-b);background:var(--bg);color:var(--txt);line-height:1.65;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:var(--font-h);line-height:1.15;letter-spacing:-.02em}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  section{padding:90px 0}
+  .eyebrow{font-family:var(--font-h);font-weight:600;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--brand2)}
+  h2.title{font-size:clamp(1.7rem,3.6vw,2.6rem);font-weight:700;margin:.4rem 0 .5rem}
+  .lead{font-size:1.05rem;color:var(--muted);max-width:720px}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-h);font-weight:600;padding:.8rem 1.4rem;border-radius:999px;text-decoration:none;transition:.25s;cursor:pointer;border:1.5px solid transparent}
+  .btn-primary{background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;box-shadow:0 12px 30px -12px var(--brand)}
+  .btn-primary:hover{transform:translateY(-2px)}
+  .btn-ghost{background:var(--surface);color:var(--txt);border-color:var(--line)}
+
+  .hero{position:relative;padding:120px 0 100px;background:var(--bg);background:radial-gradient(900px 480px at 78% 10%,color-mix(in srgb,var(--brand) 30%,transparent),transparent 60%)}
+  .hero h1{font-size:clamp(2rem,4.8vw,3.4rem);font-weight:800;margin:.7rem 0}
+  .hero h1 b{color:var(--brand2)}
+  .hero p{color:var(--muted);font-size:1.08rem;max-width:560px}
+  .badges{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 28px}
+  .badge{font-size:.8rem;font-family:var(--font-h);font-weight:500;background:var(--surface);border:1px solid var(--line);padding:.4rem .8rem;border-radius:999px;color:var(--muted)}
+  .ctas{display:flex;flex-wrap:wrap;gap:12px}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;transition:.3s}
+  .card:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--brand2) 50%,transparent)}
+  .card .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;font-weight:800;font-family:var(--font-h);margin-bottom:14px}
+  .card h3{font-size:1.1rem;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:.95rem}
+  @media(max-width:860px){.cards{grid-template-columns:1fr}}
+
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  @media(max-width:860px){.split{grid-template-columns:1fr;gap:28px}}
+
+  .invest table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-top:30px}
+  .invest th,.invest td{padding:15px 20px;text-align:left;font-size:.95rem;border-bottom:1px solid var(--line)}
+  .invest thead th{background:var(--brand);background:color-mix(in srgb,var(--brand) 30%,var(--bg));font-family:var(--font-h);font-weight:600;font-size:.85rem}
+  .invest .total td{background:var(--surface);background:color-mix(in srgb,var(--brand2) 14%,var(--bg));font-family:var(--font-h);font-weight:700}
+  .invest .val{text-align:right;white-space:nowrap;font-family:var(--font-h);font-weight:600}
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+  .pill{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;text-align:center}
+  .pill .k{font-size:.78rem;color:var(--muted);font-family:var(--font-h);text-transform:uppercase;letter-spacing:.04em}
+  .pill .v{font-family:var(--font-h);font-weight:800;font-size:1.5rem;margin-top:6px}
+  .pill.hl{background:linear-gradient(135deg,var(--brand2),var(--brand));border:none;color:#fff}
+  @media(max-width:680px){.pricing{grid-template-columns:1fr}}
+
+  .payment{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:26px}
+  .incl{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+  .incl h4{font-family:var(--font-h);margin-bottom:12px}
+  .incl ul{list-style:none}
+  .incl li{padding:7px 0 7px 26px;position:relative;font-size:.92rem;color:var(--muted)}
+  .incl.yes li::before{content:"✓";position:absolute;left:0;color:#39d98a;font-weight:800}
+  .incl.no li::before{content:"✕";position:absolute;left:0;color:#ff6b6b;font-weight:800}
+  @media(max-width:680px){.payment{grid-template-columns:1fr}}
+
+  /* Cronograma = TIMELINE CSS (nunca Mermaid gantt) */
+  .timeline{margin-top:34px;border-left:2px solid var(--line);padding-left:26px}
+  .tl-item{position:relative;padding:0 0 26px}
+  .tl-item::before{content:"";position:absolute;left:-33px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--brand2)}
+  .tl-item h4{font-family:var(--font-h);font-size:1rem}
+  .tl-item p{color:var(--muted);font-size:.9rem}
+
+  .foot{background:var(--surface);background:color-mix(in srgb,var(--brand) 16%,var(--bg));padding:60px 0 40px;text-align:center}
+  .foot .co{font-family:var(--font-h);font-weight:700;font-size:1.2rem;margin-top:10px}
+  .foot a{color:var(--muted);text-decoration:none;display:block;margin:3px 0}
+  .copyr{text-align:center;padding:24px;font-size:.8rem;color:var(--muted);border-top:1px solid var(--line)}
+  .rv{opacity:0;transform:translateY(24px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  /* mobile: reduz respiro vertical (proposta abre muito no celular) */
+  @media(max-width:680px){section{padding:56px 0}.hero{padding:80px 0 56px}}
+  /* acessibilidade: respeita quem desativa animacao */
+  @media(prefers-reduced-motion:reduce){
+    .rv{opacity:1;transform:none;transition:none}
+    *{animation:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero"><div class="wrap">
+  <span class="eyebrow">Proposta · {{TIPO_SERVICO}}</span>
+  <h1>{{PROSPECT_NOME}}<br><b>{{TITULO_PROPOSTA}}</b></h1>
+  <p>{{RESUMO_HERO}}</p>
+  <div class="badges">{{BADGES}}</div>
+  <div class="ctas">
+    <a class="btn btn-primary" href="#investimento">Ver Investimento</a>
+    <a class="btn btn-ghost" href="{{CTA_LINK}}">{{CTA_TEXTO}}</a>
+  </div>
+</div></header>
+
+<!-- ENTENDIMENTO -->
+<section><div class="wrap">
+  <span class="eyebrow rv">O que entendemos</span>
+  <h2 class="title rv">{{ENTENDIMENTO_TITULO}}</h2>
+  <p class="lead rv">{{ENTENDIMENTO_TEXTO}}</p>
+  <div class="cards">{{CARDS_ENTENDIMENTO}}</div>
+</div></section>
+
+<!-- O QUE ENTREGAMOS (módulos do escopo) -->
+<section style="background:var(--surface)"><div class="wrap">
+  <span class="eyebrow rv">O que entregamos</span>
+  <h2 class="title rv">Escopo dos serviços</h2>
+  <div class="cards">{{CARDS_ESCOPO}}</div>
+</div></section>
+
+<!-- POR QUE VALE / ROI -->
+<section><div class="wrap split">
+  <div>
+    <span class="eyebrow rv">Por que vale</span>
+    <h2 class="title rv">{{VALOR_TITULO}}</h2>
+    <p class="lead rv">{{VALOR_TEXTO}}</p>
+  </div>
+  <div class="cards" style="grid-template-columns:1fr;margin-top:0">{{CARDS_BENEFICIOS}}</div>
+</div></section>
+
+<!-- INVESTIMENTO (balizamento de mercado ANTES do preço) -->
+<section id="investimento" class="invest"><div class="wrap">
+  <span class="eyebrow rv">Investimento</span>
+  <h2 class="title rv">{{INVEST_TITULO}}</h2>
+  <p class="lead rv">{{BALIZAMENTO_MERCADO}}</p>
+  <table class="rv">{{TABELA_PRECOS}}</table>
+  <div class="pricing">{{PILLS_PRECO}}</div>
+  <div class="payment">
+    <div class="incl yes rv"><h4>✓ Incluso</h4><ul>{{INCLUSOS}}</ul></div>
+    <div class="incl no rv"><h4>✕ Não contemplado</h4><ul>{{NAO_INCLUSOS}}</ul></div>
+  </div>
+</div></section>
+
+<!-- CRONOGRAMA (timeline CSS) -->
+<section style="background:var(--surface)"><div class="wrap">
+  <span class="eyebrow rv">Cronograma</span>
+  <h2 class="title rv">Como vamos conduzir</h2>
+  <div class="timeline">{{TIMELINE}}</div>
+</div></section>
+
+<!-- CONTATO -->
+<footer class="foot"><div class="wrap">
+  <span class="eyebrow">Vamos conversar</span>
+  <div class="co">{{EMPRESA_NOME}}</div>
+  <p style="color:var(--muted)">{{EMPRESA_TAGLINE}}</p>
+  <a href="https://wa.me/{{WHATSAPP}}">WhatsApp</a>
+  <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>
+  <div style="margin-top:18px"><a class="btn btn-primary" href="{{AGENDAMENTO}}">Agendar conversa</a></div>
+</div></footer>
+<div class="copyr">© {{ANO}} {{EMPRESA_NOME}} · Proposta {{PROSPECT_NOME}} · Documento comercial, não constitui contrato.</div>
+
+<script>
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

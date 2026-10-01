@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ct-motion-code scene</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+  canvas { display: block; }
+  /* Opcional: @font-face ou @import de Google Fonts do cliente vai aqui
+     (mesmo padrao usado em clients/*/templates/carousel-template). Sem
+     fonte custom, cai no fallback do sistema, que e deterministico igual. */
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script src="./motion.js"></script>
+<script>
+// ============================================================================
+// ct-motion-code / engine / template.html
+//
+// Copie ESTE arquivo + motion.js pra pasta de output da peca e edite so o
+// bloco BRAND / CONFIG / SCENES abaixo. window.seek(t) e a UNICA porta de
+// entrada do render (render.mjs so chama isso): tudo que uma cena desenha
+// tem que ser FUNCAO PURA de t.
+//
+// REGRAS DURAS (ver SKILL.md):
+// - Sem Date.now()/performance.now() dentro de draw() (so t importa).
+// - Sem Math.random() (usar o rng do Motion.mulberry32, semente fixa).
+// - Sem setTimeout/setInterval/requestAnimationFrame dentro de draw().
+// - Sem transicao CSS (tudo desenhado no canvas quadro a quadro).
+// - So UI/tela real capturada (Playwright) ou assets de verdade do cliente
+//   entram na cena. Nunca "reimaginar" a interface de um produto.
+// ============================================================================
+
+// BRAND: tokens do cliente ativo (clients/{slug}/design-system.md). O
+// render.mjs pode injetar via --brand ANTES deste script rodar
+// (page.addInitScript); o merge abaixo deixa o valor injetado vencer e so
+// usa este default quando ninguem passou --brand (preview manual no Chrome).
+window.BRAND = Object.assign(
+  {
+    bg: "#0D0D0D",
+    surface: "#1A1A1A",
+    text: "#FFFFFF",
+    textMuted: "#A0A0A0",
+    accent: "#4A90D9",
+    accent2: "#7C3AED",
+    fontDisplay: "sans-serif",
+    fontBody: "sans-serif",
+  },
+  window.BRAND || {}
+);
+
+// CONFIG: formato/duracao/fps/seed. render.mjs pode injetar via
+// --width/--height/--fps/--duration/--seed; o merge abaixo deixa o CLI
+// vencer sobre o default inline.
+window.CONFIG = Object.assign(
+  {
+    width: 1080,
+    height: 1920,
+    fps: 30,
+    duration: 6,
+    seed: 1,
+  },
+  window.CONFIG || {}
+);
+
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+canvas.width = window.CONFIG.width;
+canvas.height = window.CONFIG.height;
+
+const rng = Motion.mulberry32(window.CONFIG.seed);
+
+// SCENES: lista de { from, to, draw(ctx, t, localT, rng) }. from/to em
+// segundos no relogio GLOBAL da timeline. localT = t - from (tempo dentro
+// da propria cena). EXEMPLO minimo abaixo: apagar e substituir pela cena
+// real da peca.
+window.SCENES = window.SCENES || [
+  {
+    from: 0,
+    to: window.CONFIG.duration,
+    draw(ctx, t, localT, rng) {
+      ctx.fillStyle = window.BRAND.text;
+      ctx.font = `700 64px ${window.BRAND.fontDisplay}`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("ct-motion-code", canvas.width / 2, canvas.height / 2);
+    },
+  },
+];
+
+function drawFrame(t) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = window.BRAND.bg;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  for (const scene of window.SCENES) {
+    if (t >= scene.from && t < scene.to) {
+      scene.draw(ctx, t, t - scene.from, rng);
+    }
+  }
+}
+
+// window.seek(t): funcao pura chamada pelo render.mjs (Playwright), N vezes
+// por segundo (fps x subquadros de motion blur). Determinismo depende 100%
+// de draw() nunca ler relogio de verdade, nunca usar Math.random, nunca
+// guardar estado entre chamadas.
+window.seek = function seek(t) {
+  drawFrame(t);
+};
+
+// Preview ao vivo: SO roda fora do Playwright headless (o Chromium
+// automatizado tem navigator.webdriver = true por padrao). Abrir este HTML
+// direto no Chrome deixa ver a animacao tocando sem gerar video nenhum.
+if (!navigator.webdriver) {
+  let start = null;
+  function loop(ts) {
+    if (start === null) start = ts;
+    const t = ((ts - start) / 1000) % window.CONFIG.duration;
+    window.seek(t);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+} else {
+  // desenha o frame 0 na hora, pra document.fonts.ready nao flagrar tela em branco
+  window.seek(0);
+}
+
+window.__ready = true;
+</script>
+</body>
+</html>

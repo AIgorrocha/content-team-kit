@@ -1,0 +1,15 @@
+{
+  "name": "ct-tiktok-analyzer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Scrape TikTok profile (logado via Playwright persistente) — videos, engagement, hashtags",
+  "main": "scrape.js",
+  "scripts": {
+    "login": "node login-setup.js",
+    "scrape": "node scrape.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "playwright": "^1.48.0"
+  }
+}

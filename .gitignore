@@ -1,0 +1,98 @@
+node_modules/
+.next/
+.env
+.env.local
+.env.production
+.env.*.local
+.env.bak*
+.env*.bak*
+carousel-temp/
+.DS_Store
+Thumbs.db
+.vercel
+.superpowers/
+
+# Output files (generated, not source)
+output/
+*.png
+*.jpg
+*.mp4
+*.mp3
+*.ogg
+
+# Allow client assets to be tracked
+!clients/*/assets/**
+
+# Allow Sala de Comando mock assets to be tracked (Fase 1, dados de exemplo do mock)
+!public/sala-mock/**
+
+# Secrets only - repo is PRIVATE but tokens still don't belong in git
+# (.mcp.json do kit so tem o navegador automatico, sem segredo: vai no repo)
+.replit
+
+# Cliente ativo desta pasta. Nao commitar.
+.workspace
+clients/active-client.md
+
+# Legacy assets (moved to clients/)
+assets/photos/
+skills/ct-carrossel-gen/assets/*
+!skills/ct-carrossel-gen/assets/devices/
+.playwright-mcp/
+test-results/
+social-intel-local.log
+
+integrations/video-editor/.venv/
+integrations/video-editor/uv.lock
+integrations/diagram-design/
+
+# BMAD skills (ferramenta de desenvolvimento, nao versionar aqui)
+.claude/skills/bmad-*/
+
+# BMAD Method v6 (ferramenta de dev, regenerada via npx bmad-method install)
+_bmad/
+_bmad-output/
+.claude/skills/bmad-*/
+
+# IG saved inspiration - sessoes logadas (NUNCA commitar)
+skills/ct-ig-saved-inspiration/.ig-profile-*/
+output/ig-saved/
+
+# Perfis de browser logado (cookies/Login Data = credenciais, NUNCA commitar)
+scripts/skills/**/.linkedin-profile/
+**/.linkedin-profile/
+
+# TypeScript build cache (gerado, nao versionar)
+tsconfig.tsbuildinfo
+
+# ct-drive-miner: digest local de trabalho (so metadados de caminhos, regenera no scan)
+content/*/oportunidades-drive.md
+
+# midia pesada de reels (masters crus, renders): manter em disco, fora do git
+content/*/reels/*/midia/
+content/*/reels/*/*.MOV
+content/*/reels/*/*.wav
+
+# referencia externa clonada (carousel generator), nunca versionada
+carousel-generator-ref/
+
+# Instrucoes locais desta pasta (roteamento ai-memory por cliente; nao versionar)
+CLAUDE.local.md
+
+# ai-memory por empresa: token e binario ficam fora do git
+integrations/ai-memory/.env
+integrations/ai-memory/bin/
+integrations/ai-memory/claude-hooks.snippet.json
+supabase/.temp/
+
+# Nunca versionar (CLAUDE.md, regra de sync)
+CREDENCIAIS/
+backups-servidor/
+.claude/scheduled_tasks.lock
+
+# Dados locais do servidor de DM (token do Instagram, regras, logs): NUNCA commitar
+data/
+# Tema de video gerado por marca (scripts/video/emit-theme.mjs)
+remotion/src/themes.generated.json
+# Logs das rotinas semanais
+social-intel-weekly.log

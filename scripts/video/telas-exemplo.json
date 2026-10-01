@@ -1,0 +1,42 @@
+[
+  {
+    "name": "01-lista",
+    "type": "lista",
+    "title": "Caixa de entrada (EXEMPLO)",
+    "subtitle": "Tres mensagens novas",
+    "items": [
+      { "title": "Fornecedor Exemplo A", "text": "Segue o documento do pedido 0001.", "tag": "anexo" },
+      { "title": "Fornecedor Exemplo B", "text": "Confirmacao de entrega do pedido 0002.", "tag": "anexo" },
+      { "title": "Fornecedor Exemplo C", "text": "Duvida sobre o pedido 0003.", "tag": "" }
+    ]
+  },
+  {
+    "name": "02-campos",
+    "type": "campos",
+    "title": "Dados lidos (EXEMPLO)",
+    "subtitle": "Pedido 0001",
+    "fields": [
+      { "label": "Cliente", "value": "Empresa Exemplo" },
+      { "label": "Valor", "value": "R$ 0,00 (exemplo)", "highlight": true },
+      { "label": "Data", "value": "00/00/0000" }
+    ]
+  },
+  {
+    "name": "03-numeros",
+    "type": "numeros",
+    "title": "Resultado (EXEMPLO)",
+    "subtitle": "Numeros ilustrativos, troque pelos reais",
+    "stats": [
+      { "value": "00", "label": "itens por dia" },
+      { "value": "00%", "label": "menos retrabalho" }
+    ]
+  },
+  {
+    "name": "04-cta",
+    "type": "cta",
+    "title": "Quer o **passo a passo**?",
+    "subtitle": "Te mostro como montar do zero",
+    "button": "Comenta QUERO",
+    "note": "e eu te mando nos comentarios"
+  }
+]

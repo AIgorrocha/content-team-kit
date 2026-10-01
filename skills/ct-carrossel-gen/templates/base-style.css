@@ -1,0 +1,95 @@
+/* =========================================================================
+   Estilo base do gerador de carrossel. Tudo aqui usa variaveis (var(--*))
+   definidas em clients/{slug}/design-tokens.css (modelo: design-tokens.modelo.css).
+   Nenhuma cor ou fonte fixa: a marca manda.
+   Estrutura de componentes inspirada em nexu-io/open-design (Apache-2.0).
+   ========================================================================= */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: var(--canvas-w); height: var(--canvas-h); background: var(--bg);
+  color: var(--text-primary); font-family: var(--font-body); overflow: hidden;
+  -webkit-font-smoothing: antialiased; }
+
+/* ---------- Slide e variante de fundo claro ---------- */
+.slide { width: var(--canvas-w); height: var(--canvas-h); position: relative;
+  background: var(--bg); overflow: hidden; }
+.slide.light { background: var(--light-bg); --surface: var(--light-surface); --border: var(--light-border);
+  --text-primary: var(--light-text); --text-secondary: var(--light-text); --text-muted: var(--light-text-muted);
+  --text-meta: var(--light-text-muted); --accent: var(--accent-dark); }
+
+/* ---------- 1) Header compacto (y150), em todo slide ---------- */
+.header { position: absolute; top: var(--safe-top); left: var(--safe-side); display: flex;
+  align-items: center; gap: var(--space-sm); }
+.avatar { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+  border: 2px solid var(--border); }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.header-text { display: flex; flex-direction: column; gap: 2px; }
+.header-name { font-family: var(--font-display); font-size: 22px; font-weight: 600;
+  color: var(--text-primary); letter-spacing: -0.01em; }
+.header-handle { font-size: 18px; font-weight: 400; color: var(--text-meta); }
+.hairline { position: absolute; top: calc(var(--safe-top) + 80px); left: var(--safe-side);
+  right: var(--safe-side); height: 1px; background: var(--border); }
+
+/* ---------- 2) Zona de titulo + corpo (nunca texto sobre midia) ---------- */
+.stage { position: absolute; top: calc(var(--safe-top) + 104px); left: var(--safe-side);
+  right: var(--safe-side); bottom: calc(var(--safe-bottom) + 75px); display: flex;
+  flex-direction: column; align-items: flex-start; }
+.slide.cover .stage, .slide.cta .stage { justify-content: center; }
+
+/* Tag de categoria em cima do heading (todo slide tem tag e heading) */
+.tag { font-family: var(--font-mono); font-size: var(--text-base); font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: var(--space-sm); }
+
+/* Headings: 3 degraus, um por tipo de slide */
+.hook { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 700;
+  line-height: 1.12; letter-spacing: -0.02em; color: var(--text-primary); }
+.headline { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700;
+  line-height: 1.18; letter-spacing: -0.015em; color: var(--text-primary); }
+.headline-cta { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700;
+  line-height: 1.15; letter-spacing: -0.02em; color: var(--text-primary); }
+
+/* Corpo */
+.body { font-size: var(--text-md); font-weight: 400; line-height: 1.45; color: var(--text-secondary);
+  margin-top: var(--space-lg); width: 100%; }
+.body p { margin-bottom: var(--space-sm); }
+.emphasis { color: var(--text-primary); font-weight: 700; }
+.highlight { color: var(--accent); font-weight: 700; }
+.muted { color: var(--text-muted); }
+
+/* Lista de passos numerados */
+.step-list { list-style: none; margin-top: var(--space-lg); width: 100%; display: flex;
+  flex-direction: column; gap: var(--space-md); }
+.step-list li { display: flex; align-items: flex-start; gap: var(--space-md); font-size: var(--text-md);
+  line-height: 1.4; color: var(--text-secondary); }
+.step-num { font-family: var(--font-display); font-weight: 700; color: var(--accent); min-width: 48px; }
+.step-action { color: var(--text-primary); font-weight: 600; display: block; }
+.step-desc { display: block; color: var(--text-muted); font-size: var(--text-sm); margin-top: 4px; }
+
+/* Bloco de codigo */
+.code-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg); margin-top: var(--space-md); width: 100%;
+  font-family: var(--font-mono); font-size: var(--text-sm); line-height: 1.7; color: var(--accent);
+  white-space: pre-wrap; }
+
+/* Midia opcional (print, foto, tela) na zona abaixo do titulo */
+.media { margin-top: var(--space-lg); width: 100%; border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--border); box-shadow: var(--elev-card); background: var(--surface); }
+.media img { display: block; width: 100%; max-height: 560px; object-fit: cover; }
+
+/* ---------- 3) Rodape: contador N/TOTAL + barra de progresso ---------- */
+.footer { position: absolute; left: var(--safe-side); right: var(--safe-side); bottom: var(--safe-bottom);
+  display: flex; align-items: center; gap: var(--space-sm); }
+.progress { flex: 1; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; }
+.progress > i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+.counter { font-family: var(--font-mono); font-size: var(--text-base); font-weight: 500; color: var(--text-meta); }
+
+/* ---------- Seta de swipe (todo slide, menos o ultimo) ---------- */
+.swipe { position: absolute; right: 0; top: 0; bottom: 0; width: 48px; display: flex;
+  align-items: center; justify-content: center; background: linear-gradient(to right, transparent, var(--border-soft)); }
+.swipe svg { stroke: var(--text-meta); }
+
+/* ---------- Utilitarios dos componentes ---------- */
+.stack-sm { display: flex; flex-direction: column; gap: var(--space-sm); }
+.stack-md { display: flex; flex-direction: column; gap: var(--space-md); }
+.row { display: flex; align-items: center; gap: var(--space-md); }
+.accent { color: var(--accent); }

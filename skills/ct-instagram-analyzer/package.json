@@ -1,0 +1,13 @@
+{
+  "name": "ct-instagram-analyzer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Analisa contas Instagram via Graph API (ultimos N posts + insights)",
+  "main": "analyze.js",
+  "scripts": {
+    "analyze": "node analyze.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

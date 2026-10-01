@@ -1,0 +1,23 @@
+<!-- Component: card-destaque
+     Open Design pattern: border-left de identidade + shadow + border soft.
+     Consome tokens: --surface, --border, --accent, --radius-lg, --elev-card.
+     Uso: copie o <style> uma vez no <head> e o <div class="destaque"> nos slides. -->
+<style>
+.destaque       { margin-top: var(--space-md);
+                  background: var(--surface);
+                  border: 1px solid var(--border);
+                  border-left: 4px solid var(--accent);
+                  border-radius: var(--radius-lg);
+                  padding: var(--space-md) var(--space-lg);
+                  max-width: 900px; width: 100%;
+                  box-shadow: var(--elev-card); }
+.destaque-txt   { font-size: var(--text-md); font-weight: 600;
+                  line-height: 1.4; color: var(--text-primary); }
+.destaque-txt em{ font-style: normal; color: var(--accent); }
+</style>
+
+<div class="destaque">
+  <div class="destaque-txt">
+    Texto principal com <em>palavra-chave em accent</em> que ancora a mensagem.
+  </div>
+</div>

@@ -1,0 +1,22 @@
+# Memoria de longo prazo dos agentes (ai-memory, akitaonrails). Uma instancia por empresa.
+# Sobe com: docker compose up -d   (dentro de integrations/ai-memory/)
+# Porta so em 127.0.0.1: ninguem de fora da maquina acessa.
+services:
+  ai-memory:
+    image: akitaonrails/ai-memory:1.38.0
+    container_name: ai-memory
+    restart: unless-stopped
+    command: ["serve", "--transport", "http", "--bind", "0.0.0.0:49374", "--enable-web"]
+    ports:
+      - "127.0.0.1:49374:49374"
+    env_file: .env
+    environment:
+      AI_MEMORY_DATA_DIR: /data
+      AI_MEMORY_ALLOWED_HOSTS: localhost,127.0.0.1
+      AI_MEMORY_IN_CONTAINER: "1"
+    volumes:
+      - ai-memory-data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # Ollama roda no host, fora do container
+volumes:
+  ai-memory-data:

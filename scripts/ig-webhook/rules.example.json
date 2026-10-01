@@ -1,0 +1,11 @@
+[
+  {
+    "id": "guia",
+    "keyword": "guia",
+    "link": "https://exemplo.com.br/seu-guia",
+    "followGate": false,
+    "publicReply": "Te mandei no direct.",
+    "linkText": "Aqui está o guia que você pediu:",
+    "ytReply": "Aqui está o guia que você pediu:"
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "name": "content-team-remotion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Projeto Remotion compartilhado do Content Team AI. Videos animados white-label via composicoes parametrizadas por tema do cliente (ver clients/{slug}).",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render",
+    "still": "remotion still",
+    "upgrade": "remotion upgrade",
+    "placeholders": "node scripts/make-placeholders.mjs",
+    "prestudio": "node scripts/make-placeholders.mjs",
+    "prerender": "node scripts/make-placeholders.mjs",
+    "prestill": "node scripts/make-placeholders.mjs",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.443",
+    "@remotion/google-fonts": "4.0.443",
+    "@remotion/media": "4.0.443",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "4.0.443"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.4.0"
+  }
+}

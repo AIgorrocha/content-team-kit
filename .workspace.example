@@ -1,0 +1,4 @@
+# Copie para .workspace na raiz do Kit. Não versionar esse arquivo local.
+client: acme
+# Opcional: pasta de mídia relativa à raiz do Kit.
+# icloud_inbox: entrada

@@ -1,0 +1,42 @@
+<!-- Component: comparison-cols (2 colunas lado a lado)
+     Open Design pattern: card surface + header com logo/ícone + border-bottom + bullets.
+     Uso típico: "X vs Y", "Antes vs Depois". -->
+<style>
+.cols           { display: grid; grid-template-columns: 1fr 1fr;
+                  gap: 20px; margin-top: var(--space-xs);
+                  width: 100%; max-width: 920px; }
+.col            { background: var(--surface);
+                  border: 1px solid var(--border);
+                  border-radius: var(--radius-xl);
+                  padding: 28px 26px;
+                  display: flex; flex-direction: column; gap: 14px;
+                  box-shadow: var(--shadow-md); }
+.col-head       { display: flex; align-items: center; gap: 14px;
+                  padding-bottom: var(--space-sm);
+                  border-bottom: 1px solid var(--border);
+                  margin-bottom: 8px; }
+.col-head img   { width: 42px; height: 42px; object-fit: contain; }
+.col-head .nm   { font-size: var(--text-base); font-weight: 800;
+                  color: var(--text-primary); letter-spacing: -0.3px; }
+.col-item       { font-size: var(--text-base); font-weight: 600;
+                  color: var(--text-secondary); line-height: 1.35;
+                  padding-left: 20px; position: relative; }
+.col-item::before { content: ''; position: absolute; left: 0; top: 11px;
+                    width: 8px; height: 8px; border-radius: 50%;
+                    background: var(--accent); }
+</style>
+
+<div class="cols">
+  <div class="col">
+    <div class="col-head"><img src="${LOGO_A}"><div class="nm">Coluna A</div></div>
+    <div class="col-item">Atributo 1</div>
+    <div class="col-item">Atributo 2</div>
+    <div class="col-item">Atributo 3</div>
+  </div>
+  <div class="col">
+    <div class="col-head"><img src="${LOGO_B}"><div class="nm">Coluna B</div></div>
+    <div class="col-item">Atributo 1</div>
+    <div class="col-item">Atributo 2</div>
+    <div class="col-item">Atributo 3</div>
+  </div>
+</div>

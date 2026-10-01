@@ -1,0 +1,97 @@
+# =============================================================================
+# company-profile.yaml  —  PERFIL DA SUA EMPRESA (preencha 1 vez)
+# Skill "Proposta White-Label". Copie pra company-profile.yaml e preencha.
+# Tudo aqui parametriza a geração da proposta. Nada é fixo de nenhuma empresa.
+# =============================================================================
+
+empresa:
+  nome: "Sua Empresa LTDA"          # nome que aparece no rodapé/contato
+  tagline: "O que você faz em 1 frase"
+  setor: "engenharia | marketing | software | contabilidade | arquitetura | ..."
+  site: "https://suaempresa.com"     # usado pra extrair a identidade visual
+  instagram: "@suaempresa"           # fallback de identidade visual
+  contato:
+    whatsapp: "55XXXXXXXXXXX"        # só números (link wa.me)
+    email: "contato@suaempresa.com"
+    agendamento: ""                  # link de agenda (Calendly/Google) ou vazio
+
+# ----------------------------------------------------------------------------
+# IDENTIDADE VISUAL
+# brand_mode:
+#   own    = proposta sai na SUA marca (usa as cores abaixo)
+#   client = proposta sai na marca do PROSPECT (a skill extrai do site dele)
+# ----------------------------------------------------------------------------
+identidade:
+  brand_mode: "client"               # own | client
+  # usado quando brand_mode=own (ou como fallback). Hex.
+  cores:
+    primaria: "#1f6fd6"
+    secundaria: "#66a8ee"
+    fundo: "#0f1620"                 # fundo escuro recomendado
+    texto: "#ffffff"
+    acento: "#b5ff42"
+  logo: "assets/logo.png"            # caminho do seu logo (ou vazio)
+  fonte_titulo: "Poppins"
+  fonte_texto: "Inter"
+
+# ----------------------------------------------------------------------------
+# PRECIFICAÇÃO / HONORÁRIOS  (global, qualquer empresa)
+# metodo:
+#   mercado   = pesquisa de preço de mercado (WebSearch) + ancoragem (recomendado)
+#   tabela    = você fornece uma tabela de preços própria (abaixo)
+#   por_hora  = valor/hora × horas estimadas
+# ----------------------------------------------------------------------------
+precificacao:
+  moeda: "BRL"
+  metodo: "mercado"                  # mercado | tabela | por_hora
+  validar_salario_minimo: true       # valida SM vigente do país antes de precificar
+  pais: "Brasil"
+  modelo_comercial: "projeto"        # projeto | ondas | recorrente | misto
+  # se metodo=tabela, liste itens (nome + base + valor). base livre: m2, unidade, fixo
+  tabela:
+    # - item: "Disciplina X"
+    #   base: "m2"
+    #   valor: 15
+  # se metodo=por_hora
+  valor_hora: 0
+  # âncora de valor: SEMPRE mostrar valor de mercado ANTES do preço (psicologia)
+  mostrar_balizamento_mercado: true
+  forma_pagamento_default: "50% entrada + 50% entrega"   # editável por proposta
+
+# ----------------------------------------------------------------------------
+# ESCOPO  (o que sua empresa entrega; vira a seção de escopo da proposta)
+# Liste seus "módulos/disciplinas/serviços". Genérico: vale pra qualquer setor.
+# ----------------------------------------------------------------------------
+escopo:
+  modulos:
+    - nome: "Serviço/Módulo 1"
+      descricao: "o que inclui"
+    - nome: "Serviço/Módulo 2"
+      descricao: "o que inclui"
+  inclusos:
+    - "Item incluso 1"
+    - "Item incluso 2"
+  nao_inclusos:
+    - "Item fora do escopo 1"
+
+# ----------------------------------------------------------------------------
+# ENTENDIMENTO / DESCOBERTA  (como a skill coleta info do projeto do prospect)
+# ----------------------------------------------------------------------------
+descoberta:
+  modo: "guiado"                     # guiado | documental | misto
+  perguntas:                         # padrão BMAD (1 por vez). Edite se quiser.
+    - "O que o cliente precisa resolver? (problema/objetivo)"
+    - "Para quem é? (público/uso final)"
+    - "Por que agora? (urgência/contexto)"
+    - "Como medir sucesso? (métricas/resultado esperado)"
+    - "Qual o escopo e as fases? (etapas/ondas)"
+    - "Estrutura comercial preferida? (à vista/parcelado/recorrente)"
+
+# ----------------------------------------------------------------------------
+# ENTREGÁVEL
+# ----------------------------------------------------------------------------
+entregavel:
+  formato: "html"                    # html standalone (recomendado)
+  deploy: "vercel"                   # vercel | nenhum (gera arquivo local)
+  vercel_account: ""                 # seu projeto/conta Vercel (ou vazio = manual)
+  sem_travessao: true                # estilo: não usar — em textos

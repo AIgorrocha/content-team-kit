@@ -1,0 +1,9 @@
+storageState.json
+cookies/
+*.session
+.chrome-profile/
+node_modules/
+.env
+.env.local
+debug-*.png
+debug-*.html

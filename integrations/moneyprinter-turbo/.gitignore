@@ -1,0 +1,10 @@
+# MoneyPrinterTurbo vendored — ignore secrets, heavy models, generated media
+config.toml
+storage/
+models/
+*.mp4
+*.mp3
+*.srt
+.venv/
+__pycache__/
+*.pyc
