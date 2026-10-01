@@ -355,7 +355,11 @@ Entregar em poucas linhas, em português simples:
    "diga **continuar configuração**".
 3. **O que ficou `[HIPOTESE]`** e será corrigido pelo primeiro relatório de desempenho.
 4. A frase: **"Nada é publicado sem o seu pode."**
-5. Oferecer o **primeiro plano da semana**: "quer que eu monte o plano desta semana?". Com o
+5. Se `git remote get-url origin` ainda aponta para o kit público
+   (`AIgorrocha/content-team-kit`), oferecer guardar a marca: "sua marca está só neste
+   computador; quer que eu crie um repositório privado seu no GitHub?". Com o "sim", seguir a
+   seção do repositório privado de `skills/ct-atualizar-kit/SKILL.md`.
+6. Oferecer o **primeiro plano da semana**: "quer que eu monte o plano desta semana?". Com o
    "sim", delegar a `ct-plano-semanal` com o ritmo da Fase 5.
 
 Depois de gravar tudo: `npm run workspace:boot` e conferir que `clients/active-client.md`

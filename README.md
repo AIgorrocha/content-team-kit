@@ -6,8 +6,9 @@ carrossel, story, reel e artigo, adapta para cada rede e só publica quando voc�
 
 ## Antes de começar
 
-Você só precisa do Claude Code ou do Codex instalado. O resto o assistente faz conversando
-com você, pedindo permissão a cada passo.
+Você só precisa do Claude Code ou do Codex instalado, com **uma assinatura sua** (cada pessoa
+ou empresa usa a própria conta, nunca a de quem passou o kit). O resto o assistente faz
+conversando com você, pedindo permissão a cada passo.
 
 1. **Baixar o kit:** crie uma pasta vazia, abra o Claude Code (ou o Codex) nela e diga
    **"baixar o kit"** (ou siga `docs/COMO-RECEBER-ATUALIZACOES.md`).
@@ -19,8 +20,29 @@ com você, pedindo permissão a cada passo.
 3. **Conectar as redes (opcional):** diga **"conectar as redes"**. O assistente abre o
    navegador e te guia tela por tela; você digita login e senha você mesmo. Sem conectar, o
    time produz os arquivos e você publica à mão.
+4. **Guardar a sua marca (recomendado):** diga **"criar meu repositório privado"**. O
+   assistente cria uma cópia privada na sua conta do GitHub (gratuita), só sua. Sem isso, a
+   marca fica só neste computador e se perde se ele quebrar.
 
-Instalação passo a passo, para quem prefere fazer à mão: `docs/SETUP.md`.
+Instalação passo a passo, para quem prefere fazer à mão: `docs/SETUP.md`. Baixar, atualizar
+e guardar a marca, com botões: `docs/COMO-RECEBER-ATUALIZACOES.md`.
+
+## Quem vê o quê
+
+- Este endereço público tem só o kit genérico, sem marca de ninguém. Ninguém consegue enviar
+  nada para ele, só baixar.
+- A sua marca (perfil, cores, peças, regras) fica no seu computador e, se você criar, no seu
+  repositório privado. Nem quem mantém o kit nem outras empresas veem.
+- Chaves e senhas ficam só no arquivo `.env.local`, que nunca sai do seu computador. O
+  assistente nunca pede senha no chat: ele diz o nome da chave e você cola o valor no arquivo.
+
+## Atualizações, problemas e sugestões
+
+- **"atualizar o kit"**: traz as melhorias novas, mostra antes o que muda e nunca mexe na sua marca.
+- **"reportar problema"** ou **"sugerir melhoria"**: monta um aviso sem senhas nem dados da
+  marca, mostra o texto e só envia com o seu "pode". O aviso chega como Issue (aviso) em
+  https://github.com/AIgorrocha/content-team-kit/issues. Sem conta no GitHub, o assistente
+  entrega o texto para você mandar por WhatsApp ou e-mail a quem te passou o kit.
 
 ## Como pedir as coisas
 
@@ -72,6 +94,21 @@ Ferramentas extras recomendadas (opcionais): `docs/SKILLS-EXTERNAS.md`.
 
 `npm run dev` abre a Sala de Comando no navegador (`http://localhost:5000`): peças, calendário,
 métricas e o que cada agente está fazendo. Detalhe em `docs/SETUP.md`, passo 5.
+
+## Avisos e limitações conhecidas
+
+- **Remotion (motor de vídeo por código):** gratuito para pessoas e empresas pequenas;
+  empresas acima de um certo tamanho precisam da licença paga deles. Detalhe em
+  `THIRD-PARTY-NOTICES.md`.
+- **Ferramentas externas** (Hypit, HeyGen, Higgsfield e outras) são opcionais, instaladas à
+  parte e algumas são pagas. Lista em `docs/SKILLS-EXTERNAS.md`.
+- **Login do Instagram:** a Meta às vezes recusa o endereço `localhost` no retorno do login.
+  O caminho alternativo está em `references/conexoes-guiadas.md`.
+- **Edição de vídeo com rosto** (cortes e legenda automática) precisa do programa de
+  transcrição WhisperX instalado. Passo a passo em `docs/CT_VIDEO_EDITOR.md`; peça
+  "instalar o editor de vídeo" e o assistente faz com você.
+- A publicação de verdade em cada rede depende das suas chaves. Antes de publicar pela
+  primeira vez, faça um teste e confira a peça na rede. Se algo falhar, diga "reportar problema".
 
 ## Licença
 

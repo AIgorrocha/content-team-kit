@@ -13,7 +13,8 @@ Responder sempre em PT-BR. Nunca usar travessão nos textos produzidos.
 ## Primeiro uso e frases que disparam skills
 
 Se não existir `.workspace` nem nenhuma pasta de marca em `clients/` (fora `_template/`),
-oferecer a configuração ("configurar empresa nova") antes de qualquer produção.
+oferecer a configuração ("configurar empresa nova") antes de qualquer produção, explicando em
+poucas linhas os passos de "Antes de começar" e "Quem vê o quê" do `README.md`.
 
 Quando a pessoa disser uma destas frases (ou algo com o mesmo sentido), abrir o `SKILL.md`
 indicado e seguir o passo a passo:
