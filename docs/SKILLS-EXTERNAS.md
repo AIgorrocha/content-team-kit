@@ -34,3 +34,4 @@ Para sugerir uma ferramenta para todos, diga "sugerir melhoria" (skill `ct-repor
 | Ferramenta | Para que serve | Como instalar |
 |---|---|---|
 | remotion-best-practices (Remotion) | Regras oficiais para animar com o Remotion; os agentes de vídeo por código seguem esta skill | `npx skills add remotion-dev/skills` |
+| Prompt Motion (prompt-motion.com) | Galeria de motion graphics feitos com Claude, cada vídeo com o prompt ou a skill de origem (UI, gráfico, diagrama, tipografia cinética, partículas, personagens). Referência de ideia para o motion em código: ver, reescrever a técnica com palavras próprias, nunca copiar prompt ou skill (o site não tem licença; cada entrada pertence ao criador linkado) | Nada a instalar; só consultar o site |
