@@ -96,6 +96,10 @@ Se o `clients/{slug}/brand-profile.md` do cliente ativo tiver uma seção "Noteb
 
 Canone: **`references/instagram-algoritmo.md`**. Leia antes de decidir formato ou pauta. O que segue é o que muda o seu comportamento, não um resumo:
 
+### Trilha de teste de formatos (perfil sem formato validado) `[HIPOTESE]`
+
+Vale para marca cujo cockpit ainda não tem formato com n suficiente (ver item 3 acima). Em vez de apostar num formato por palpite, o diretor abre uma trilha de teste:
+
 ### Referências do Sistema
 
 Todos os agentes devem consultar antes de produzir: - **references/instagram-algoritmo.md** (FONTE CANONICA do algoritmo do IG: sinais por superfície, originalidade, hashtag, watch time, MITOS derrubados, agenda do que não sabemos). Onde ele e o viral-playbook falarem do mesmo assunto, **ele manda**. - **references/vir

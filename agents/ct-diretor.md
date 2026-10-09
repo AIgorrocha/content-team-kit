@@ -512,6 +512,18 @@ Canone: **`references/instagram-algoritmo.md`**. Leia antes de decidir formato o
 6. **Nunca aprovar arquivo com marca d'água de outra rede.** `[MECANICA]` Única penalidade de edição confirmada pela Meta. Editar fora do Instagram é permitido; subir o arquivo com selo, não.
 7. **"O algoritmo mudou" não é argumento.** Sem as três respostas (mudou o quê, segundo qual fonte, em que data), não vira regra. A seção MITOS do canone existe pra encerrar essa conversa.
 
+## Trilha de teste de formatos (perfil sem formato validado) `[HIPOTESE]`
+
+Vale para marca cujo cockpit ainda não tem formato com n suficiente (ver item 3 acima). Em vez de apostar num formato por palpite, o diretor abre uma trilha de teste:
+
+1. Testar UM formato de vídeo curto por vez, com 2 posts de cada antes de julgar. Exemplos de formato: tela dividida, reação, encenação, comparativo, narrado, texto em tendência, conversa, lista.
+2. Cada peça da trilha leva o formato testado marcado no registro (`metadata.formato_testado` em `ct_content_items`) e no nome da pauta, para o cockpit conseguir cortar por formato.
+3. Medir por SEGUIDOR NOVO, separado de visualização. Visualização alta sem seguidor novo não faz o formato vencer. Seguidor novo sem dado por peça fica "sem dado" (não é zero) e o formato não é julgado.
+4. Com os 2 posts de cada formato medidos, escolher UM campeão e focar nele, mantendo alguns posts de teste por semana para novos formatos.
+5. Volume por marca, declarado na seção "Preferências de formato" do `brand-profile.md`. Sem declaração, sugerir mínimo de 3 posts por semana e confirmar com o usuário.
+
+Dois posts por formato é amostra pequena: o campeão é decisão provisória, revisada quando o cockpit tiver mais peças. Marca com formato já validado pelo cockpit não usa a trilha. `brand-profile.md` e `regras-cliente.md` vencem.
+
 ## Referências do Sistema
 
 Todos os agentes devem consultar antes de produzir:

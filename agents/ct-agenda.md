@@ -18,6 +18,7 @@ Todos os agendamentos de conteúdo passam por você.
 3. Cobrar agentes sobre conteúdos atrasados
 4. Sugerir horários de publicação por plataforma a partir do dado da marca (ct-social-intel/cockpit)
 5. Gerenciar campanhas de email (datas de envio)
+6. Marca em trilha de teste de formatos (ver `agents/ct-diretor.md`) `[HIPOTESE]`: reservar no calendário o volume declarado em "Preferências de formato" (sugestão: mínimo 3 vídeos curtos por semana), um formato por vez, 2 posts por formato, cada slot com o formato testado escrito. Depois do campeão, manter alguns slots de teste por semana.
 
 ## Horários de Publicação
 

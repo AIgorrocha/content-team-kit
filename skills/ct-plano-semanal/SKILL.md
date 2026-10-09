@@ -24,6 +24,7 @@ Dispara via:
 - **NÃO** reescreve plano existente da mesma semana (se arquivo existe, aborta com warning, usar flag `--force` pra regerar)
 - **NÃO** inventa dados, todos insights vêm de `ct_research_posts` real
 - **Cadência por cliente:** o script lê a linha `Ritmo:` da seção "Preferências de formato" de `clients/{slug}/brand-profile.md` (ex.: `Ritmo: 3 peças por semana` ou `Ritmo: 2 carrosséis, 1 reel, 4 stories`). Sem essa linha (ou com o modelo ainda não preenchido), usa o default: 2 feeds, 3 stories, 1 reel.
+- **Trilha de teste de formatos** `[HIPOTESE]`: marca sem formato validado no cockpit declara a trilha em "Preferências de formato" do `brand-profile.md` (regra do diretor em `agents/ct-diretor.md`). O plano então escreve, na coluna Formato de cada vídeo curto, o formato testado (um por vez, 2 posts de cada), reserva o volume declarado (sugestão: mínimo 3 por semana) e, depois de escolhido o campeão, mantém alguns slots de teste. O resultado se mede por seguidor novo, separado de visualização. O script não lê essa trilha: o diretor ou o usuário preenche os formatos no markdown gerado.
 - **Credenciais:** `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` em `.env.local` (depois `.env`). Sem elas, o plano sai sem a parte de top posts.
 
 ## Input (CLI)
