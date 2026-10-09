@@ -124,4 +124,5 @@ Vale acima do padrão dos agentes.
 - Carrossel: [estilo], [N] slides, termina com [pergunta/resumo/convite]
 - Reels: tipos [lista]; edição [legenda palavra a palavra/por frase], cortes [ritmo], zoom [nível], trilha [nível]
 - Stories: tipos [lista], sequência de [N] telas
+- Motores: imagem [gerador que a marca tem: ChatGPT, Gemini ou outro; se não houver, o agente entrega o prompt pronto para a pessoa gerar]; vídeo gerado por IA a partir de frames [Higgsfield ou outro, opcional e pago; ou nenhum]; motion e animação [código com o Claude (`ct-motion-code`) ou Remotion (`ct-remotion`)]
 - Ritmo: [N] peças por semana; quem aprova: [nome], por onde: [terminal/Telegram]

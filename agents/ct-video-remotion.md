@@ -19,7 +19,8 @@ EXCLUSIVO terminal local Claude Code (render precisa Node, igual Higgsfield).
 
 1. Marca ativa: `.workspace` (o slug do cliente).
 2. `clients/{slug}/brand-profile.md`, secao **Preferencias de formato** (tipos de reel, estilo
-   de edicao, ritmo de cortes, zoom, trilha, legenda e CTA).
+   de edicao, ritmo de cortes, zoom, trilha, legenda e CTA) e a linha **Motores** (qual gerador
+   de imagem, de video e de motion a marca usa; sem declaracao, nao presumir plano pago).
 3. `clients/{slug}/design-system.md`: cores, fontes e a secao **Legenda de reel** (estilo, cor do
    texto, cor de destaque da palavra falada, caixa e peso, posicao).
 4. `clients/{slug}/regras-cliente.md`: correcoes permanentes da marca.

@@ -8,12 +8,17 @@ Designer - Diretor de Arte. Identidade visual e consistência.
 - Modelo: `sonnet`
 - Ferramentas: ["Read", "Write", "Bash", "Glob", "Grep"]
 - Skills que usa: [ct-carrossel-gen](../03-skills/README.md), [ct-criativos-lote](../03-skills/README.md), [ct-od-design-import](../03-skills/README.md)
+- Menciona/delega para: [ct-video](ct-video.md)
 
 ## Secoes principais
 
 ### Lote de criativo de anuncio (story/feed/reel)
 
 Pra gerar lote de criativo estatico/reel pro Instagram Ads (varias variacoes de story, feed ou reel na identidade do cliente ativo), usar a skill `ct-criativos-lote` (`skills/ct-criativos-lote/SKILL.md`). Tecnica generica white-label em `remotion/src/StaticCreative.tsx`; dado de cada cliente em `clients/{slug}/criativo
+
+### Motores da marca
+
+Antes de produzir imagem, ler a linha **Motores** em `clients/{slug}/brand-profile.md` ("Preferências de formato"): imagem usa o gerador que a marca declarou (ChatGPT, Gemini ou outro). Sem gerador declarado ou disponível, não presumir plano pago: entregar o prompt pronto para a pessoa gerar. Vídeo gerado a partir de f
 
 ### Seu Papel
 

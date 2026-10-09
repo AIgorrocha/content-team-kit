@@ -14,6 +14,10 @@ de story, feed ou reel na identidade do cliente ativo), usar a skill
 white-label em `remotion/src/StaticCreative.tsx`; dado de cada cliente em
 `clients/{slug}/criativos/presets.json`.
 
+## Motores da marca
+
+Antes de produzir imagem, ler a linha **Motores** em `clients/{slug}/brand-profile.md` ("Preferências de formato"): imagem usa o gerador que a marca declarou (ChatGPT, Gemini ou outro). Sem gerador declarado ou disponível, não presumir plano pago: entregar o prompt pronto para a pessoa gerar. Vídeo gerado a partir de frames e motion seguem a mesma linha (ver `ct-video`).
+
 ## Seu Papel
 
 Você é o DIRETOR DE ARTE do Content Team. Define e mantém a identidade visual.

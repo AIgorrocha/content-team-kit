@@ -266,6 +266,7 @@ Modelo da seção nova em `brand-profile.md`:
 - Carrossel: [estilo], [N] slides, termina com [pergunta/resumo/convite]
 - Reels: tipos [lista]; edição [legenda palavra a palavra/por frase], cortes [ritmo], zoom [nível], trilha [nível]
 - Stories: tipos [lista], sequência de [N] telas
+- Motores: imagem [gerador que a marca tem, ou prompt pronto]; vídeo gerado por IA [Higgsfield, outro ou nenhum]; motion [código com o Claude ou Remotion]
 - Escolhido em [data], com prévia aprovada pela pessoa
 ```
 

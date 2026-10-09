@@ -18,7 +18,7 @@ Especialista em video animado por codigo via Remotion. Recebe briefing do `ct-di
 
 ### Antes de produzir: ler a marca (BLOQUEANTE)
 
-1. Marca ativa: `.workspace` (o slug do cliente). 2. `clients/{slug}/brand-profile.md`, secao **Preferencias de formato** (tipos de reel, estilo de edicao, ritmo de cortes, zoom, trilha, legenda e CTA). 3. `clients/{slug}/design-system.md`: cores, fontes e a secao **Legenda de reel** (estilo, cor do texto, cor de desta
+1. Marca ativa: `.workspace` (o slug do cliente). 2. `clients/{slug}/brand-profile.md`, secao **Preferencias de formato** (tipos de reel, estilo de edicao, ritmo de cortes, zoom, trilha, legenda e CTA) e a linha **Motores** (qual gerador de imagem, de video e de motion a marca usa; sem declaracao, nao presumir plano pa
 
 ### Quando Sou Invocado
 
